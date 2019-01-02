@@ -1,0 +1,113 @@
+image: docker:latest
+services:
+- docker:dind
+
+stages:
+- test
+- build
+- release
+- deploy
+
+variables:
+  IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
+  IMAGE_NAME_BUILD: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_SHA
+  GO_SRC: src/gitlab.com/$CI_PROJECT_PATH
+  DEP_VERSION: 0.5.0
+
+.common-scripts:
+- &gitlab-login
+    docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+test:
+  stage: test
+  image: golang:1.11.2
+  script:
+    # install build tools
+    - wget -O $GOPATH/bin/dep https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 && chmod +x $GOPATH/bin/dep
+
+    # ssh access to private git repos
+    - eval $(ssh-agent -s)
+    - echo "${DEPLOY_SSH_PRIVATE_KEY}" | ssh-add -
+    - mkdir ~/.ssh && touch ~/.ssh/known_hosts
+    - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+
+    # move to proper directory (needed by go)
+    - FULL_GO_SRC=$GOPATH/${GO_SRC}
+    - mkdir -p $FULL_GO_SRC && mv ./* $FULL_GO_SRC && cd $FULL_GO_SRC
+
+    # install dependencies
+    - dep ensure -vendor-only
+    # test the project
+    - go test -race -v ./...
+
+build:
+  stage: build
+  script:
+  - *gitlab-login
+  - >
+    docker build --pull -t $IMAGE_NAME_BUILD
+    --build-arg "DEPLOY_SSH_PRIVATE_KEY=${DEPLOY_SSH_PRIVATE_KEY}"
+    --build-arg "APP_VERSION=${CI_COMMIT_SHA}"
+    .
+  - docker push $IMAGE_NAME_BUILD
+
+release-image:latest:
+  variables:
+    IMAGE_NAME_LATEST: $CI_REGISTRY/$CI_PROJECT_PATH:latest
+  dependencies: []
+  stage: release
+  script:
+  - *gitlab-login
+  - docker pull $IMAGE_NAME_BUILD
+  - docker tag $IMAGE_NAME_BUILD $IMAGE_NAME_LATEST
+  - docker push $IMAGE_NAME_LATEST
+  only:
+  - master
+
+deploy:dev_auto:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  dependencies: []
+  before_script: []
+  environment:
+    name: dev
+    url: https://camplace-site.dev.dliver.prmrgt.com
+  image: proemergotech/helm-kubectl-docker:20181214
+  script:
+  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
+  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
+  only:
+  - master
+
+deploy:dev_feature:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  dependencies: []
+  before_script: []
+  environment:
+    name: dev
+    url: https://camplace-site.dev.dliver.prmrgt.com
+  image: proemergotech/helm-kubectl-docker:20181214
+  script:
+  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
+  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
+  when: manual
+  except:
+  - master
+
+deploy:prod:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  dependencies: []
+  before_script: []
+  environment:
+    name: prod
+    url: https://camplacex.com
+  image: proemergotech/helm-kubectl-docker:20181214
+  script:
+  - echo ${KUBE_CONFIG_PROD_BASE64} | base64 -d > /.kubeconfig
+  - kubectl --kubeconfig=/.kubeconfig -n prod patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
+  when: manual
