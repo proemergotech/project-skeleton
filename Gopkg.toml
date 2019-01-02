@@ -1,0 +1,60 @@
+[[constraint]]
+branch = "master"
+name = "github.com/araddon/dateparse"
+
+[[constraint]]
+name = "github.com/go-playground/validator"
+version = "9.23.0"
+
+[[constraint]]
+name = "github.com/labstack/echo"
+version = "3.3.7"
+
+[[constraint]]
+name = "github.com/pkg/errors"
+version = "0.8.0"
+
+[[constraint]]
+name = "github.com/spf13/cobra"
+version = "0.0.3"
+
+[[constraint]]
+name = "github.com/spf13/viper"
+version = "1.1.0"
+
+[[constraint]]
+name = "github.com/uber/jaeger-client-go"
+version = "2.15.0"
+
+[[constraint]]
+name = "go.uber.org/zap"
+version = "1.9.1"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/apimd-generator-go"
+source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
+version = "0.1.0"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/log-go"
+source = "git@gitlab.com:proemergotech/log-go.git"
+version = "0.2.0"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/trace-go"
+source = "git@gitlab.com:proemergotech/trace-go.git"
+version = "0.2.1"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/uuid-go"
+source = "git@gitlab.com:proemergotech/uuid-go.git"
+version = "0.1.1"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/geb-client-go"
+source = "git@gitlab.com:proemergotech/geb-client-go.git"
+version = "0.6.0"
+
+[prune]
+unused-packages = true
+go-tests = true
