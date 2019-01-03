@@ -6,7 +6,7 @@ stages:
 - test
 - build
 - release
-- deploy
+#- deploy
 
 variables:
   IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
