@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "f58bf7b1-bfde-4e1c-8abd-fbf60e0b2f72",
-		"name": "Service",
+		"name": "dliver-project-skeleton",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -15,9 +15,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{service_host}}/healthcheck",
+					"raw": "{{dliver-project-skeleton}}/healthcheck",
 					"host": [
-						"{{service_host}}"
+						"{{dliver-project-skeleton}}"
 					],
 					"path": [
 						"healthcheck"

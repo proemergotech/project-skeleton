@@ -1,11 +1,13 @@
-FROM golang:1.11.2
+FROM golang:1.11.4
+
+ARG SERVICE_NAME=dliver-project-skeleton
 
 RUN go get github.com/githubnemo/CompileDaemon
 
-RUN mkdir -p /go/src/gitlab.com/proemergotech/dliver-project-skeleton
-WORKDIR /go/src/gitlab.com/proemergotech/dliver-project-skeleton
+RUN mkdir -p /go/src/gitlab.com/proemergotech/$SERVICE_NAME
+WORKDIR /go/src/gitlab.com/proemergotech/$SERVICE_NAME
 
-VOLUME /go/src/gitlab.com/proemergotech/dliver-project-skeleton
+VOLUME /go/src/gitlab.com/proemergotech/$SERVICE_NAME
 
 COPY ./entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh

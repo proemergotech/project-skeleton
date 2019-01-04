@@ -15,7 +15,7 @@ import (
 
 type Client struct {
 	redisPool *redis.Pool
-	json      jsoniter.API
+	json      jsoniter.API //Use this to be able to save objects as value and use redis tags instead of json ones
 }
 
 func NewClient(redisPool *redis.Pool, json jsoniter.API) *Client {
@@ -48,15 +48,59 @@ func (rc *Client) closeConn(ctx context.Context, conn redis.Conn) {
 	}
 }
 
-// Implementation example
-func (rc *Client) DummyFunc(ctx context.Context, key string) apierr.Error {
+// Implementation example for get simple value
+func (rc *Client) GetSimpleFunc(ctx context.Context, key string) (string, apierr.Error) {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
 
-	_, err := conn.Do("HGET", key)
+	value, err := redis.String(conn.Do("GET", key))
+	if err != nil {
+		return "", apierr.RedisUnavailable(err)
+	}
+
+	return value, nil
+}
+
+// Implementation example for save complex value
+func (rc *Client) SaveComplexFunc(ctx context.Context, key string, value DummyType) apierr.Error {
+	conn := rc.redisPool.Get()
+	defer rc.closeConn(ctx, conn)
+
+	body, err := rc.json.Marshal(value)
+	if err != nil {
+		return apierr.Semantic(err)
+	}
+
+	_, err = conn.Do("SET", key, body)
 	if err != nil {
 		return apierr.RedisUnavailable(err)
 	}
 
 	return nil
+}
+
+// Implementation example for get complex value
+func (rc *Client) GetComplexFunc(ctx context.Context, key string) (*DummyType, apierr.Error) {
+	conn := rc.redisPool.Get()
+	defer rc.closeConn(ctx, conn)
+
+	repl, err := conn.Do("GET", key)
+	if err != nil {
+		return nil, apierr.RedisUnavailable(err)
+	}
+	if repl == nil {
+		return nil, nil
+	}
+
+	result := &DummyType{}
+	err = rc.json.Unmarshal(repl.([]byte), result)
+	if err != nil {
+		return nil, apierr.Semantic(err)
+	}
+
+	return result, nil
+}
+
+type DummyType struct {
+	Test string `json:"test_dummy" redis:"dummy_test"`
 }

@@ -22,10 +22,12 @@ Provides a basic golang based rest service with redis, centrifugo and geb (queue
 
 ## Usage
 ### Basics
-Find and replace the text `dliver-project-skeleton` - for example with notepad++ - with your new service's name (e.g.: `dliver-dummy-service`)
+Find and replace the text `dliver-project-skeleton` - for example with notepad++ - with your new service's name (e.g.: `dliver-dummy-service`)    
+(Don't forget to run `goimports` after file modifications.)
 
 ### How to remove unnecessary modules
 #### REDIS
+- Remove the `redis` related fields from the [configuration](./app/config/config.go).
 - Remove the `RedisUnavailable` function from the [apierr factory](./app/apierr/factory.go).
 - Remove the `redis` folder from the [client](./app/client) folder.
 - Remove the `newRedis` function from the [container](./app/di/container.go).
@@ -34,6 +36,7 @@ Find and replace the text `dliver-project-skeleton` - for example with notepad++
 - Remove the `ErrRedisUnavailable` error code from the [error definitions](./app/schema/service/error.go) constructor.
 
 #### Centrifugo
+- Remove the `centrifugo` related fields from the [configuration](./app/config/config.go).
 - Remove the `CentrifugeErrorDetail` type and all of it's functions from the [error details](./app/apierr/error_detail.go).
 - Remove the `Centrifuge` and `CentrifugeResponse` functions from the [apierr factory](./app/apierr/factory.go).
 - Remove the `centrifugo` folder from the [client](./app/client) folder.
@@ -43,6 +46,7 @@ Find and replace the text `dliver-project-skeleton` - for example with notepad++
 - Remove the `ErrCentrifuge` error code from the [error definitions](./app/schema/service/error.go) constructor.
 
 #### GEB
+- Remove the `geb` related fields from the [configuration](./app/config/config.go).
 - Remove the `gebCloser` from the [Container's](./app/di/container.go) definition.
 - Remove the `Init GEB queue` section from the [container's](./app/di/container.go) constructor.
 - Remove the `newGebQueue` function from the [container](./app/di/container.go).
@@ -53,6 +57,7 @@ Find and replace the text `dliver-project-skeleton` - for example with notepad++
 - Remove [GEB](#geb)
 - Remove the `event` folder from the [app](./app) folder.
 - Remove the `Init EVENT server` section from the [container's](./app/di/container.go) constructor.
+- Remove the `Start EVENT server` section from the [root](./cmd/root.go).
 
 ## Example References
 * [API documentation](./API.md)
