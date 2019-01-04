@@ -34,6 +34,7 @@ func initConfig() {
 		if err != nil {
 			stdlog.Printf("config error: " + err.Error())
 			hasErrors = true
+			continue
 		}
 
 		def := fieldType.Tag.Get("default")

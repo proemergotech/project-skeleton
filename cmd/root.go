@@ -26,6 +26,8 @@ var rootCmd = &cobra.Command{
 		initConfig()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+
+		// Init basic dependencies
 		container, err := di.NewContainer(cfg)
 		if err != nil {
 			log.Panic(context.Background(), "Couldn't load container", "error", err)
@@ -35,11 +37,10 @@ var rootCmd = &cobra.Command{
 			container.Close()
 		}()
 
+		// Start REST server
 		errorCh := make(chan error)
-
-		log.Info(context.Background(), "Service started")
-
 		container.RestServer.Start(errorCh)
+
 		defer func() {
 			err = container.RestServer.Stop(5 * time.Second)
 			if err != nil {
@@ -51,7 +52,11 @@ var rootCmd = &cobra.Command{
 
 		log.Info(context.Background(), "Rest server started")
 
-		// graceful shutdown
+		// Start EVENT server
+		container.EventServer.Start()
+		log.Info(context.Background(), "Event server started")
+
+		// Graceful shutdown
 		sigs := make(chan os.Signal, 1)
 		signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 		select {

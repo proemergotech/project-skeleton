@@ -1,10 +1,12 @@
-FROM golang:1.11.2-alpine AS builder
+ARG EXECUTABLE_NAME=dliver-project-skeleton
+
+FROM golang:1.11.4-alpine AS builder
 
 ARG DEPLOY_SSH_PRIVATE_KEY
 ARG APP_VERSION
+ARG EXECUTABLE_NAME
 
-ENV EXECUTABLE_NAME=dliver-project-skeleton
-ENV ROOT_PACKAGE=gitlab.com/proemergotech/dliver-project-skeleton
+ENV ROOT_PACKAGE=gitlab.com/proemergotech/$EXECUTABLE_NAME
 ENV DEP_VERSION=0.5.0
 
 RUN apk add --update --no-cache wget openssh-client git
@@ -19,14 +21,14 @@ RUN eval $(ssh-agent -s) \
   && ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts \
   && dep ensure -vendor-only
 
-RUN go build -ldflags "-X gitlab.com/proemergotech/dliver-project-skeleton/app/config.AppVersion=$APP_VERSION" -o "/tmp/$EXECUTABLE_NAME"
+RUN go build -ldflags "-X gitlab.com/proemergotech/$EXECUTABLE_NAME/app/config.AppVersion=$APP_VERSION" -o "/tmp/$EXECUTABLE_NAME"
 
 
 
 
 FROM alpine:latest
 
-ENV EXECUTABLE_NAME=dliver-project-skeleton
+ARG EXECUTABLE_NAME
 
 RUN set -eux; \
   apk add --no-cache --virtual ca-certificates

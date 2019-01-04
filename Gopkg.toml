@@ -56,5 +56,6 @@ source = "git@gitlab.com:proemergotech/geb-client-go.git"
 version = "0.6.0"
 
 [prune]
-unused-packages = true
+# TODO: Uncomment unused-packages when the initial service development is finished
+# unused-packages = true
 go-tests = true
