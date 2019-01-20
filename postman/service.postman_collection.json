@@ -15,9 +15,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{dliver-project-skeleton}}/healthcheck",
+					"raw": "{{dliver_project_skeleton}}/healthcheck",
 					"host": [
-						"{{dliver-project-skeleton}}"
+						"{{dliver_project_skeleton}}"
 					],
 					"path": [
 						"healthcheck"
