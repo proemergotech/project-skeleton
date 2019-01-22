@@ -9,7 +9,7 @@ import (
 	"gitlab.com/proemergotech/apimd-generator-go/generator"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/microtime"
 	"gitlab.com/proemergotech/uuid-go"
 )
@@ -124,9 +124,9 @@ func (v *value) uuid() uuid.UUID {
 	return uuid.UUID(v.String())
 }
 
-func (d *definitions) httpError(err error, details ...map[string]interface{}) service.HTTPError {
-	return service.HTTPError{
-		Error: service.Error{
+func (d *definitions) httpError(err error, details ...map[string]interface{}) schema.HTTPError {
+	return schema.HTTPError{
+		Error: &schema.Error{
 			Code:    d.body(apierr.Code(err)).String(),
 			Message: d.body(err.Error()).String(),
 			Details: details,

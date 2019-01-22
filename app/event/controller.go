@@ -2,23 +2,27 @@ package event
 
 import (
 	"github.com/go-playground/validator"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 )
 
-type Router struct {
+type Controller struct {
 	gebQueue *geb.Queue
 	validate *validator.Validate
+	service  *service.Service
 }
 
-func NewRouter(
+func NewController(
 	gebQueue *geb.Queue,
 	validate *validator.Validate,
-) *Router {
-	return &Router{
+	service *service.Service,
+) *Controller {
+	return &Controller{
 		gebQueue: gebQueue,
 		validate: validate,
+		service:  service,
 	}
 }
 
-func (r *Router) route() {
+func (c *Controller) start() {
 }

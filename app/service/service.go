@@ -1,29 +1,29 @@
-package app
+package service
 
 import (
 	"context"
 	"encoding/json"
 
-	"github.com/labstack/gommon/log"
 	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/centrifugo/proto/apiproto"
+	"gitlab.com/proemergotech/log-go"
 )
 
-type Core struct {
+type Service struct {
 	centrifugeClient apiproto.CentrifugeClient
 }
 
-func NewCore(
+func NewService(
 	centrifugeClient apiproto.CentrifugeClient,
-) *Core {
-	return &Core{
+) *Service {
+	return &Service{
 		centrifugeClient: centrifugeClient,
 	}
 }
 
 // Centrifuge example
-func (c *Core) SendCentrifuge(ctx context.Context, namespace string, identifier string, eventData interface{}) {
+func (s *Service) SendCentrifuge(ctx context.Context, namespace string, identifier string, eventData interface{}) {
 	centrifugeChannel := namespace + ":" + identifier
 
 	data, err := json.Marshal(eventData)
@@ -34,7 +34,7 @@ func (c *Core) SendCentrifuge(ctx context.Context, namespace string, identifier 
 		return
 	}
 
-	resp, err := c.centrifugeClient.Publish(ctx, &apiproto.PublishRequest{
+	resp, err := s.centrifugeClient.Publish(ctx, &apiproto.PublishRequest{
 		Channel: centrifugeChannel,
 		Data:    data,
 	})

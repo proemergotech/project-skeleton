@@ -28,37 +28,47 @@ Find and replace the text `dliver_project_skeleton` - for example with notepad++
 
 ### How to remove unnecessary modules
 #### REDIS
-- Remove the `redis` related fields from the [configuration](./app/config/config.go).
-- Remove the `RedisUnavailable` function from the [apierr factory](./app/apierr/factory.go).
-- Remove the `redis` folder from the [client](./app/client) folder.
-- Remove the `newRedis` function from the [container](./app/di/container.go).
-- Remove the `Init REDIS client` section from the [container's](./app/di/container.go) constructor.
-- Remove all the related client definitions from the other definitions (e.g.: Core, Action, Container, etc...) where `redisClient` is used.
-- Remove the `ErrRedisUnavailable` error code from the [error definitions](./app/schema/service/error.go) constructor.
-
+- Remove packages:
+  - [redis](./app/client/redis)
+- Remove related code from:
+  - [.env.example](./.env.example)
+  - [config](./app/config/config.go)
+  - [container](./app/di/container.go)
+  - [apierr factory](./app/apierr/factory.go) 
+  - [error definitions](./app/schema/service/error.go)
+  - [Gopkg.toml](./Gopkg.toml)
+  
 #### Centrifugo
-- Remove the `centrifugo` related fields from the [configuration](./app/config/config.go).
-- Remove the `CentrifugeErrorDetail` type and all of it's functions from the [error details](./app/apierr/error_detail.go).
-- Remove the `Centrifuge` and `CentrifugeResponse` functions from the [apierr factory](./app/apierr/factory.go).
-- Remove the `centrifugo` folder from the [client](./app/client) folder.
-- Remove the `newCentrifugeClient` function from the [container](./app/di/container.go).
-- Remove the `Init Centrifuge Client` section from the [container's](./app/di/container.go) constructor.
-- Remove all the related client definitions from the other definitions (e.g.: Core, Action, Container, etc...) where `centrifugeClient` is used.
-- Remove the `ErrCentrifuge` error code from the [error definitions](./app/schema/service/error.go) constructor.
+- Remove packages:
+  - [client](./app/client/centrifugo)
+- Remove related code from:
+  - [.env.example](./.env.example)
+  - [config](./app/config/config.go)
+  - [container](./app/di/container.go)
+  - [service](./app/service/service.go)
+  - [apierr details](./app/apierr/error_detail.go) 
+  - [apierr factory](./app/apierr/factory.go) 
+  - [error definitions](./app/schema/service/error.go)
 
+#### Gentleman
+- Remove related code from:
+  - [container](./app/di/container.go)
+  - [Gopkg.toml](./Gopkg.toml)
+  
 #### GEB
-- Remove the `geb` related fields from the [configuration](./app/config/config.go).
-- Remove the `gebCloser` from the [Container's](./app/di/container.go) definition.
-- Remove the `Init GEB queue` section from the [container's](./app/di/container.go) constructor.
-- Remove the `newGebQueue` function from the [container](./app/di/container.go).
-- Remove the `gebCloser` section from the [container's](./app/di/container.go) Close function.
-- Remove all the related client definitions from the other types (e.g.: Core, Action, Container, etc...) where `gebQueue` or `gebCloser` is used.
+- Remove related code from:
+  - [.env.example](./.env.example)
+  - [config](./app/config/config.go)
+  - [container](./app/di/container.go)
+  - [Gopkg.toml](./Gopkg.toml)
+- Remove [Event Server](#event-server)
 
 #### Event Server
-- Remove [GEB](#geb)
-- Remove the `event` folder from the [app](./app) folder.
-- Remove the `Init EVENT server` section from the [container's](./app/di/container.go) constructor.
-- Remove the `Start EVENT server` section from the [root](./cmd/root.go).
+- Remove files:
+  - [error](./app/client/error.go)
+- Remove usage from:
+  - [container](./app/di/container.go)
+  - [root command](./cmd/root.go)
 
 ## Example References
 * [API documentation](./API.md)

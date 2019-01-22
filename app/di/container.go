@@ -9,34 +9,33 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/centrifugo/proto/apiproto"
-	"google.golang.org/grpc"
-
-	"github.com/json-iterator/go"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/redis"
-
 	"github.com/go-playground/validator"
+	"github.com/json-iterator/go"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/centrifugo/proto/apiproto"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/redis"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
-	"gitlab.com/proemergotech/log-go/geblog"
-	"gitlab.com/proemergotech/trace-go"
-	"gitlab.com/proemergotech/trace-go/gebtrace"
-
-	"gitlab.com/proemergotech/dliver-project-skeleton/app"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/action"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
 	"gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/log-go/echolog"
+	"gitlab.com/proemergotech/log-go/geblog"
+	"gitlab.com/proemergotech/log-go/gentlemanlog"
 	"gitlab.com/proemergotech/log-go/jaegerlog"
+	"gitlab.com/proemergotech/trace-go"
+	"gitlab.com/proemergotech/trace-go/gebtrace"
+	"gitlab.com/proemergotech/trace-go/gentlemantrace"
+	"google.golang.org/grpc"
+	"gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -64,7 +63,6 @@ func (cv *EchoValidator) Validate(i interface{}) error {
 func NewContainer(cfg *config.Config) (*Container, error) {
 	c := &Container{}
 
-	// Init Tracer
 	tracer, closer, err := newTracer(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize Jaeger Tracer")
@@ -72,59 +70,50 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	c.traceCloser = closer
 	opentracing.SetGlobalTracer(tracer)
 
-	// Init GEB queue
 	gebQueue, err := newGebQueue(cfg, tracer)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize geb queue")
 	}
 	c.gebCloser = gebQueue
 
-	// Init REDIS client
 	c.redisClient, err = newRedis(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize redis client")
 	}
 
-	// Init Centrifuge Client
 	c.centrifugeClient, err = newCentrifugeClient(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize centrifuge client")
 	}
 
-	// Init Validator
 	validate := newValidator()
 
-	// Init ECHO rest server engine
 	echoEngine := newEcho(validate)
 
-	// Init service core
-	core := app.NewCore(c.centrifugeClient)
+	svc := service.NewService(
+		c.centrifugeClient,
+	)
 
-	// Init service actions
-	acts := action.NewActions(core, validate)
-
-	// Init REST server
 	c.RestServer = rest.NewServer(
 		cfg.Port,
 		echoEngine,
-		rest.NewRouter(
+		rest.NewController(
 			echoEngine,
-			acts,
+			svc,
 			tracer,
 		),
 	)
 
-	// Init EVENT server
-	c.EventServer = event.NewServer(event.NewRouter(
+	c.EventServer = event.NewServer(event.NewController(
 		gebQueue,
 		validate,
+		svc,
 	))
 
 	return c, nil
 }
 
 func newTracer(cfg *config.Config) (opentracing.Tracer, io.Closer, error) {
-	// init Jaeger tracer
 	transport, err := jaeger.NewUDPTransport(
 		fmt.Sprintf("%v:%v", cfg.TracerReporterLocalAgentHost, cfg.TracerReporterLocalAgentPort),
 		8000,
@@ -254,6 +243,12 @@ func newEcho(validate *validator.Validate) *echo.Echo {
 	e.Validator = &EchoValidator{validator: validate}
 
 	return e
+}
+
+func newGentleman(scheme string, host string, port int, tracer opentracing.Tracer) *gentleman.Client {
+	return gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", scheme, host, port)).
+		Use(gentlemantrace.Middleware(tracer, log.GlobalLogger())).
+		Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true))
 }
 
 func (c *Container) Close() {
