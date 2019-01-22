@@ -111,3 +111,5 @@ release-image:latest:
 #  - echo ${KUBE_CONFIG_PROD_BASE64} | base64 -d > /.kubeconfig
 #  - kubectl --kubeconfig=/.kubeconfig -n prod patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
 #  when: manual
+#  only:
+#  - master
