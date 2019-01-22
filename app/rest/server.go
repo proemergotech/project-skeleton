@@ -13,24 +13,24 @@ import (
 type Server struct {
 	echoEngine *echo.Echo
 	httpServer *http.Server
-	router     *Router
+	controller *Controller
 	port       int
 }
 
 func NewServer(
 	port int,
 	echoEngine *echo.Echo,
-	router *Router,
+	controller *Controller,
 ) *Server {
 	return &Server{
 		port:       port,
 		echoEngine: echoEngine,
-		router:     router,
+		controller: controller,
 	}
 }
 
 func (s *Server) Start(errorCh chan error) {
-	s.router.route()
+	s.controller.start()
 
 	s.httpServer = &http.Server{
 		Addr:    ":" + strconv.Itoa(s.port),

@@ -1,17 +1,17 @@
 package event
 
 type Server struct {
-	router *Router
+	controller *Controller
 }
 
 func NewServer(
-	router *Router,
+	controller *Controller,
 ) *Server {
 	return &Server{
-		router: router,
+		controller: controller,
 	}
 }
 
 func (s *Server) Start() {
-	s.router.route()
+	s.controller.start()
 }

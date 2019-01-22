@@ -9,7 +9,6 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/di"
 	"gitlab.com/proemergotech/log-go"
@@ -26,8 +25,6 @@ var rootCmd = &cobra.Command{
 		initConfig()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-
-		// Init basic dependencies
 		container, err := di.NewContainer(cfg)
 		if err != nil {
 			log.Panic(context.Background(), "Couldn't load container", "error", err)
@@ -37,7 +34,6 @@ var rootCmd = &cobra.Command{
 			container.Close()
 		}()
 
-		// Start REST server
 		errorCh := make(chan error)
 		container.RestServer.Start(errorCh)
 
@@ -52,18 +48,16 @@ var rootCmd = &cobra.Command{
 
 		log.Info(context.Background(), "Rest server started")
 
-		// Start EVENT server
 		container.EventServer.Start()
 		log.Info(context.Background(), "Event server started")
 
-		// Graceful shutdown
 		sigs := make(chan os.Signal, 1)
 		signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case <-sigs:
 		case err := <-errorCh:
 			err = errors.Wrap(err, "Rest server fatal error")
-			log.Error(context.Background(), err.Error(), "error", err)
+			log.Panic(context.Background(), err.Error(), "error", err)
 		}
 	},
 }

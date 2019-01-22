@@ -365,6 +365,7 @@
     ".",
     "echolog",
     "geblog",
+    "gentlemanlog",
     "jaegerlog",
     "zaplog",
   ]
@@ -380,6 +381,7 @@
     ".",
     "echotrace",
     "gebtrace",
+    "gentlemantrace",
     "internal",
   ]
   pruneopts = "T"
@@ -449,6 +451,7 @@
     "http2/hpack",
     "idna",
     "internal/timeseries",
+    "publicsuffix",
     "trace",
   ]
   pruneopts = "T"
@@ -534,6 +537,28 @@
   version = "v1.17.0"
 
 [[projects]]
+  digest = "1:dafe4b0892182d4e31d186e117289c2c3e5cde1845010bab63299e62e0fae93e"
+  name = "gopkg.in/h2non/gentleman.v2"
+  packages = [
+    ".",
+    "context",
+    "middleware",
+    "mux",
+    "plugin",
+    "plugins/body",
+    "plugins/bodytype",
+    "plugins/cookies",
+    "plugins/headers",
+    "plugins/multipart",
+    "plugins/query",
+    "plugins/url",
+    "utils",
+  ]
+  pruneopts = "T"
+  revision = "e0f81be2f4064ea7aa7470e9daddd2dc8e8152c7"
+  version = "v2.0.3"
+
+[[projects]]
   digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
@@ -552,7 +577,6 @@
     "github.com/json-iterator/go",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
-    "github.com/labstack/gommon/log",
     "github.com/opentracing/opentracing-go",
     "github.com/pkg/errors",
     "github.com/spf13/cobra",
@@ -565,16 +589,21 @@
     "gitlab.com/proemergotech/log-go",
     "gitlab.com/proemergotech/log-go/echolog",
     "gitlab.com/proemergotech/log-go/geblog",
+    "gitlab.com/proemergotech/log-go/gentlemanlog",
     "gitlab.com/proemergotech/log-go/jaegerlog",
     "gitlab.com/proemergotech/log-go/zaplog",
     "gitlab.com/proemergotech/trace-go",
     "gitlab.com/proemergotech/trace-go/echotrace",
     "gitlab.com/proemergotech/trace-go/gebtrace",
+    "gitlab.com/proemergotech/trace-go/gentlemantrace",
     "gitlab.com/proemergotech/uuid-go",
     "go.uber.org/zap",
     "go.uber.org/zap/zapcore",
     "golang.org/x/net/context",
     "google.golang.org/grpc",
+    "gopkg.in/h2non/gentleman.v2",
+    "gopkg.in/h2non/gentleman.v2/context",
+    "gopkg.in/h2non/gentleman.v2/plugin",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
