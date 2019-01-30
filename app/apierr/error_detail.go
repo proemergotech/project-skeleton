@@ -1,6 +1,8 @@
 package apierr
 
-import "gitlab.com/proemergotech/dliver-project-skeleton/app/client/centrifugo/proto/apiproto"
+import (
+	"gitlab.com/proemergotech/centrifuge-client-go/api"
+)
 
 type ErrorDetail interface {
 	ToMap() map[string]interface{}
@@ -21,7 +23,7 @@ func (ved *ValidationErrorDetail) ToMap() map[string]interface{} {
 }
 
 type CentrifugeErrorDetail struct {
-	Error *apiproto.Error
+	Error *api.Error
 }
 
 func (ced *CentrifugeErrorDetail) ToMap() map[string]interface{} {

@@ -17,8 +17,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
+	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/centrifugo/proto/apiproto"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/redis"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
@@ -42,7 +42,7 @@ type Container struct {
 	RestServer       *rest.Server
 	EventServer      *event.Server
 	redisClient      *redis.Client
-	centrifugeClient apiproto.CentrifugeClient
+	centrifugeClient api.CentrifugeClient
 	traceCloser      io.Closer
 	gebCloser        io.Closer
 }
@@ -210,12 +210,12 @@ func newRedis(cfg *config.Config) (*redis.Client, error) {
 	return redis.NewClient(redisPool, redisJSON), nil
 }
 
-func newCentrifugeClient(cfg *config.Config) (apiproto.CentrifugeClient, error) {
+func newCentrifugeClient(cfg *config.Config) (api.CentrifugeClient, error) {
 	grpcConn, err := grpc.Dial(fmt.Sprintf("%v:%v", cfg.CentrifugoHost, cfg.CentrifugoGrpcPort), grpc.WithInsecure())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize centrifuge connection")
 	}
-	return apiproto.NewCentrifugeClient(grpcConn), nil
+	return api.NewCentrifugeClient(grpcConn), nil
 }
 
 func newValidator() *validator.Validate {

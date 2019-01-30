@@ -8,7 +8,7 @@ version = "9.23.0"
 
 [[constraint]]
 name = "github.com/labstack/echo"
-version = "3.3.7"
+version = "3.3.10"
 
 [[constraint]]
 name = "github.com/pkg/errors"
@@ -44,7 +44,7 @@ version = "0.1.0"
 [[constraint]]
 name = "gitlab.com/proemergotech/log-go"
 source = "git@gitlab.com:proemergotech/log-go.git"
-version = "0.2.0"
+version = "0.2.1"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/trace-go"
@@ -60,6 +60,11 @@ version = "0.1.1"
 name = "gitlab.com/proemergotech/geb-client-go"
 source = "git@gitlab.com:proemergotech/geb-client-go.git"
 version = "0.6.0"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/centrifuge-client-go"
+source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
+version = "2.1.0"
 
 [prune]
 # TODO: Uncomment unused-packages when the initial service development is finished
