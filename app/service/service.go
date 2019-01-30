@@ -4,18 +4,19 @@ import (
 	"context"
 	"encoding/json"
 
+	"gitlab.com/proemergotech/centrifuge-client-go/api"
+
 	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/centrifugo/proto/apiproto"
 	"gitlab.com/proemergotech/log-go"
 )
 
 type Service struct {
-	centrifugeClient apiproto.CentrifugeClient
+	centrifugeClient api.CentrifugeClient
 }
 
 func NewService(
-	centrifugeClient apiproto.CentrifugeClient,
+	centrifugeClient api.CentrifugeClient,
 ) *Service {
 	return &Service{
 		centrifugeClient: centrifugeClient,
@@ -34,7 +35,7 @@ func (s *Service) SendCentrifuge(ctx context.Context, namespace string, identifi
 		return
 	}
 
-	resp, err := s.centrifugeClient.Publish(ctx, &apiproto.PublishRequest{
+	resp, err := s.centrifugeClient.Publish(ctx, &api.PublishRequest{
 		Channel: centrifugeChannel,
 		Data:    data,
 	})

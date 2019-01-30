@@ -3,9 +3,10 @@ package apierr
 import (
 	"net/http"
 
+	"gitlab.com/proemergotech/centrifuge-client-go/api"
+
 	"github.com/go-playground/validator"
 	"github.com/pkg/errors"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/centrifugo/proto/apiproto"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 )
 
@@ -50,7 +51,7 @@ func Centrifuge(err error) Error {
 	)
 }
 
-func CentrifugeResponse(err *apiproto.Error) Error {
+func CentrifugeResponse(err *api.Error) Error {
 	return newError(
 		errors.New("centrifuge replied with error: "+err.Message),
 		http.StatusInternalServerError,

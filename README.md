@@ -39,8 +39,6 @@ Find and replace the text `dliver_project_skeleton` - for example with notepad++
   - [Gopkg.toml](./Gopkg.toml)
   
 #### Centrifugo
-- Remove packages:
-  - [client](./app/client/centrifugo)
 - Remove related code from:
   - [.env.example](./.env.example)
   - [config](./app/config/config.go)
@@ -49,6 +47,7 @@ Find and replace the text `dliver_project_skeleton` - for example with notepad++
   - [apierr details](./app/apierr/error_detail.go) 
   - [apierr factory](./app/apierr/factory.go) 
   - [error definitions](./app/schema/service/error.go)
+  - [Gopkg.toml](./Gopkg.toml)
 
 #### Gentleman
 - Remove related code from:

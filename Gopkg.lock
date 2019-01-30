@@ -129,15 +129,15 @@
   version = "v1.1.5"
 
 [[projects]]
-  digest = "1:0a7575733fe591b2047d5589d49cd156911440116484986377005d6b6b055337"
+  digest = "1:b7261ff866b5ee82742c6b04f5afaf82d995703207967630780962412ccd346c"
   name = "github.com/labstack/echo"
   packages = [
     ".",
     "middleware",
   ]
   pruneopts = "T"
-  revision = "2e9f4ea4e010fa328318107ba074b1b72381c571"
-  version = "v3.3.7"
+  revision = "38772c686c76b501f94bd6cd5b77f5842e93b559"
+  version = "v3.3.10"
 
 [[projects]]
   digest = "1:d480672aea7e428fd448f1683445b651b80f3e563e87cd0bb3e74d7c90298f31"
@@ -347,6 +347,15 @@
   version = "0.1.0"
 
 [[projects]]
+  digest = "1:4b533859d872e2fa7d20134d309a5a82554da733353b65d70584fb58e14010ad"
+  name = "gitlab.com/proemergotech/centrifuge-client-go"
+  packages = ["api"]
+  pruneopts = "T"
+  revision = "0c9df86525d536782e927439651a821caadd41a1"
+  source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
+  version = "2.1.0"
+
+[[projects]]
   digest = "1:b0d3020a3d44c8ac52d1a956be4a874c3a44f3773a7391479a0ed2238b7949f1"
   name = "gitlab.com/proemergotech/geb-client-go"
   packages = [
@@ -359,7 +368,7 @@
   version = "0.6.0"
 
 [[projects]]
-  digest = "1:83a32b46f960f508c3e9eef896276d19e2297b95f77070d19d859244868ab86e"
+  digest = "1:0f2b4ef1f8c8ac9728884032a77d83022f835a75724af77c96270a2f8be32807"
   name = "gitlab.com/proemergotech/log-go"
   packages = [
     ".",
@@ -370,9 +379,9 @@
     "zaplog",
   ]
   pruneopts = "T"
-  revision = "8593c73f4878badce105b5247df90384ea098aff"
+  revision = "68cbb6cb143dd176012b3a298856801e56b3dd9c"
   source = "git@gitlab.com:proemergotech/log-go.git"
-  version = "0.2.0"
+  version = "0.2.1"
 
 [[projects]]
   digest = "1:f339a9fce23160e3c3912ba4d153e3336f0240d0d62630ef733b08ea80f33658"
@@ -572,7 +581,6 @@
   input-imports = [
     "github.com/araddon/dateparse",
     "github.com/go-playground/validator",
-    "github.com/gogo/protobuf/proto",
     "github.com/gomodule/redigo/redis",
     "github.com/json-iterator/go",
     "github.com/labstack/echo",
@@ -584,6 +592,7 @@
     "github.com/uber/jaeger-client-go",
     "github.com/uber/jaeger-client-go/config",
     "gitlab.com/proemergotech/apimd-generator-go/generator",
+    "gitlab.com/proemergotech/centrifuge-client-go/api",
     "gitlab.com/proemergotech/geb-client-go/geb",
     "gitlab.com/proemergotech/geb-client-go/geb/rabbitmq",
     "gitlab.com/proemergotech/log-go",
@@ -599,7 +608,6 @@
     "gitlab.com/proemergotech/uuid-go",
     "go.uber.org/zap",
     "go.uber.org/zap/zapcore",
-    "golang.org/x/net/context",
     "google.golang.org/grpc",
     "gopkg.in/h2non/gentleman.v2",
     "gopkg.in/h2non/gentleman.v2/context",
