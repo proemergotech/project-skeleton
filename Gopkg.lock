@@ -384,6 +384,15 @@
   version = "0.2.1"
 
 [[projects]]
+  digest = "1:883746cccf2f48b10a8663397ce181cac753f0a3848e1471b839c6e8ea84d94c"
+  name = "gitlab.com/proemergotech/microtime-go"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "fb181bf618e55f06fed9eeb6183cfb74c886e8d9"
+  source = "git@gitlab.com:proemergotech/microtime-go.git"
+  version = "0.1.0"
+
+[[projects]]
   digest = "1:f339a9fce23160e3c3912ba4d153e3336f0240d0d62630ef733b08ea80f33658"
   name = "gitlab.com/proemergotech/trace-go"
   packages = [
@@ -579,7 +588,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/araddon/dateparse",
     "github.com/go-playground/validator",
     "github.com/gomodule/redigo/redis",
     "github.com/json-iterator/go",
@@ -601,6 +609,7 @@
     "gitlab.com/proemergotech/log-go/gentlemanlog",
     "gitlab.com/proemergotech/log-go/jaegerlog",
     "gitlab.com/proemergotech/log-go/zaplog",
+    "gitlab.com/proemergotech/microtime-go",
     "gitlab.com/proemergotech/trace-go",
     "gitlab.com/proemergotech/trace-go/echotrace",
     "gitlab.com/proemergotech/trace-go/gebtrace",

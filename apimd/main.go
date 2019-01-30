@@ -10,8 +10,8 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/microtime"
-	"gitlab.com/proemergotech/uuid-go"
+	microtime "gitlab.com/proemergotech/microtime-go"
+	uuid "gitlab.com/proemergotech/uuid-go"
 )
 
 func main() {
