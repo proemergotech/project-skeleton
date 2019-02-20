@@ -24,7 +24,7 @@ type Config struct {
 
 	RedisStoreHost            string `mapstructure:"redis_store_host"`
 	RedisStorePort            int    `mapstructure:"redis_store_port" default:"6379"`
-	RedisStoreDatabase        int    `mapstructure:"redis_store_database" default:"0"`
+	RedisStoreDatabase        int    `mapstructure:"redis_store_database"`
 	RedisStorePoolMaxIdle     int    `mapstructure:"redis_store_pool_max_idle" default:"10"`
 	RedisStorePoolIdleTimeout string `mapstructure:"redis_store_pool_idle_timeout" default:"240s"`
 
