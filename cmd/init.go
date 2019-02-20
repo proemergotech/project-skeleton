@@ -6,14 +6,9 @@ import (
 	"reflect"
 
 	"github.com/go-playground/validator"
-	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/proemergotech/log-go"
 )
-
-func init() {
-	cobra.OnInitialize(initConfig)
-}
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
