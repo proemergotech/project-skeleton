@@ -6,11 +6,11 @@ import (
 	"time"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 )
 
 type Client struct {
@@ -38,6 +38,10 @@ func NewRedisPool(cfg *config.Config) (*redis.Pool, error) {
 			return redis.Dial("tcp", fmt.Sprintf("%v:%v", cfg.RedisStoreHost, cfg.RedisStorePort), redis.DialDatabase(cfg.RedisStoreDatabase))
 		},
 	}, nil
+}
+
+func (rc *Client) Close() error {
+	return rc.redisPool.Close()
 }
 
 func (rc *Client) closeConn(ctx context.Context, conn redis.Conn) {

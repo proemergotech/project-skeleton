@@ -3,10 +3,9 @@ package apierr
 import (
 	"net/http"
 
-	"gitlab.com/proemergotech/centrifuge-client-go/api"
-
 	"github.com/go-playground/validator"
 	"github.com/pkg/errors"
+	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 )
 
