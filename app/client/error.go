@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
 )

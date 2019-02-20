@@ -29,13 +29,13 @@ func (w *withFields) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
-			fmt.Fprintf(s, "%+v\n", w.Cause())
-			io.WriteString(s, w.Error())
+			_, _ = fmt.Fprintf(s, "%+v\n", w.Cause())
+			_, _ = io.WriteString(s, w.Error())
 			return
 		}
 		fallthrough
 	case 's', 'q':
-		io.WriteString(s, w.Error())
+		_, _ = io.WriteString(s, w.Error())
 	}
 }
 

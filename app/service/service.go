@@ -4,11 +4,10 @@ import (
 	"context"
 	"encoding/json"
 
-	"gitlab.com/proemergotech/centrifuge-client-go/api"
-
 	"github.com/pkg/errors"
+	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 )
 
 type Service struct {

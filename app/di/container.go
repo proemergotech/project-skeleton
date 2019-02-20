@@ -10,12 +10,12 @@ import (
 	"time"
 
 	"github.com/go-playground/validator"
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/opentracing/opentracing-go"
+	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	"github.com/uber/jaeger-client-go"
+	jaeger "github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
 	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
@@ -26,16 +26,16 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/log-go/echolog"
 	"gitlab.com/proemergotech/log-go/geblog"
 	"gitlab.com/proemergotech/log-go/gentlemanlog"
 	"gitlab.com/proemergotech/log-go/jaegerlog"
-	"gitlab.com/proemergotech/trace-go"
+	trace "gitlab.com/proemergotech/trace-go"
 	"gitlab.com/proemergotech/trace-go/gebtrace"
 	"gitlab.com/proemergotech/trace-go/gentlemantrace"
 	"google.golang.org/grpc"
-	"gopkg.in/h2non/gentleman.v2"
+	gentleman "gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -252,7 +252,13 @@ func newGentleman(scheme string, host string, port int, tracer opentracing.Trace
 }
 
 func (c *Container) Close() {
-	err := c.gebCloser.Close()
+	err := c.redisClient.Close()
+	if err != nil {
+		err = errors.Wrap(err, "Redis graceful close failed")
+		log.Warn(context.Background(), err.Error(), "error", err)
+	}
+
+	err = c.gebCloser.Close()
 	if err != nil {
 		err = errors.Wrap(err, "GebQueue graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)

@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/opentracing/opentracing-go"
+	opentracing "github.com/opentracing/opentracing-go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/trace-go/echotrace"
 )
 

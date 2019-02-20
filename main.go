@@ -7,9 +7,9 @@ import (
 
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/cmd"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/log-go/zaplog"
-	"gitlab.com/proemergotech/trace-go"
+	trace "gitlab.com/proemergotech/trace-go"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
