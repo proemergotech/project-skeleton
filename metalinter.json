@@ -2,7 +2,8 @@
   "Vendor": true,
   "Exclude": [
     "should have comment",
-    "comment on exported const"
+    "comment on exported const",
+    "declaration of \"err\" shadows declaration at"
   ],
   "Sort": ["path", "line"],
   "Deadline": "300s",

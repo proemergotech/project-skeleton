@@ -33,7 +33,7 @@ func TestDummyWithTables(t *testing.T) {
 func runDummyTestCase(t *testing.T, x int, y int, expected int) {
 	total := sum(x, y)
 	if total != expected {
-		t.Errorf("Sum of (%d+%d) was incorrect, got: %d, want: %d.", x, y, total, expected)
+		t.Fatalf("Sum of (%d+%d) was incorrect, got: %d, want: %d.", x, y, total, expected)
 	}
 }
 

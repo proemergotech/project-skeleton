@@ -19,11 +19,11 @@ import (
 	jconfig "github.com/uber/jaeger-client-go/config"
 	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client/redis"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
 	log "gitlab.com/proemergotech/log-go"
@@ -41,7 +41,7 @@ import (
 type Container struct {
 	RestServer       *rest.Server
 	EventServer      *event.Server
-	redisClient      *redis.Client
+	redisClient      *storage.Redis
 	centrifugeClient api.CentrifugeClient
 	traceCloser      io.Closer
 	gebCloser        io.Closer
@@ -194,8 +194,8 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 	return q, nil
 }
 
-func newRedis(cfg *config.Config) (*redis.Client, error) {
-	redisPool, err := redis.NewRedisPool(cfg)
+func newRedis(cfg *config.Config) (*storage.Redis, error) {
+	redisPool, err := storage.NewRedisPool(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -207,7 +207,7 @@ func newRedis(cfg *config.Config) (*redis.Client, error) {
 		TagKey:                 "redis",
 	}.Froze()
 
-	return redis.NewClient(redisPool, redisJSON), nil
+	return storage.NewRedis(redisPool, redisJSON), nil
 }
 
 func newCentrifugeClient(cfg *config.Config) (api.CentrifugeClient, error) {
