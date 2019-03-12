@@ -338,13 +338,13 @@
   revision = "dcecefd839c4193db0d35b88ec65b4c12d360ab0"
 
 [[projects]]
-  digest = "1:f5ca68b9a93cd2c6f82221b81d89f967f0f30cd3e54ff9e5514337b8f6217465"
+  digest = "1:850899ef26e80b163b544809d3835537f6b865337277c4be2723031477056b34"
   name = "gitlab.com/proemergotech/apimd-generator-go"
   packages = ["generator"]
   pruneopts = "T"
-  revision = "7c93b83a5d77cb40652a279e216adb43f5d372cd"
+  revision = "f2165788d739305c800abbfdb8b016a5fd48e59d"
   source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
-  version = "0.1.0"
+  version = "0.1.1"
 
 [[projects]]
   digest = "1:4b533859d872e2fa7d20134d309a5a82554da733353b65d70584fb58e14010ad"
@@ -384,13 +384,13 @@
   version = "0.2.1"
 
 [[projects]]
-  digest = "1:883746cccf2f48b10a8663397ce181cac753f0a3848e1471b839c6e8ea84d94c"
+  digest = "1:fc00fe214b941c9a0f559d0546bfcb52efa3ffd8975158fc9ab69e6167ba3c1b"
   name = "gitlab.com/proemergotech/microtime-go"
   packages = ["."]
   pruneopts = "T"
-  revision = "fb181bf618e55f06fed9eeb6183cfb74c886e8d9"
+  revision = "d1b6160a84a1335e8814dce9b413ef56824b37d6"
   source = "git@gitlab.com:proemergotech/microtime-go.git"
-  version = "0.1.0"
+  version = "v0.1.1"
 
 [[projects]]
   digest = "1:f339a9fce23160e3c3912ba4d153e3336f0240d0d62630ef733b08ea80f33658"

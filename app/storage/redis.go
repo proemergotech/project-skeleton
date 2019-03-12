@@ -1,4 +1,4 @@
-package redis
+package storage
 
 import (
 	"context"
@@ -13,13 +13,13 @@ import (
 	log "gitlab.com/proemergotech/log-go"
 )
 
-type Client struct {
+type Redis struct {
 	redisPool *redis.Pool
 	json      jsoniter.API //Use this to be able to save objects as value and use redis tags instead of json ones
 }
 
-func NewClient(redisPool *redis.Pool, json jsoniter.API) *Client {
-	return &Client{
+func NewRedis(redisPool *redis.Pool, json jsoniter.API) *Redis {
+	return &Redis{
 		redisPool: redisPool,
 		json:      json,
 	}
@@ -40,11 +40,11 @@ func NewRedisPool(cfg *config.Config) (*redis.Pool, error) {
 	}, nil
 }
 
-func (rc *Client) Close() error {
+func (rc *Redis) Close() error {
 	return rc.redisPool.Close()
 }
 
-func (rc *Client) closeConn(ctx context.Context, conn redis.Conn) {
+func (rc *Redis) closeConn(ctx context.Context, conn redis.Conn) {
 	err := conn.Close()
 	if err != nil {
 		err = errors.Wrap(err, "Failed closing redis connection, this might result in memory leek")
@@ -53,7 +53,7 @@ func (rc *Client) closeConn(ctx context.Context, conn redis.Conn) {
 }
 
 // Implementation example for get simple value
-func (rc *Client) GetSimpleFunc(ctx context.Context, key string) (string, apierr.Error) {
+func (rc *Redis) GetSimpleFunc(ctx context.Context, key string) (string, apierr.Error) {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
 
@@ -66,7 +66,7 @@ func (rc *Client) GetSimpleFunc(ctx context.Context, key string) (string, apierr
 }
 
 // Implementation example for save complex value
-func (rc *Client) SaveComplexFunc(ctx context.Context, key string, value DummyType) apierr.Error {
+func (rc *Redis) SaveComplexFunc(ctx context.Context, key string, value DummyType) apierr.Error {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
 
@@ -84,7 +84,7 @@ func (rc *Client) SaveComplexFunc(ctx context.Context, key string, value DummyTy
 }
 
 // Implementation example for get complex value
-func (rc *Client) GetComplexFunc(ctx context.Context, key string) (*DummyType, apierr.Error) {
+func (rc *Redis) GetComplexFunc(ctx context.Context, key string) (*DummyType, apierr.Error) {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
 
