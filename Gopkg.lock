@@ -94,6 +94,14 @@
   version = "v2.0.0"
 
 [[projects]]
+  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
+  name = "github.com/grpc-ecosystem/go-grpc-middleware"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "c250d6563d4d4c20252cd865923440e829844f4e"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:071bcbf82c289fba4d3f63c876bf4f0ba7eda625cd60795e0a03ccbf949e517a"
   name = "github.com/hashicorp/hcl"
   packages = [
@@ -347,13 +355,16 @@
   version = "0.1.1"
 
 [[projects]]
-  digest = "1:4b533859d872e2fa7d20134d309a5a82554da733353b65d70584fb58e14010ad"
+  digest = "1:cf3666a3d028e6918277f06964e3664cb479327b1632b4a8870989259a7d6702"
   name = "gitlab.com/proemergotech/centrifuge-client-go"
-  packages = ["api"]
+  packages = [
+    ".",
+    "api",
+  ]
   pruneopts = "T"
-  revision = "0c9df86525d536782e927439651a821caadd41a1"
+  revision = "130454d6e9a06fbb2ad0c3d8ec6f4f9afe7cba66"
   source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
-  version = "2.1.0"
+  version = "v2.1.1"
 
 [[projects]]
   digest = "1:b0d3020a3d44c8ac52d1a956be4a874c3a44f3773a7391479a0ed2238b7949f1"
@@ -515,7 +526,7 @@
   revision = "67d6565462c5a0d99b88193d59fefa10ca7e3010"
 
 [[projects]]
-  digest = "1:c32026b4d2b9f7240ad72edf0dffca4e5863d5edc1ea25416d64929926b5ac67"
+  digest = "1:6b812b075fa3e596915cccaabe531637b69c769678b58cc00e1419b5e9308db2"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -551,8 +562,8 @@
     "tap",
   ]
   pruneopts = "T"
-  revision = "df014850f6dee74ba2fc94874043a9f3f75fbfd8"
-  version = "v1.17.0"
+  revision = "2fdaae294f38ed9a121193c51ec99fecd3b13eb7"
+  version = "v1.19.0"
 
 [[projects]]
   digest = "1:dafe4b0892182d4e31d186e117289c2c3e5cde1845010bab63299e62e0fae93e"
@@ -600,6 +611,7 @@
     "github.com/uber/jaeger-client-go",
     "github.com/uber/jaeger-client-go/config",
     "gitlab.com/proemergotech/apimd-generator-go/generator",
+    "gitlab.com/proemergotech/centrifuge-client-go",
     "gitlab.com/proemergotech/centrifuge-client-go/api",
     "gitlab.com/proemergotech/geb-client-go/geb",
     "gitlab.com/proemergotech/geb-client-go/geb/rabbitmq",
@@ -617,7 +629,6 @@
     "gitlab.com/proemergotech/uuid-go",
     "go.uber.org/zap",
     "go.uber.org/zap/zapcore",
-    "google.golang.org/grpc",
     "gopkg.in/h2non/gentleman.v2",
     "gopkg.in/h2non/gentleman.v2/context",
     "gopkg.in/h2non/gentleman.v2/plugin",
