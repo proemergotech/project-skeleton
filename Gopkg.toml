@@ -62,7 +62,7 @@ version = "0.6.0"
 [[constraint]]
 name = "gitlab.com/proemergotech/centrifuge-client-go"
 source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
-version = "v2.1.1"
+version = "v2.1.2"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/microtime-go"
