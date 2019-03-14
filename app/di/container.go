@@ -17,6 +17,7 @@ import (
 	"github.com/pkg/errors"
 	jaeger "github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
+	centrifuge "gitlab.com/proemergotech/centrifuge-client-go"
 	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
@@ -34,7 +35,6 @@ import (
 	trace "gitlab.com/proemergotech/trace-go"
 	"gitlab.com/proemergotech/trace-go/gebtrace"
 	"gitlab.com/proemergotech/trace-go/gentlemantrace"
-	"google.golang.org/grpc"
 	gentleman "gopkg.in/h2non/gentleman.v2"
 )
 
@@ -81,7 +81,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, errors.Wrap(err, "cannot initialize redis client")
 	}
 
-	c.centrifugeClient, err = newCentrifugeClient(cfg)
+	c.centrifugeClient, err = centrifuge.New(cfg.CentrifugoHost, cfg.CentrifugoGrpcPort, 5*time.Second)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize centrifuge client")
 	}
@@ -208,14 +208,6 @@ func newRedis(cfg *config.Config) (*storage.Redis, error) {
 	}.Froze()
 
 	return storage.NewRedis(redisPool, redisJSON), nil
-}
-
-func newCentrifugeClient(cfg *config.Config) (api.CentrifugeClient, error) {
-	grpcConn, err := grpc.Dial(fmt.Sprintf("%v:%v", cfg.CentrifugoHost, cfg.CentrifugoGrpcPort), grpc.WithInsecure())
-	if err != nil {
-		return nil, errors.Wrap(err, "cannot initialize centrifuge connection")
-	}
-	return api.NewCentrifugeClient(grpcConn), nil
 }
 
 func newValidator() *validator.Validate {
