@@ -18,7 +18,6 @@ import (
 	jaeger "github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
 	centrifuge "gitlab.com/proemergotech/centrifuge-client-go"
-	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
@@ -39,12 +38,11 @@ import (
 )
 
 type Container struct {
-	RestServer       *rest.Server
-	EventServer      *event.Server
-	redisClient      *storage.Redis
-	centrifugeClient api.CentrifugeClient
-	traceCloser      io.Closer
-	gebCloser        io.Closer
+	RestServer  *rest.Server
+	EventServer *event.Server
+	redisClient *storage.Redis
+	traceCloser io.Closer
+	gebCloser   io.Closer
 }
 
 type EchoValidator struct {
@@ -81,7 +79,8 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, errors.Wrap(err, "cannot initialize redis client")
 	}
 
-	c.centrifugeClient, err = centrifuge.New(cfg.CentrifugoHost, cfg.CentrifugoGrpcPort, 5*time.Second)
+	centrifuge.SetLogger(log.GlobalLogger())
+	centrifugeClient, err := centrifuge.New(cfg.CentrifugoHost, cfg.CentrifugoGrpcPort, centrifuge.Timeout(5*time.Second))
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize centrifuge client")
 	}
@@ -91,7 +90,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	echoEngine := newEcho(validate)
 
 	svc := service.NewService(
-		c.centrifugeClient,
+		centrifugeClient,
 	)
 
 	c.RestServer = rest.NewServer(

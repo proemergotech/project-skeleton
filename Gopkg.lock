@@ -355,16 +355,16 @@
   version = "0.1.1"
 
 [[projects]]
-  digest = "1:cf3666a3d028e6918277f06964e3664cb479327b1632b4a8870989259a7d6702"
+  digest = "1:94ceab9d6924647dd824316f6a2b4a8c9e070f32105e54d56b1cbd9180984439"
   name = "gitlab.com/proemergotech/centrifuge-client-go"
   packages = [
     ".",
     "api",
   ]
   pruneopts = "T"
-  revision = "130454d6e9a06fbb2ad0c3d8ec6f4f9afe7cba66"
+  revision = "2edc1563d62db55af36c56152b2211871334ffff"
   source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
-  version = "v2.1.1"
+  version = "v2.1.2"
 
 [[projects]]
   digest = "1:b0d3020a3d44c8ac52d1a956be4a874c3a44f3773a7391479a0ed2238b7949f1"
