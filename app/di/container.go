@@ -31,7 +31,6 @@ import (
 	"gitlab.com/proemergotech/log-go/geblog"
 	"gitlab.com/proemergotech/log-go/gentlemanlog"
 	"gitlab.com/proemergotech/log-go/jaegerlog"
-	trace "gitlab.com/proemergotech/trace-go"
 	"gitlab.com/proemergotech/trace-go/gebtrace"
 	"gitlab.com/proemergotech/trace-go/gentlemantrace"
 	gentleman "gopkg.in/h2non/gentleman.v2"
@@ -158,15 +157,10 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 		geb.JSONCodec(geb.UseTag("geb")),
 	)
 
-	opt, err := gebtrace.Trace(trace.Start)
-	if err != nil {
-		return nil, err
-	}
-
 	q.UsePublish(geblog.PublishMiddleware(log.GlobalLogger(), true))
 	q.UsePublish(gebtrace.PublishMiddleware(tracer, log.GlobalLogger()))
 	q.UseOnEvent(geblog.OnEventMiddleware(log.GlobalLogger(), true))
-	q.UseOnEvent(gebtrace.OnEventMiddleware(tracer, log.GlobalLogger(), gebtrace.GenerateCorrelation(trace.NewCorrelation), opt))
+	q.UseOnEvent(gebtrace.OnEventMiddleware(tracer, log.GlobalLogger()))
 	q.UseOnEvent(func(e *geb.Event, next func(*geb.Event) error) error {
 		err := next(e)
 		if err != nil {
@@ -180,15 +174,18 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 
 		return nil
 	})
-	q.OnError(func(err error) {
+	err := q.OnError(func(err error, reconnect func()) {
 		err = errors.Wrap(err, "Geb connection error")
 		log.Error(context.Background(), err.Error(), "error", err)
 
 		go func() {
 			time.Sleep(2 * time.Second)
-			q.Reconnect()
+			reconnect()
 		}()
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return q, nil
 }

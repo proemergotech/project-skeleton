@@ -29,10 +29,7 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			log.Panic(context.Background(), "Couldn't load container", "error", err)
 		}
-
-		defer func() {
-			container.Close()
-		}()
+		defer container.Close()
 
 		errorCh := make(chan error)
 		container.RestServer.Start(errorCh)
@@ -48,7 +45,11 @@ var rootCmd = &cobra.Command{
 
 		log.Info(context.Background(), "Rest server started")
 
-		container.EventServer.Start()
+		err = container.EventServer.Start()
+		if err != nil {
+			err = errors.Wrap(err, "Failed starting event server")
+			log.Panic(context.Background(), err.Error(), "error", err)
+		}
 		log.Info(context.Background(), "Event server started")
 
 		sigs := make(chan os.Signal, 1)
