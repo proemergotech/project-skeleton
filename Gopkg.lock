@@ -94,7 +94,7 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
+  digest = "1:7e5aba688e451c9d0f430abc39b6fde2d9bb470d5eec0f33d29e953c48d96e86"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = ["."]
   pruneopts = "T"
@@ -129,12 +129,12 @@
   version = "v1.0"
 
 [[projects]]
-  digest = "1:5d713dbcad44f3358fec51fd5573d4f733c02cac5a40dcb177787ad5ffe9272f"
+  digest = "1:e4f630893d2bbf8c268eba14e7cc92ef8844ee259a45e21ea77cf7656544cb7e"
   name = "github.com/json-iterator/go"
   packages = ["."]
   pruneopts = "T"
-  revision = "1624edc4454b8682399def8740d46db5e4362ba4"
-  version = "v1.1.5"
+  revision = "0ff49de124c6f76f8494e194af75bde0f1a49a29"
+  version = "v1.1.6"
 
 [[projects]]
   digest = "1:b7261ff866b5ee82742c6b04f5afaf82d995703207967630780962412ccd346c"
@@ -367,16 +367,16 @@
   version = "v2.1.2"
 
 [[projects]]
-  digest = "1:b0d3020a3d44c8ac52d1a956be4a874c3a44f3773a7391479a0ed2238b7949f1"
+  digest = "1:a1a2b7d2b7fb46fd0854f6145e4009065903fb543b32409c1563eee35f5808ec"
   name = "gitlab.com/proemergotech/geb-client-go"
   packages = [
     "geb",
     "geb/rabbitmq",
   ]
   pruneopts = "T"
-  revision = "3533d93f9f82205cfc71f556a1df9cddccbd7e22"
+  revision = "e7444d89ca0d6551b8a53808875952cbd5d048f9"
   source = "git@gitlab.com:proemergotech/geb-client-go.git"
-  version = "0.6.0"
+  version = "v0.7.0"
 
 [[projects]]
   digest = "1:0f2b4ef1f8c8ac9728884032a77d83022f835a75724af77c96270a2f8be32807"

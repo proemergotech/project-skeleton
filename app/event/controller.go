@@ -24,5 +24,6 @@ func NewController(
 	}
 }
 
-func (c *Controller) start() {
+func (c *Controller) start() error {
+	return nil
 }

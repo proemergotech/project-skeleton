@@ -12,6 +12,6 @@ func NewServer(
 	}
 }
 
-func (s *Server) Start() {
-	s.controller.start()
+func (s *Server) Start() error {
+	return s.controller.start()
 }
