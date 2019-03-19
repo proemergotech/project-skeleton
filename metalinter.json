@@ -3,6 +3,7 @@
   "Exclude": [
     "should have comment",
     "comment on exported const",
+    "(S1013)",
     "declaration of \"err\" shadows declaration at"
   ],
   "Sort": ["path", "line"],

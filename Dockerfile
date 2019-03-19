@@ -21,7 +21,7 @@ RUN eval $(ssh-agent -s) \
   && ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts \
   && dep ensure -vendor-only
 
-RUN go build -ldflags "-X gitlab.com/proemergotech/$EXECUTABLE_NAME/app/config.AppVersion=$APP_VERSION" -o "/tmp/$EXECUTABLE_NAME"
+RUN go build -ldflags "-X $ROOT_PACKAGE/app/config.AppVersion=$APP_VERSION" -o "/tmp/$EXECUTABLE_NAME"
 
 
 
@@ -31,7 +31,7 @@ FROM alpine:latest
 ARG EXECUTABLE_NAME
 
 RUN set -eux; \
-  apk add --no-cache --virtual ca-certificates
+  apk add --no-cache ca-certificates curl
 
 WORKDIR /usr/local/bin/
 

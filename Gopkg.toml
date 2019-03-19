@@ -57,7 +57,7 @@ version = "0.1.1"
 [[constraint]]
 name = "gitlab.com/proemergotech/geb-client-go"
 source = "git@gitlab.com:proemergotech/geb-client-go.git"
-version = "v0.7.0"
+version = "v0.7.1"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/centrifuge-client-go"
