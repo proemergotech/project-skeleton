@@ -159,6 +159,7 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 
 	q.UsePublish(geblog.PublishMiddleware(log.GlobalLogger(), true))
 	q.UsePublish(gebtrace.PublishMiddleware(tracer, log.GlobalLogger()))
+	q.UseOnEvent(geb.RecoveryMiddleware())
 	q.UseOnEvent(geblog.OnEventMiddleware(log.GlobalLogger(), true))
 	q.UseOnEvent(gebtrace.OnEventMiddleware(tracer, log.GlobalLogger()))
 	q.UseOnEvent(func(e *geb.Event, next func(*geb.Event) error) error {
