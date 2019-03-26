@@ -6,11 +6,10 @@ import (
 	"time"
 
 	"github.com/gomodule/redigo/redis"
-	jsoniter "github.com/json-iterator/go"
-	"github.com/pkg/errors"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
+	"github.com/json-iterator/go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	log "gitlab.com/proemergotech/log-go"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	"gitlab.com/proemergotech/log-go"
 )
 
 type Redis struct {
@@ -28,7 +27,7 @@ func NewRedis(redisPool *redis.Pool, json jsoniter.API) *Redis {
 func NewRedisPool(cfg *config.Config) (*redis.Pool, error) {
 	redisPoolIdleTimeout, err := time.ParseDuration(cfg.RedisStorePoolIdleTimeout)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid value for redis_pool_idle_timeout, must be duration")
+		return nil, service.SemanticError{Msg: "invalid value for redis_pool_idle_timeout, must be duration"}.E()
 	}
 
 	return &redis.Pool{
@@ -47,50 +46,50 @@ func (rc *Redis) Close() error {
 func (rc *Redis) closeConn(ctx context.Context, conn redis.Conn) {
 	err := conn.Close()
 	if err != nil {
-		err = errors.Wrap(err, "Failed closing redis connection, this might result in memory leek")
+		err = service.SemanticError{Msg: "failed closing redis connection, this might result in memory leak", Err: err}.E()
 		log.Warn(ctx, err.Error(), "error", err)
 	}
 }
 
 // Implementation example for get simple value
-func (rc *Redis) GetSimpleFunc(ctx context.Context, key string) (string, apierr.Error) {
+func (rc *Redis) GetSimpleFunc(ctx context.Context, key string) (string, error) {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
 
 	value, err := redis.String(conn.Do("GET", key))
 	if err != nil {
-		return "", apierr.RedisUnavailable(err)
+		return "", redisUnavailableError{Err: err}.E()
 	}
 
 	return value, nil
 }
 
 // Implementation example for save complex value
-func (rc *Redis) SaveComplexFunc(ctx context.Context, key string, value DummyType) apierr.Error {
+func (rc *Redis) SaveComplexFunc(ctx context.Context, key string, value DummyType) error {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
 
 	body, err := rc.json.Marshal(value)
 	if err != nil {
-		return apierr.Semantic(err)
+		return service.SemanticError{Err: err}.E()
 	}
 
 	_, err = conn.Do("SET", key, body)
 	if err != nil {
-		return apierr.RedisUnavailable(err)
+		return redisUnavailableError{Err: err}.E()
 	}
 
 	return nil
 }
 
 // Implementation example for get complex value
-func (rc *Redis) GetComplexFunc(ctx context.Context, key string) (*DummyType, apierr.Error) {
+func (rc *Redis) GetComplexFunc(ctx context.Context, key string) (*DummyType, error) {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
 
 	repl, err := conn.Do("GET", key)
 	if err != nil {
-		return nil, apierr.RedisUnavailable(err)
+		return nil, redisUnavailableError{Err: err}.E()
 	}
 	if repl == nil {
 		return nil, nil
@@ -99,7 +98,7 @@ func (rc *Redis) GetComplexFunc(ctx context.Context, key string) (*DummyType, ap
 	result := &DummyType{}
 	err = rc.json.Unmarshal(repl.([]byte), result)
 	if err != nil {
-		return nil, apierr.Semantic(err)
+		return nil, service.SemanticError{Err: err}.E()
 	}
 
 	return result, nil

@@ -11,6 +11,13 @@ type withFields struct {
 }
 
 func WithFields(err error, keyValues ...interface{}) error {
+	if fErr, ok := err.(*withFields); ok {
+		return &withFields{
+			fields: append(fErr.fields, keyValues...),
+			error:  fErr.error,
+		}
+	}
+
 	return &withFields{
 		fields: keyValues,
 		error:  err,

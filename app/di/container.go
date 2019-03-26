@@ -10,30 +10,31 @@ import (
 	"time"
 
 	"github.com/go-playground/validator"
-	jsoniter "github.com/json-iterator/go"
+	"github.com/json-iterator/go"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	jaeger "github.com/uber/jaeger-client-go"
+	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	centrifuge "gitlab.com/proemergotech/centrifuge-client-go"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
+	"gitlab.com/proemergotech/centrifuge-client-go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/validationerr"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
-	log "gitlab.com/proemergotech/log-go"
+	"gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/log-go/echolog"
 	"gitlab.com/proemergotech/log-go/geblog"
 	"gitlab.com/proemergotech/log-go/gentlemanlog"
 	"gitlab.com/proemergotech/log-go/jaegerlog"
 	"gitlab.com/proemergotech/trace-go/gebtrace"
 	"gitlab.com/proemergotech/trace-go/gentlemantrace"
-	gentleman "gopkg.in/h2non/gentleman.v2"
+	"gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -51,7 +52,7 @@ type EchoValidator struct {
 func (cv *EchoValidator) Validate(i interface{}) error {
 	err := cv.validator.Struct(i)
 	if err != nil {
-		return apierr.Validation(err)
+		return validationerr.ValidationError{Err: err}.E()
 	}
 
 	return nil
@@ -165,8 +166,8 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 	q.UseOnEvent(func(e *geb.Event, next func(*geb.Event) error) error {
 		err := next(e)
 		if err != nil {
-			statusCode := apierr.StatusCode(err)
-			if statusCode >= 400 && statusCode < 500 {
+			httpCode := schema.ErrorHTTPCode(err)
+			if httpCode >= 400 && httpCode < 500 {
 				log.Warn(e.Context(), err.Error(), "error", err)
 			} else {
 				log.Error(e.Context(), err.Error(), "error", err)

@@ -4,60 +4,34 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	"gitlab.com/proemergotech/log-go"
 )
 
 func DLiveRHTTPErrorHandler(err error, eCtx echo.Context) {
+	defer func() {
+		sc := eCtx.Response().Status
+		if sc >= 400 && sc < 500 {
+			log.Warn(eCtx.Request().Context(), err.Error(), "error", err)
+		} else {
+			log.Error(eCtx.Request().Context(), err.Error(), "error", err)
+		}
+	}()
+
 	if eErr, ok := err.(*echo.HTTPError); ok {
 		sc := eErr.Code
 
 		switch sc {
 		case http.StatusNotFound:
-			_ = eCtx.JSON(sc, &schema.HTTPError{
-				Error: &schema.Error{
-					Message: "route cannot be found",
-					Code:    service.ErrRouteNotFound,
-				}},
-			)
-
+			err = routeNotFoundError{Err: eErr}.E()
 		case http.StatusMethodNotAllowed:
-			_ = eCtx.JSON(sc, &schema.HTTPError{
-				Error: &schema.Error{
-					Message: "method not allowed",
-					Code:    service.ErrMethodNotAllowed,
-				}},
-			)
-
+			err = methodNotAllowedError{Err: eErr}.E()
 		default:
-			_ = eCtx.JSON(http.StatusInternalServerError, &schema.HTTPError{
-				Error: &schema.Error{
-					Message: eErr.Error(),
-					Code:    service.ErrSemanticError,
-				}},
-			)
+			err = service.SemanticError{Err: eErr}.E()
 		}
-
-		return
 	}
 
-	sc := apierr.StatusCode(err)
-	if sc <= 599 && sc >= 400 {
-		_ = eCtx.JSON(sc, &schema.HTTPError{
-			Error: &schema.Error{
-				Message: err.Error(),
-				Code:    apierr.Code(err),
-				Details: apierr.Details(err),
-			},
-		})
-		return
-	}
-
-	_ = eCtx.JSON(http.StatusInternalServerError, &schema.HTTPError{
-		Error: &schema.Error{
-			Message: "semantic",
-			Code:    service.ErrSemanticError,
-		}},
-	)
+	httpErr, statusCode := schema.ToHTTPError(err)
+	_ = eCtx.JSON(statusCode, httpErr)
 }
