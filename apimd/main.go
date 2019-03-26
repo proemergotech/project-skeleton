@@ -7,11 +7,10 @@ import (
 	"time"
 
 	"gitlab.com/proemergotech/apimd-generator-go/generator"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/apierr"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	microtime "gitlab.com/proemergotech/microtime-go"
-	uuid "gitlab.com/proemergotech/uuid-go"
+	"gitlab.com/proemergotech/microtime-go"
+	"gitlab.com/proemergotech/uuid-go"
 )
 
 func main() {
@@ -126,8 +125,8 @@ func (v *value) uuid() uuid.UUID {
 
 func (d *definitions) httpError(err error, details ...map[string]interface{}) schema.HTTPError {
 	return schema.HTTPError{
-		Error: &schema.Error{
-			Code:    d.body(apierr.Code(err)).String(),
+		Error: schema.Error{
+			Code:    d.body(schema.ErrorCode(err)).String(),
 			Message: d.body(err.Error()).String(),
 			Details: details,
 		},
