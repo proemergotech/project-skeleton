@@ -37,27 +37,27 @@ version = "v2.0.0"
 [[constraint]]
 name = "gitlab.com/proemergotech/apimd-generator-go"
 source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
-version = "0.1.1"
+version = "v0.1.1"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/log-go"
 source = "git@gitlab.com:proemergotech/log-go.git"
-version = "0.2.1"
+version = "v0.2.2"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/trace-go"
 source = "git@gitlab.com:proemergotech/trace-go.git"
-version = "0.2.1"
+version = "v0.2.1"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/uuid-go"
 source = "git@gitlab.com:proemergotech/uuid-go.git"
-version = "0.1.1"
+version = "v0.1.2"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/geb-client-go"
 source = "git@gitlab.com:proemergotech/geb-client-go.git"
-version = "v0.7.1"
+version = "v0.7.2"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/centrifuge-client-go"
