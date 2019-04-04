@@ -11,7 +11,7 @@ func TestDummy(t *testing.T) {
 }
 
 func TestDummyWithTables(t *testing.T) {
-	tables := []struct {
+	for index, test := range []struct {
 		x int
 		y int
 		n int
@@ -20,11 +20,10 @@ func TestDummyWithTables(t *testing.T) {
 		{1, 2, 3},
 		{2, 2, 4},
 		{5, 2, 7},
-	}
-
-	for index, table := range tables {
+	} {
+		testCase := test
 		t.Run("Test Case "+strconv.Itoa(index), func(t *testing.T) {
-			runDummyTestCase(t, table.x, table.y, table.n)
+			runDummyTestCase(t, testCase.x, testCase.y, testCase.n)
 		})
 
 	}

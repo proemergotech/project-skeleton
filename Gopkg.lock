@@ -367,19 +367,19 @@
   version = "v2.1.2"
 
 [[projects]]
-  digest = "1:ed4391abae0447c6c30228c4b670e47833fc0caa6ebba5fcb603765ab612bc22"
+  digest = "1:5f2730ee84f666686c67a131d19a0bcc20effc020c2841538ec5a1af8001eff1"
   name = "gitlab.com/proemergotech/geb-client-go"
   packages = [
     "geb",
     "geb/rabbitmq",
   ]
   pruneopts = "T"
-  revision = "073bf521e2541c9189ebe886483c373bda66c0bd"
+  revision = "911b328f255a6ae053c5f34c29a6f340203521e0"
   source = "git@gitlab.com:proemergotech/geb-client-go.git"
-  version = "v0.7.1"
+  version = "v0.7.2"
 
 [[projects]]
-  digest = "1:0f2b4ef1f8c8ac9728884032a77d83022f835a75724af77c96270a2f8be32807"
+  digest = "1:73baa2f4f840b6705e02d16eccb78b208547294fc0455f2d7f0ee4249888d606"
   name = "gitlab.com/proemergotech/log-go"
   packages = [
     ".",
@@ -390,9 +390,9 @@
     "zaplog",
   ]
   pruneopts = "T"
-  revision = "68cbb6cb143dd176012b3a298856801e56b3dd9c"
+  revision = "366daa7713894120d9ffbde14fbe143db32c5688"
   source = "git@gitlab.com:proemergotech/log-go.git"
-  version = "0.2.1"
+  version = "v0.2.2"
 
 [[projects]]
   digest = "1:fc00fe214b941c9a0f559d0546bfcb52efa3ffd8975158fc9ab69e6167ba3c1b"
@@ -419,13 +419,13 @@
   version = "0.2.1"
 
 [[projects]]
-  digest = "1:07f653319fa86249b3d2cb761cf0df3e6740485dcaa639eb88c2f21f5e3877b5"
+  digest = "1:6078cc3e00479167a20e29764c6080903e8da5a8806d5df7469673f722e29393"
   name = "gitlab.com/proemergotech/uuid-go"
   packages = ["."]
   pruneopts = "T"
-  revision = "f1080dd907adbaca6a99181b970a60ae1ad1191c"
+  revision = "549ccbb3d028854e1c1f034e96c056542b70cd12"
   source = "git@gitlab.com:proemergotech/uuid-go.git"
-  version = "0.1.1"
+  version = "v0.1.2"
 
 [[projects]]
   digest = "1:365b8ecb35a5faf5aa0ee8d798548fc9cd4200cb95d77a5b0b285ac881bae499"
