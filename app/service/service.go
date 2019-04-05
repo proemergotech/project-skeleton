@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"gitlab.com/proemergotech/yafuds-client-go/client"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 
 	"gitlab.com/proemergotech/centrifuge-client-go/api"
@@ -13,13 +15,16 @@ import (
 
 type Service struct {
 	centrifugeClient api.CentrifugeClient
+	yafudsClient     *client.Client
 }
 
 func NewService(
 	centrifugeClient api.CentrifugeClient,
+	yafudsClient *client.Client,
 ) *Service {
 	return &Service{
 		centrifugeClient: centrifugeClient,
+		yafudsClient:     yafudsClient,
 	}
 }
 
