@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/pkg/errors"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
 )
@@ -17,9 +18,11 @@ const (
 	ErrMethodNotAllowed = "ERR_METHOD_NOT_ALLOWED"
 
 	// 500
-	ErrCentrifuge       = "ERR_CENTRIFUGE"
-	ErrRedisUnavailable = "ERR_REDIS_UNAVAILABLE"
-	ErrSemanticError    = "ERR_SEMANTIC_ERROR"
+	ErrCentrifuge         = "ERR_CENTRIFUGE"
+	ErrElasticUnavailable = "ERR_ELASTIC"
+	ErrRedisUnavailable   = "ERR_REDIS"
+	ErrSemanticError      = "ERR_SEMANTIC"
+	ErrYafudsUnavailable  = "ERR_YAFUDS"
 )
 
 type SemanticError struct {
