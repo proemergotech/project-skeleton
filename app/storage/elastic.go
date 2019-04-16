@@ -20,7 +20,7 @@ func (e *Elastic) elasticHitsToUUIDs(hits []*elastic.SearchHit) ([]uuid.UUID, er
 		var uid uuid.UUID
 		uid, err := uuid.FromString(hit.Id)
 		if err != nil {
-			return nil, elasticUnavailableError{Err: err}.E()
+			return nil, elasticError{Err: err}.E()
 		}
 		res = append(res, uid)
 	}

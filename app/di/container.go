@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/go-playground/validator"
+	"github.com/gomodule/redigo/redis"
 	"github.com/json-iterator/go"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -19,7 +20,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-
 	"gitlab.com/proemergotech/centrifuge-client-go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
@@ -232,7 +232,7 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 }
 
 func newRedis(cfg *config.Config) (*storage.Redis, error) {
-	redisPool, err := storage.NewRedisPool(cfg)
+	redisPool, err := newRedisPool(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -245,6 +245,21 @@ func newRedis(cfg *config.Config) (*storage.Redis, error) {
 	}.Froze()
 
 	return storage.NewRedis(redisPool, redisJSON), nil
+}
+
+func newRedisPool(cfg *config.Config) (*redis.Pool, error) {
+	redisPoolIdleTimeout, err := time.ParseDuration(cfg.RedisStorePoolIdleTimeout)
+	if err != nil {
+		return nil, errors.New("invalid value for redis_pool_idle_timeout, must be duration")
+	}
+
+	return &redis.Pool{
+		MaxIdle:     cfg.RedisStorePoolMaxIdle,
+		IdleTimeout: redisPoolIdleTimeout,
+		Dial: func() (redis.Conn, error) {
+			return redis.Dial("tcp", fmt.Sprintf("%v:%v", cfg.RedisStoreHost, cfg.RedisStorePort), redis.DialDatabase(cfg.RedisStoreDatabase))
+		},
+	}, nil
 }
 
 func newYafuds(cfg *config.Config) (*yclient.Client, error) {

@@ -38,15 +38,15 @@ func (e centrifugeError) E() error {
 	)
 }
 
-type yafudsUnavailableError struct {
+type yafudsError struct {
 	Err error
 	Msg string
 }
 
-func (e yafudsUnavailableError) E() error {
-	msg := e.Msg
-	if msg == "" {
-		msg = "yafuds error"
+func (e yafudsError) E() error {
+	msg := "yafuds error"
+	if e.Msg != "" {
+		msg += ": " + e.Msg
 	}
 
 	err := e.Err
@@ -56,5 +56,5 @@ func (e yafudsUnavailableError) E() error {
 		err = errors.Wrap(err, msg)
 	}
 
-	return errorsf.WithFields(err, schema.ErrCode, service.ErrYafudsUnavailable, schema.ErrHTTPCode, 500)
+	return errorsf.WithFields(err, schema.ErrCode, service.ErrYafuds, schema.ErrHTTPCode, 500)
 }

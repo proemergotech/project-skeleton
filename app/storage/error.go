@@ -8,15 +8,15 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
 )
 
-type elasticUnavailableError struct {
+type elasticError struct {
 	Err error
 	Msg string
 }
 
-func (e elasticUnavailableError) E() error {
-	msg := e.Msg
-	if msg == "" {
-		msg = "elastic error"
+func (e elasticError) E() error {
+	msg := "elastic error"
+	if e.Msg != "" {
+		msg += ": " + e.Msg
 	}
 
 	err := e.Err
@@ -26,18 +26,18 @@ func (e elasticUnavailableError) E() error {
 		err = errors.Wrap(err, msg)
 	}
 
-	return errorsf.WithFields(err, schema.ErrCode, service.ErrElasticUnavailable, schema.ErrHTTPCode, 500)
+	return errorsf.WithFields(err, schema.ErrCode, service.ErrElastic, schema.ErrHTTPCode, 500)
 }
 
-type redisUnavailableError struct {
+type redisError struct {
 	Err error
 	Msg string
 }
 
-func (e redisUnavailableError) E() error {
-	msg := e.Msg
-	if msg == "" {
-		msg = "redis error"
+func (e redisError) E() error {
+	msg := "redis error"
+	if e.Msg != "" {
+		msg += ": " + e.Msg
 	}
 
 	err := e.Err
@@ -49,7 +49,7 @@ func (e redisUnavailableError) E() error {
 
 	return errorsf.WithFields(
 		err,
-		schema.ErrCode, service.ErrRedisUnavailable,
+		schema.ErrCode, service.ErrRedis,
 		schema.ErrHTTPCode, 500,
 	)
 }
