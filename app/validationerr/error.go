@@ -15,13 +15,12 @@ type ValidationError struct {
 }
 
 func (e ValidationError) E() error {
-	msg := e.Msg
-	if msg == "" {
-		if e.PathParam != "" {
-			msg = "invalid path parameter: " + e.PathParam
-		} else {
-			msg = "validation error"
-		}
+	msg := "validation error"
+	if e.PathParam != "" {
+		msg += ": invalid path parameter: " + e.PathParam
+	}
+	if e.Msg != "" {
+		msg += ": " + e.Msg
 	}
 
 	err := e.Err

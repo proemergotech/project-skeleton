@@ -18,11 +18,11 @@ const (
 	ErrMethodNotAllowed = "ERR_METHOD_NOT_ALLOWED"
 
 	// 500
-	ErrCentrifuge         = "ERR_CENTRIFUGE"
-	ErrElasticUnavailable = "ERR_ELASTIC"
-	ErrRedisUnavailable   = "ERR_REDIS"
-	ErrSemanticError      = "ERR_SEMANTIC"
-	ErrYafudsUnavailable  = "ERR_YAFUDS"
+	ErrCentrifuge    = "ERR_CENTRIFUGE"
+	ErrElastic       = "ERR_ELASTIC"
+	ErrRedis         = "ERR_REDIS"
+	ErrSemanticError = "ERR_SEMANTIC"
+	ErrYafuds        = "ERR_YAFUDS"
 )
 
 type SemanticError struct {
@@ -32,9 +32,9 @@ type SemanticError struct {
 }
 
 func (e SemanticError) E() error {
-	msg := e.Msg
-	if msg == "" {
-		msg = "semantic error"
+	msg := "semantic error"
+	if e.Msg != "" {
+		msg += ": " + e.Msg
 	}
 
 	err := e.Err

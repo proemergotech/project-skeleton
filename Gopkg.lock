@@ -382,12 +382,12 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:77eb0fee08dd0cc2562a8b17e9fd8ef333c0cfd8ebb5f7bb784f769503f05406"
+  digest = "1:5c1d10d6f61202b2ea174db3e90200d904a575da1da64c8b76cd90d5c6dc7b68"
   name = "github.com/ugorji/go"
   packages = ["codec"]
   pruneopts = "T"
-  revision = "8fd0f8d918c8f0b52d0af210a812ba882cc31a1e"
-  version = "v1.1.2"
+  revision = "2adff0894ba3bc2eeb9f9aea45fefd49802e1a13"
+  version = "v1.1.4"
 
 [[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
@@ -536,14 +536,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:9e0797382899135aae55eb187734c47ab016a675cf772aeeebe5c4e5b7195b0b"
+  digest = "1:b10cb53f2450695fdfe1751e6e113b0304d4ddf55c1a8bb292d93ab992a19097"
   name = "golang.org/x/crypto"
   packages = [
     "acme",
     "acme/autocert",
   ]
   pruneopts = "T"
-  revision = "38d8ce5564a5b71b2e3a00553993f1b9a7ae852f"
+  revision = "88737f569e3a9c7ab309cdc09a07fe7fc87233c3"
 
 [[projects]]
   branch = "master"
@@ -564,11 +564,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:6890bf731a84367f08bc6c4a2749a99da63888a2b7a2b8bd75c817febe2fb575"
+  digest = "1:04d03b8497377262fbdbbb132692dadaa33c66fb769f2844addf4b2cd97e78d4"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "T"
-  revision = "81d4e9dc473e5e8c933f2aaeba2a3d81efb9aed2"
+  revision = "b44545bcd369ef9ff9bebcfebf5f3370ef9b1932"
 
 [[projects]]
   digest = "1:6164911cb5e94e8d8d5131d646613ff82c14f5a8ce869de2f6d80d9889df8c5a"
@@ -602,7 +602,7 @@
   revision = "64821d5d210748c883cd2b809589555ae4654203"
 
 [[projects]]
-  digest = "1:b04021350c1a0c479ca3be11b9d30d315a7a40b161a7cdbf3da7dd217e1cd06c"
+  digest = "1:1d0bbb36a1999ee14484970ed3ccb272bc9454e74c12320db160e23846ff5c3a"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -619,6 +619,7 @@
     "grpclog",
     "internal",
     "internal/backoff",
+    "internal/balancerload",
     "internal/binarylog",
     "internal/channelz",
     "internal/envconfig",
@@ -638,8 +639,8 @@
     "tap",
   ]
   pruneopts = "T"
-  revision = "3507fb8e1a5ad030303c106fef3a47c9fdad16ad"
-  version = "v1.19.1"
+  revision = "236199dd5f8031d698fb64091194aecd1c3895b2"
+  version = "v1.20.0"
 
 [[projects]]
   digest = "1:dafe4b0892182d4e31d186e117289c2c3e5cde1845010bab63299e62e0fae93e"
