@@ -22,8 +22,7 @@ Provides a basic golang based rest service with redis, centrifugo and geb (queue
 
 ## Usage
 ### Basics
-Find and replace the text `dliver-project-skeleton` - for example with notepad++ - with your new service's name (e.g.: `dliver-dummy-service`)    
-Find and replace the text `dliver_project_skeleton` - for example with notepad++ - with your new service's name (e.g.: `dliver_dummy_service`)    
+Run `create_skeleton.sh` with the proper argument(s).   
 (Don't forget to run `goimports` after file modifications.)
 
 ### How to remove unnecessary modules
