@@ -406,13 +406,13 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:850899ef26e80b163b544809d3835537f6b865337277c4be2723031477056b34"
+  digest = "1:0a445cf08b4ae84301f12dba1b737ba734e9c7baa44658eae27f7f08fb75af55"
   name = "gitlab.com/proemergotech/apimd-generator-go"
   packages = ["generator"]
   pruneopts = "T"
-  revision = "f2165788d739305c800abbfdb8b016a5fd48e59d"
+  revision = "0a78133461d5bffb138ad15913ee777d5c282f0e"
   source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
-  version = "0.1.1"
+  version = "v0.1.2"
 
 [[projects]]
   digest = "1:94ceab9d6924647dd824316f6a2b4a8c9e070f32105e54d56b1cbd9180984439"
@@ -490,7 +490,7 @@
   version = "v0.1.2"
 
 [[projects]]
-  digest = "1:d1fc28e6661bea2003153ee79f6dde8a4774e76e2511e14bfbcb4853af83c732"
+  digest = "1:678b6f053ba5a1b0b7e68a168ac090aff5845a179214a1bc1e67f41b6f23b9ab"
   name = "gitlab.com/proemergotech/yafuds-client-go"
   packages = [
     "client",
@@ -499,9 +499,9 @@
     "internal/pb",
   ]
   pruneopts = "T"
-  revision = "c4267619f0fb1908a44624c88e808d96524d6c0e"
+  revision = "44925620310910c3c945f54131a0a094a8b41a5e"
   source = "git@gitlab.com:proemergotech/yafuds-client-go.git"
-  version = "v0.5.0"
+  version = "v0.6.0"
 
 [[projects]]
   digest = "1:365b8ecb35a5faf5aa0ee8d798548fc9cd4200cb95d77a5b0b285ac881bae499"
