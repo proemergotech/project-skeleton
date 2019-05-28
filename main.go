@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/cmd"
 	log "gitlab.com/proemergotech/log-go"
@@ -52,7 +53,7 @@ func main() {
 
 	defer func() {
 		if err := recover(); err != nil {
-			log.Error(context.Background(), "Service panicked", "error", err)
+			log.Error(context.Background(), "Service panicked", "error", errors.Errorf("%+v", err))
 			os.Exit(1)
 		}
 	}()
