@@ -23,15 +23,13 @@ func initConfig() {
 			continue
 		}
 
-		err := viper.BindEnv(name)
-		if err != nil {
+		if err := viper.BindEnv(name); err != nil {
 			stdlog.Printf("config error: " + err.Error())
 			hasErrors = true
 			continue
 		}
 
-		def := fieldType.Tag.Get("default")
-		if def != "" {
+		if def := fieldType.Tag.Get("default"); def != "" {
 			viper.SetDefault(name, def)
 		}
 	}
@@ -45,8 +43,7 @@ func initConfig() {
 	}
 
 	validate := validator.New()
-	err := validate.Struct(cfg)
-	if err != nil {
+	if err := validate.Struct(cfg); err != nil {
 		log.Panic(context.Background(), "invalid configuration", "error", err)
 	}
 }

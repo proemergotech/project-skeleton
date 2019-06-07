@@ -3,28 +3,22 @@ package rest
 import (
 	"context"
 	"net/http"
-	"strconv"
 	"time"
 
-	"github.com/labstack/echo"
 	"github.com/pkg/errors"
 )
 
 type Server struct {
-	echoEngine *echo.Echo
 	httpServer *http.Server
 	controller *Controller
-	port       int
 }
 
 func NewServer(
-	port int,
-	echoEngine *echo.Echo,
+	httpServer *http.Server,
 	controller *Controller,
 ) *Server {
 	return &Server{
-		port:       port,
-		echoEngine: echoEngine,
+		httpServer: httpServer,
 		controller: controller,
 	}
 }
@@ -32,14 +26,8 @@ func NewServer(
 func (s *Server) Start(errorCh chan error) {
 	s.controller.start()
 
-	s.httpServer = &http.Server{
-		Addr:    ":" + strconv.Itoa(s.port),
-		Handler: s.echoEngine,
-	}
-
 	go func() {
-		err := s.httpServer.ListenAndServe()
-		if err != nil {
+		if err := s.httpServer.ListenAndServe(); err != nil {
 			errorCh <- errors.Wrap(err, "http server error")
 		}
 	}()

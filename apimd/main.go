@@ -9,8 +9,8 @@ import (
 	"gitlab.com/proemergotech/apimd-generator-go/generator"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/microtime-go"
-	"gitlab.com/proemergotech/uuid-go"
+	microtime "gitlab.com/proemergotech/microtime-go"
+	uuid "gitlab.com/proemergotech/uuid-go"
 )
 
 func main() {
@@ -76,8 +76,7 @@ func (*definitions) ParseIndex(index interface{}) (int, error) {
 
 	case string:
 		t := &microtime.Time{}
-		err := t.UnmarshalJSON([]byte("\"" + ind + "\""))
-		if err == nil {
+		if err := t.UnmarshalJSON([]byte("\"" + ind + "\"")); err == nil {
 			return int(t.Unix()), nil
 		}
 
