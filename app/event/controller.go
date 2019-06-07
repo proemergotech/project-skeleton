@@ -9,18 +9,18 @@ import (
 type Controller struct {
 	gebQueue *geb.Queue
 	validate *validator.Validate
-	service  *service.Service
+	svc      *service.Service
 }
 
 func NewController(
 	gebQueue *geb.Queue,
 	validate *validator.Validate,
-	service *service.Service,
+	svc *service.Service,
 ) *Controller {
 	return &Controller{
 		gebQueue: gebQueue,
 		validate: validate,
-		service:  service,
+		svc:      svc,
 	}
 }
 

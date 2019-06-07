@@ -73,7 +73,7 @@ release-image:latest:
 #  environment:
 #    name: dev
 #    url: https://camplace-site.dev-dliver.prmrgt.com
-#  image: proemergotech/helm-kubectl-docker:20181214
+#  image: proemergotech/helm-kubectl-docker:latest
 #  script:
 #  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
 #  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
@@ -89,7 +89,7 @@ release-image:latest:
 #  environment:
 #    name: dev
 #    url: https://camplace-site.dev-dliver.prmrgt.com
-#  image: proemergotech/helm-kubectl-docker:20181214
+#  image: proemergotech/helm-kubectl-docker:latest
 #  script:
 #  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
 #  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
@@ -106,7 +106,7 @@ release-image:latest:
 #  environment:
 #    name: prod
 #    url: https://camplace.com
-#  image: proemergotech/helm-kubectl-docker:20181214
+#  image: proemergotech/helm-kubectl-docker:latest
 #  script:
 #  - echo ${KUBE_CONFIG_PROD_BASE64} | base64 -d > /.kubeconfig
 #  - kubectl --kubeconfig=/.kubeconfig -n prod patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"

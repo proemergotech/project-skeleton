@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 )
 
 type Redis struct {
@@ -26,8 +26,7 @@ func (rc *Redis) Close() error {
 }
 
 func (rc *Redis) closeConn(ctx context.Context, conn redis.Conn) {
-	err := conn.Close()
-	if err != nil {
+	if err := conn.Close(); err != nil {
 		err = service.SemanticError{Msg: "failed closing redis connection, this might result in memory leak", Err: err}.E()
 		log.Warn(ctx, err.Error(), "error", err)
 	}
@@ -78,8 +77,7 @@ func (rc *Redis) GetComplexFunc(ctx context.Context, key string) (*DummyType, er
 	}
 
 	result := &DummyType{}
-	err = rc.json.Unmarshal(repl.([]byte), result)
-	if err != nil {
+	if err := rc.json.Unmarshal(repl.([]byte), result); err != nil {
 		return nil, service.SemanticError{Err: err}.E()
 	}
 

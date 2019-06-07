@@ -12,19 +12,16 @@ import (
 
 type Controller struct {
 	echoEngine *echo.Echo
-	service    *service.Service
-	tracer     opentracing.Tracer
+	svc        *service.Service
 }
 
 func NewController(
 	echoEngine *echo.Echo,
-	service *service.Service,
-	tracer opentracing.Tracer,
+	svc *service.Service,
 ) *Controller {
 	return &Controller{
 		echoEngine: echoEngine,
-		service:    service,
-		tracer:     tracer,
+		svc:        svc,
 	}
 }
 
@@ -34,5 +31,5 @@ func (c *Controller) start() {
 	})
 
 	apiRoutes := c.echoEngine.Group("/api/v1")
-	apiRoutes.Use(echotrace.Middleware(c.tracer, log.GlobalLogger()))
+	apiRoutes.Use(echotrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger()))
 }

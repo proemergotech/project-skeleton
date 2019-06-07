@@ -35,8 +35,7 @@ var rootCmd = &cobra.Command{
 		container.RestServer.Start(errorCh)
 
 		defer func() {
-			err = container.RestServer.Stop(5 * time.Second)
-			if err != nil {
+			if err := container.RestServer.Stop(5 * time.Second); err != nil {
 				err = errors.Wrap(err, "Rest server graceful shutdown failed")
 				log.Panic(context.Background(), err.Error(), "error", err)
 			}
@@ -45,8 +44,7 @@ var rootCmd = &cobra.Command{
 
 		log.Info(context.Background(), "Rest server started")
 
-		err = container.EventServer.Start()
-		if err != nil {
+		if err := container.EventServer.Start(); err != nil {
 			err = errors.Wrap(err, "Failed starting event server")
 			log.Panic(context.Background(), err.Error(), "error", err)
 		}

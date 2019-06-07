@@ -9,7 +9,7 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
@@ -32,8 +32,7 @@ func restErrorMiddleware(serviceName string) plugin.Plugin {
 		}
 
 		defer func() {
-			err := res.Body.Close()
-			if err != nil {
+			if err := res.Body.Close(); err != nil {
 				err = service.SemanticError{Err: err}.E()
 				log.Error(gCtx.Request.Context(), err.Error(), "error", err)
 			}

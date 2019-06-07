@@ -16,13 +16,12 @@ import (
 )
 
 func main() {
-	err := zap.RegisterEncoder(zaplog.EncoderType, zaplog.NewEncoder([]string{
+	if err := zap.RegisterEncoder(zaplog.EncoderType, zaplog.NewEncoder([]string{
 		trace.CorrelationIDField,
 		trace.WorkflowIDField,
 		log.AppName,
 		log.AppVersion,
-	}))
-	if err != nil {
+	})); err != nil {
 		panic(fmt.Sprintf("Couldn't create logger, error: %v", err))
 	}
 
@@ -35,8 +34,7 @@ func main() {
 	}
 
 	zapLogLevel := new(zapcore.Level)
-	err = zapLogLevel.Set(logLevel)
-	if err != nil {
+	if err := zapLogLevel.Set(logLevel); err != nil {
 		panic(fmt.Sprintf("Invalid log level: %s", logLevel))
 	}
 	zapConf.Level = zap.NewAtomicLevelAt(*zapLogLevel)

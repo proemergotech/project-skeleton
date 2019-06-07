@@ -12,15 +12,15 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/gomodule/redigo/redis"
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/olivere/elastic"
-	"github.com/opentracing/opentracing-go"
+	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	"github.com/uber/jaeger-client-go"
+	jaeger "github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	"gitlab.com/proemergotech/centrifuge-client-go"
+	centrifuge "gitlab.com/proemergotech/centrifuge-client-go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
@@ -30,7 +30,7 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validationerr"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/log-go/echolog"
 	"gitlab.com/proemergotech/log-go/elasticlog"
 	"gitlab.com/proemergotech/log-go/geblog"
@@ -41,7 +41,7 @@ import (
 	"gitlab.com/proemergotech/trace-go/gentlemantrace"
 	yclient "gitlab.com/proemergotech/yafuds-client-go/client"
 
-	"gopkg.in/h2non/gentleman.v2"
+	gentleman "gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -59,8 +59,7 @@ type EchoValidator struct {
 }
 
 func (cv *EchoValidator) Validate(i interface{}) error {
-	err := cv.validator.Struct(i)
-	if err != nil {
+	if err := cv.validator.Struct(i); err != nil {
 		return validationerr.ValidationError{Err: err}.E()
 	}
 
@@ -82,14 +81,13 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.elasticClient = e.ElasticClient
 
-	tracer, closer, err := newTracer(cfg)
+	closer, err := newTracer(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize Jaeger Tracer")
 	}
 	c.traceCloser = closer
-	opentracing.SetGlobalTracer(tracer)
 
-	gebQueue, err := newGebQueue(cfg, tracer)
+	gebQueue, err := newGebQueue(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize geb queue")
 	}
@@ -116,36 +114,39 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	)
 
 	c.RestServer = rest.NewServer(
-		cfg.Port,
-		echoEngine,
+		newHTTPServer(
+			echoEngine,
+			cfg.Port,
+		),
 		rest.NewController(
 			echoEngine,
 			svc,
-			tracer,
 		),
 	)
 
-	c.EventServer = event.NewServer(event.NewController(
-		gebQueue,
-		validate,
-		svc,
-	))
+	c.EventServer = event.NewServer(
+		event.NewController(
+			gebQueue,
+			validate,
+			svc,
+		),
+	)
 
 	return c, nil
 }
 
-func newTracer(cfg *config.Config) (opentracing.Tracer, io.Closer, error) {
+func newTracer(cfg *config.Config) (io.Closer, error) {
 	transport, err := jaeger.NewUDPTransport(
 		fmt.Sprintf("%v:%v", cfg.TracerReporterLocalAgentHost, cfg.TracerReporterLocalAgentPort),
 		8000,
 	)
 	if err != nil {
-		return nil, nil, errors.Wrap(err, "couldn't create udp transport for jaeger")
+		return nil, errors.Wrap(err, "couldn't create udp transport for jaeger")
 	}
 
 	tracerSamplerParam, err := strconv.ParseFloat(cfg.TracerSamplerParam, 64)
 	if err != nil {
-		return nil, nil, errors.Wrap(err, "couldn't load configuration for tracing")
+		return nil, errors.Wrap(err, "couldn't load configuration for tracing")
 	}
 
 	trcConf := &jconfig.Configuration{
@@ -161,10 +162,17 @@ func newTracer(cfg *config.Config) (opentracing.Tracer, io.Closer, error) {
 		},
 		ServiceName: config.AppName,
 	}
-	return trcConf.NewTracer(
+
+	tracer, closer, err := trcConf.NewTracer(
 		jconfig.Logger(jaegerlog.NewJaegerLogger(log.GlobalLogger())),
 		jconfig.Reporter(jaeger.NewRemoteReporter(transport, jaeger.ReporterOptions.Logger(jaegerlog.NewJaegerLogger(log.GlobalLogger())))),
 	)
+	if err != nil {
+		return nil, err
+	}
+
+	opentracing.SetGlobalTracer(tracer)
+	return closer, nil
 }
 
 func newElastic(cfg *config.Config) (*storage.Elastic, error) {
@@ -184,7 +192,7 @@ func newElastic(cfg *config.Config) (*storage.Elastic, error) {
 	return storage.NewElastic(elasticClient), nil
 }
 
-func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, error) {
+func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
 	q := geb.NewQueue(
 		rabbitmq.NewHandler(
 			config.AppName,
@@ -198,13 +206,12 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 	)
 
 	q.UsePublish(geblog.PublishMiddleware(log.GlobalLogger(), true))
-	q.UsePublish(gebtrace.PublishMiddleware(tracer, log.GlobalLogger()))
+	q.UsePublish(gebtrace.PublishMiddleware(opentracing.GlobalTracer(), log.GlobalLogger()))
 	q.UseOnEvent(geb.RecoveryMiddleware())
 	q.UseOnEvent(geblog.OnEventMiddleware(log.GlobalLogger(), true))
-	q.UseOnEvent(gebtrace.OnEventMiddleware(tracer, log.GlobalLogger()))
+	q.UseOnEvent(gebtrace.OnEventMiddleware(opentracing.GlobalTracer(), log.GlobalLogger()))
 	q.UseOnEvent(func(e *geb.Event, next func(*geb.Event) error) error {
-		err := next(e)
-		if err != nil {
+		if err := next(e); err != nil {
 			httpCode := schema.ErrorHTTPCode(err)
 			if httpCode >= 400 && httpCode < 500 {
 				log.Warn(e.Context(), err.Error(), "error", err)
@@ -215,7 +222,7 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 
 		return nil
 	})
-	err := q.OnError(func(err error, reconnect func()) {
+	if err := q.OnError(func(err error, reconnect func()) {
 		err = errors.Wrap(err, "Geb connection error")
 		log.Error(context.Background(), err.Error(), "error", err)
 
@@ -223,8 +230,7 @@ func newGebQueue(cfg *config.Config, tracer opentracing.Tracer) (*geb.Queue, err
 			time.Sleep(2 * time.Second)
 			reconnect()
 		}()
-	})
-	if err != nil {
+	}); err != nil {
 		return nil, err
 	}
 
@@ -288,6 +294,13 @@ func newValidator() *validator.Validate {
 	return v
 }
 
+func newHTTPServer(echoEngine *echo.Echo, port int) *http.Server {
+	return &http.Server{
+		Addr:    ":" + strconv.Itoa(port),
+		Handler: echoEngine,
+	}
+}
+
 func newEcho(validate *validator.Validate) *echo.Echo {
 	e := echo.New()
 
@@ -299,35 +312,31 @@ func newEcho(validate *validator.Validate) *echo.Echo {
 	return e
 }
 
-func newGentleman(scheme string, host string, port int, tracer opentracing.Tracer) *gentleman.Client {
+func newGentleman(scheme string, host string, port int) *gentleman.Client {
 	return gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", scheme, host, port)).
-		Use(gentlemantrace.Middleware(tracer, log.GlobalLogger())).
+		Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
 		Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true))
 }
 
 func (c *Container) Close() {
 	c.elasticClient.Stop()
 
-	err := c.gebCloser.Close()
-	if err != nil {
+	if err := c.gebCloser.Close(); err != nil {
 		err = errors.Wrap(err, "gebQueue graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
 
-	err = c.redisClient.Close()
-	if err != nil {
+	if err := c.redisClient.Close(); err != nil {
 		err = errors.Wrap(err, "redis graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
 
-	err = c.traceCloser.Close()
-	if err != nil {
+	if err := c.traceCloser.Close(); err != nil {
 		err = errors.Wrap(err, "tracer graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
 
-	err = c.yafudsCloser.Close()
-	if err != nil {
+	if err := c.yafudsCloser.Close(); err != nil {
 		err = errors.Wrap(err, "yafuds graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
