@@ -12,15 +12,14 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/gomodule/redigo/redis"
-	jsoniter "github.com/json-iterator/go"
+	"github.com/json-iterator/go"
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 	"github.com/olivere/elastic"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	jaeger "github.com/uber/jaeger-client-go"
+	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	centrifuge "gitlab.com/proemergotech/centrifuge-client-go"
+	"gitlab.com/proemergotech/centrifuge-client-go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
@@ -30,7 +29,7 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validationerr"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
-	log "gitlab.com/proemergotech/log-go"
+	"gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/log-go/echolog"
 	"gitlab.com/proemergotech/log-go/elasticlog"
 	"gitlab.com/proemergotech/log-go/geblog"
@@ -41,7 +40,7 @@ import (
 	"gitlab.com/proemergotech/trace-go/gentlemantrace"
 	yclient "gitlab.com/proemergotech/yafuds-client-go/client"
 
-	gentleman "gopkg.in/h2non/gentleman.v2"
+	"gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -305,7 +304,7 @@ func newEcho(validate *validator.Validate) *echo.Echo {
 	e := echo.New()
 
 	e.Use(echolog.DebugMiddleware(log.GlobalLogger(), true, true))
-	e.Use(middleware.Recover())
+	e.Use(echolog.RecoveryMiddleware(log.GlobalLogger()))
 	e.HTTPErrorHandler = rest.DLiveRHTTPErrorHandler
 	e.Validator = &EchoValidator{validator: validate}
 
