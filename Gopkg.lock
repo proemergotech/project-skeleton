@@ -108,7 +108,7 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
+  digest = "1:7e5aba688e451c9d0f430abc39b6fde2d9bb470d5eec0f33d29e953c48d96e86"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
@@ -439,7 +439,7 @@
   version = "v0.7.2"
 
 [[projects]]
-  digest = "1:73baa2f4f840b6705e02d16eccb78b208547294fc0455f2d7f0ee4249888d606"
+  digest = "1:80f2caedb741aa8517a50d6f4f56fadfb205333c48ccdf4152b8e8d89b52a465"
   name = "gitlab.com/proemergotech/log-go"
   packages = [
     ".",
@@ -452,9 +452,9 @@
     "zaplog",
   ]
   pruneopts = "T"
-  revision = "366daa7713894120d9ffbde14fbe143db32c5688"
+  revision = "2b32f44a9abb5427f2d8c5fd9f188f2960991906"
   source = "git@gitlab.com:proemergotech/log-go.git"
-  version = "v0.2.2"
+  version = "v0.2.3"
 
 [[projects]]
   digest = "1:fc00fe214b941c9a0f559d0546bfcb52efa3ffd8975158fc9ab69e6167ba3c1b"
@@ -466,7 +466,7 @@
   version = "v0.1.1"
 
 [[projects]]
-  digest = "1:f339a9fce23160e3c3912ba4d153e3336f0240d0d62630ef733b08ea80f33658"
+  digest = "1:b4884d57ead20c9fc967867b6b99ef0f97890f1fb67c69d7331bbb77127c807a"
   name = "gitlab.com/proemergotech/trace-go"
   packages = [
     ".",
@@ -476,9 +476,9 @@
     "internal",
   ]
   pruneopts = "T"
-  revision = "151ed3dcb593345eefbb817a4c5d2acd92d7a15e"
+  revision = "657bdaf182e6a95f7a12e7e072be0145f6e660fc"
   source = "git@gitlab.com:proemergotech/trace-go.git"
-  version = "v0.2.1"
+  version = "v0.2.2"
 
 [[projects]]
   digest = "1:6078cc3e00479167a20e29764c6080903e8da5a8806d5df7469673f722e29393"
