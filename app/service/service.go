@@ -5,12 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"gitlab.com/proemergotech/yafuds-client-go/client"
-
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-
 	"gitlab.com/proemergotech/centrifuge-client-go/api"
-	"gitlab.com/proemergotech/log-go"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	log "gitlab.com/proemergotech/log-go"
+	"gitlab.com/proemergotech/yafuds-client-go/client"
 )
 
 type Service struct {
@@ -33,7 +31,6 @@ func (s *Service) SendCentrifuge(ctx context.Context, namespace string, identifi
 	centrifugeChannel := namespace + ":" + identifier
 
 	data, err := json.Marshal(eventData)
-
 	if err != nil {
 		err = service.SemanticError{Err: err, Msg: fmt.Sprintf("unable to marshal eventData of type: %T", eventData)}.E()
 		log.Error(ctx, err.Error(), "error", err)

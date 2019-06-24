@@ -17,8 +17,6 @@ type Config struct {
 	GebHost     string `mapstructure:"geb_host" validate:"required"`
 	GebPort     int    `mapstructure:"geb_port" default:"5672"`
 
-	LogLevel string `mapstructure:"log_level" default:"info"`
-
 	Port int `mapstructure:"port" default:"80"`
 
 	RedisStoreHost            string `mapstructure:"redis_store_host" validate:"required"`
