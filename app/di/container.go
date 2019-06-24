@@ -46,7 +46,7 @@ import (
 type Container struct {
 	RestServer    *rest.Server
 	EventServer   *event.Server
-	redisClient   *storage.Redis
+	redisCloser   io.Closer
 	traceCloser   io.Closer
 	gebCloser     io.Closer
 	yafudsCloser  io.Closer
@@ -92,10 +92,11 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.gebCloser = gebQueue
 
-	c.redisClient, err = newRedis(cfg)
+	redisClient, err := newRedis(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize redis client")
 	}
+	c.redisCloser = redisClient
 
 	yafuds, err := newYafuds(cfg)
 	if err != nil {
@@ -325,7 +326,7 @@ func (c *Container) Close() {
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
 
-	if err := c.redisClient.Close(); err != nil {
+	if err := c.redisCloser.Close(); err != nil {
 		err = errors.Wrap(err, "redis graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
