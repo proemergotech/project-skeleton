@@ -10,14 +10,6 @@
   revision = "74dc0e29b01ffe39f7eac02f22b80260d0645e24"
 
 [[projects]]
-  digest = "1:6b014c67cb522566c30ef02116f9acb50cd60954708cf92c6654e2985696db18"
-  name = "github.com/dgrijalva/jwt-go"
-  packages = ["."]
-  pruneopts = "T"
-  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
-  version = "v3.2.0"
-
-[[projects]]
   digest = "1:7fc160b460a6fc506b37fcca68332464c3f2cd57b6e3f111f26c5bbfd2d5518e"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
@@ -158,10 +150,7 @@
 [[projects]]
   digest = "1:b7261ff866b5ee82742c6b04f5afaf82d995703207967630780962412ccd346c"
   name = "github.com/labstack/echo"
-  packages = [
-    ".",
-    "middleware",
-  ]
+  packages = ["."]
   pruneopts = "T"
   revision = "38772c686c76b501f94bd6cd5b77f5842e93b559"
   version = "v3.3.10"
@@ -170,10 +159,8 @@
   digest = "1:d480672aea7e428fd448f1683445b651b80f3e563e87cd0bb3e74d7c90298f31"
   name = "github.com/labstack/gommon"
   packages = [
-    "bytes",
     "color",
     "log",
-    "random",
   ]
   pruneopts = "T"
   revision = "7fd9f68ece0bcb1a905fac8f1549f0083f71c51b"
@@ -427,16 +414,16 @@
   version = "v2.1.2"
 
 [[projects]]
-  digest = "1:5f2730ee84f666686c67a131d19a0bcc20effc020c2841538ec5a1af8001eff1"
+  digest = "1:a984f892dddbb3cf972168090b868eb95fc5505ad88196e200ebd2af0ab9ee05"
   name = "gitlab.com/proemergotech/geb-client-go"
   packages = [
     "geb",
     "geb/rabbitmq",
   ]
   pruneopts = "T"
-  revision = "911b328f255a6ae053c5f34c29a6f340203521e0"
+  revision = "0d6b6744eeeec5e91b41c04a6f06c1c898aebd6a"
   source = "git@gitlab.com:proemergotech/geb-client-go.git"
-  version = "v0.7.2"
+  version = "v0.7.3"
 
 [[projects]]
   digest = "1:80f2caedb741aa8517a50d6f4f56fadfb205333c48ccdf4152b8e8d89b52a465"
@@ -680,7 +667,6 @@
     "github.com/gomodule/redigo/redis",
     "github.com/json-iterator/go",
     "github.com/labstack/echo",
-    "github.com/labstack/echo/middleware",
     "github.com/olivere/elastic",
     "github.com/opentracing/opentracing-go",
     "github.com/pkg/errors",
