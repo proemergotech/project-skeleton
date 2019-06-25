@@ -43,7 +43,7 @@ version = "v2.1.2"
 [[constraint]]
 name = "gitlab.com/proemergotech/geb-client-go"
 source = "git@gitlab.com:proemergotech/geb-client-go.git"
-version = "v0.7.2"
+version = "v0.7.3"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/log-go"
