@@ -8,17 +8,17 @@ import (
 	"gitlab.com/proemergotech/centrifuge-client-go/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	log "gitlab.com/proemergotech/log-go"
-	"gitlab.com/proemergotech/yafuds-client-go/client"
+	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
 )
 
 type Service struct {
 	centrifugeClient api.CentrifugeClient
-	yafudsClient     *client.Client
+	yafudsClient     yafuds.Client
 }
 
 func NewService(
 	centrifugeClient api.CentrifugeClient,
-	yafudsClient *client.Client,
+	yafudsClient yafuds.Client,
 ) *Service {
 	return &Service{
 		centrifugeClient: centrifugeClient,

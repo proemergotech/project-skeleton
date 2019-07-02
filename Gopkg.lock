@@ -100,7 +100,7 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:7e5aba688e451c9d0f430abc39b6fde2d9bb470d5eec0f33d29e953c48d96e86"
+  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
@@ -369,12 +369,12 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:5c1d10d6f61202b2ea174db3e90200d904a575da1da64c8b76cd90d5c6dc7b68"
+  digest = "1:a71a71ef17f7d6fc49b0572bb3d1253a5408dd5abb48d8908ac64a6e3f919ba8"
   name = "github.com/ugorji/go"
   packages = ["codec"]
   pruneopts = "T"
-  revision = "2adff0894ba3bc2eeb9f9aea45fefd49802e1a13"
-  version = "v1.1.4"
+  revision = "b4c50a2b199d93b13dc15e78929cfb23bfdf21ab"
+  version = "v1.1.1"
 
 [[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
@@ -444,13 +444,13 @@
   version = "v0.2.3"
 
 [[projects]]
-  digest = "1:fc00fe214b941c9a0f559d0546bfcb52efa3ffd8975158fc9ab69e6167ba3c1b"
+  digest = "1:8c8b27f58591cfbc8f54647dd009a03eb9ca8f1c8861f498a64741cbc41c2492"
   name = "gitlab.com/proemergotech/microtime-go"
   packages = ["."]
   pruneopts = "T"
-  revision = "d1b6160a84a1335e8814dce9b413ef56824b37d6"
+  revision = "67838e07db50b6d88fbed87296a806b9d4f00d90"
   source = "git@gitlab.com:proemergotech/microtime-go.git"
-  version = "v0.1.1"
+  version = "v0.1.2"
 
 [[projects]]
   digest = "1:b4884d57ead20c9fc967867b6b99ef0f97890f1fb67c69d7331bbb77127c807a"
@@ -477,18 +477,19 @@
   version = "v0.1.2"
 
 [[projects]]
-  digest = "1:678b6f053ba5a1b0b7e68a168ac090aff5845a179214a1bc1e67f41b6f23b9ab"
+  digest = "1:a8e547dfeaabaececb6588909ba49ceb2588a2a4270d755b0280511d89c7a746"
   name = "gitlab.com/proemergotech/yafuds-client-go"
   packages = [
     "client",
+    "internal/cell",
     "internal/converter",
     "internal/errors",
     "internal/pb",
   ]
   pruneopts = "T"
-  revision = "44925620310910c3c945f54131a0a094a8b41a5e"
+  revision = "75f662fa86e4826af5502103e7f9120863a48967"
   source = "git@gitlab.com:proemergotech/yafuds-client-go.git"
-  version = "v0.6.0"
+  version = "v0.9.1"
 
 [[projects]]
   digest = "1:365b8ecb35a5faf5aa0ee8d798548fc9cd4200cb95d77a5b0b285ac881bae499"

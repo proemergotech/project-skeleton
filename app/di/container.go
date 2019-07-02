@@ -12,14 +12,14 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/gomodule/redigo/redis"
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/labstack/echo"
 	"github.com/olivere/elastic"
-	"github.com/opentracing/opentracing-go"
+	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	"github.com/uber/jaeger-client-go"
+	jaeger "github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	"gitlab.com/proemergotech/centrifuge-client-go"
+	centrifuge "gitlab.com/proemergotech/centrifuge-client-go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
@@ -29,7 +29,7 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validationerr"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
-	"gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go"
 	"gitlab.com/proemergotech/log-go/echolog"
 	"gitlab.com/proemergotech/log-go/elasticlog"
 	"gitlab.com/proemergotech/log-go/geblog"
@@ -38,9 +38,8 @@ import (
 	"gitlab.com/proemergotech/log-go/jaegerlog"
 	"gitlab.com/proemergotech/trace-go/gebtrace"
 	"gitlab.com/proemergotech/trace-go/gentlemantrace"
-	yclient "gitlab.com/proemergotech/yafuds-client-go/client"
-
-	"gopkg.in/h2non/gentleman.v2"
+	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
+	gentleman "gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -98,11 +97,11 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.redisCloser = redisClient
 
-	yafuds, err := newYafuds(cfg)
+	yafudsClient, err := newYafuds(cfg)
 	if err != nil {
 		return nil, err
 	}
-	c.yafudsCloser = yafuds
+	c.yafudsCloser = yafudsClient
 
 	validate := newValidator()
 
@@ -110,7 +109,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 
 	svc := service.NewService(
 		centrifugeClient,
-		yafuds,
+		yafudsClient,
 	)
 
 	c.RestServer = rest.NewServer(
@@ -268,12 +267,12 @@ func newRedisPool(cfg *config.Config) (*redis.Pool, error) {
 	}, nil
 }
 
-func newYafuds(cfg *config.Config) (*yclient.Client, error) {
-	yafudsClient, err := yclient.New(cfg.YafudsHost, cfg.YafudsPort, yclient.Timeout(5*time.Second), yclient.Retries(3))
+func newYafuds(cfg *config.Config) (yafuds.Client, error) {
+	yafudsClient, err := yafuds.New(cfg.YafudsHost, cfg.YafudsPort, yafuds.Timeout(5*time.Second), yafuds.Retries(3))
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to connect to Yafuds")
 	}
-	yclient.SetLogger(log.GlobalLogger())
+	yafuds.SetLogger(log.GlobalLogger())
 
 	return yafudsClient, nil
 }
