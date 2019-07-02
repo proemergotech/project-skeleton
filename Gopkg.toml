@@ -53,7 +53,7 @@ version = "v0.2.3"
 [[constraint]]
 name = "gitlab.com/proemergotech/microtime-go"
 source = "git@gitlab.com:proemergotech/microtime-go.git"
-version = "v0.1.1"
+version = "v0.1.2"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/trace-go"
@@ -68,7 +68,7 @@ version = "v0.1.2"
 [[constraint]]
 name = "gitlab.com/proemergotech/yafuds-client-go"
 source = "git@gitlab.com:proemergotech/yafuds-client-go.git"
-version = "v0.6.0"
+version = "v0.9.1"
 
 [[constraint]]
 name = "gopkg.in/h2non/gentleman.v2"
@@ -79,6 +79,4 @@ name = "go.uber.org/zap"
 version = "v1.9.1"
 
 [prune]
-# TODO: Uncomment unused-packages when the initial service development is finished
-# unused-packages = true
 go-tests = true
