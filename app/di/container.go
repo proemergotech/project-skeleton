@@ -290,6 +290,14 @@ func newValidator() *validator.Validate {
 		return name
 	})
 
+	// TODO: remove example validation for enums:
+	//err = v.RegisterValidation("enum_status", func(fl validator.FieldLevel) bool {
+	//	return schema.Statuses[fl.Field().String()]
+	//})
+	//if err != nil {
+	//	return nil, err
+	//}
+
 	return v
 }
 
