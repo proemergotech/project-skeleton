@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -130,4 +131,14 @@ func (d *definitions) httpError(err error, details ...map[string]interface{}) sc
 			Details: details,
 		},
 	}
+}
+
+func enum(values map[string]bool) string {
+	sl := make([]string, 0, len(values))
+	for v := range values {
+		sl = append(sl, v)
+	}
+	sort.Strings(sl)
+
+	return strings.Join(sl, "|")
 }
