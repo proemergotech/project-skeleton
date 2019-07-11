@@ -414,16 +414,16 @@
   version = "v2.1.2"
 
 [[projects]]
-  digest = "1:a984f892dddbb3cf972168090b868eb95fc5505ad88196e200ebd2af0ab9ee05"
+  digest = "1:af8bee1beb5381958b8fac063bb55380c735a8b94f19205aa66ffb95eb6ea99e"
   name = "gitlab.com/proemergotech/geb-client-go"
   packages = [
     "geb",
     "geb/rabbitmq",
   ]
   pruneopts = "T"
-  revision = "0d6b6744eeeec5e91b41c04a6f06c1c898aebd6a"
+  revision = "7ef9a008a7aedf6fc064fe237a5075aa92d07b3b"
   source = "git@gitlab.com:proemergotech/geb-client-go.git"
-  version = "v0.7.3"
+  version = "v0.7.4"
 
 [[projects]]
   digest = "1:80f2caedb741aa8517a50d6f4f56fadfb205333c48ccdf4152b8e8d89b52a465"

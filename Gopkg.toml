@@ -1,22 +1,10 @@
 [[constraint]]
-name = "github.com/go-playground/validator"
-version = "v9.28.0"
-
-[[constraint]]
-name = "github.com/gomodule/redigo"
-version = "v2.0.0"
-
-[[constraint]]
-name = "github.com/labstack/echo"
-version = "v3.3.10"
-
-[[constraint]]
-name = "github.com/olivere/elastic"
-version = "v6.2.17"
-
-[[constraint]]
 name = "github.com/pkg/errors"
 version = "v0.8.1"
+
+[[constraint]]
+name = "github.com/go-playground/validator"
+version = "v9.28.0"
 
 [[constraint]]
 name = "github.com/spf13/cobra"
@@ -27,33 +15,17 @@ name = "github.com/spf13/viper"
 version = "v1.3.2"
 
 [[constraint]]
+name = "go.uber.org/zap"
+version = "v1.9.1"
+
+[[constraint]]
 name = "github.com/uber/jaeger-client-go"
 version = "v2.16.0"
-
-[[constraint]]
-name = "gitlab.com/proemergotech/apimd-generator-go"
-source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
-version = "v0.1.2"
-
-[[constraint]]
-name = "gitlab.com/proemergotech/centrifuge-client-go"
-source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
-version = "v2.1.2"
-
-[[constraint]]
-name = "gitlab.com/proemergotech/geb-client-go"
-source = "git@gitlab.com:proemergotech/geb-client-go.git"
-version = "v0.7.3"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/log-go"
 source = "git@gitlab.com:proemergotech/log-go.git"
 version = "v0.2.3"
-
-[[constraint]]
-name = "gitlab.com/proemergotech/microtime-go"
-source = "git@gitlab.com:proemergotech/microtime-go.git"
-version = "v0.1.2"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/trace-go"
@@ -66,17 +38,45 @@ source = "git@gitlab.com:proemergotech/uuid-go.git"
 version = "v0.1.2"
 
 [[constraint]]
-name = "gitlab.com/proemergotech/yafuds-client-go"
-source = "git@gitlab.com:proemergotech/yafuds-client-go.git"
-version = "v0.9.1"
+name = "gitlab.com/proemergotech/apimd-generator-go"
+source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
+version = "v0.1.2"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/microtime-go"
+source = "git@gitlab.com:proemergotech/microtime-go.git"
+version = "v0.1.2"
+
+[[constraint]]
+name = "github.com/labstack/echo"
+version = "v3.3.10"
 
 [[constraint]]
 name = "gopkg.in/h2non/gentleman.v2"
 version = "v2.0.3"
 
 [[constraint]]
-name = "go.uber.org/zap"
-version = "v1.9.1"
+name = "gitlab.com/proemergotech/geb-client-go"
+source = "git@gitlab.com:proemergotech/geb-client-go.git"
+version = "v0.7.4"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/yafuds-client-go"
+source = "git@gitlab.com:proemergotech/yafuds-client-go.git"
+version = "v0.9.1"
+
+[[constraint]]
+name = "github.com/gomodule/redigo"
+version = "v2.0.0"
+
+[[constraint]]
+name = "github.com/olivere/elastic"
+version = "v6.2.17"
+
+[[constraint]]
+name = "gitlab.com/proemergotech/centrifuge-client-go"
+source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
+version = "v2.1.2"
 
 [prune]
 go-tests = true
