@@ -204,6 +204,7 @@ func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
 		geb.JSONCodec(geb.UseTag("geb")),
 	)
 
+	q.UsePublish(geb.RetryMiddleware())
 	q.UsePublish(geblog.PublishMiddleware(log.GlobalLogger(), true))
 	q.UsePublish(gebtrace.PublishMiddleware(opentracing.GlobalTracer(), log.GlobalLogger()))
 	q.UseOnEvent(geb.RecoveryMiddleware())
