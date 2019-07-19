@@ -453,7 +453,7 @@
   version = "v0.1.2"
 
 [[projects]]
-  digest = "1:b4884d57ead20c9fc967867b6b99ef0f97890f1fb67c69d7331bbb77127c807a"
+  digest = "1:94b6701b504fd6075690d82836d807f084d52e804c459257213c46b21c9f2d91"
   name = "gitlab.com/proemergotech/trace-go"
   packages = [
     ".",
@@ -463,9 +463,9 @@
     "internal",
   ]
   pruneopts = "T"
-  revision = "657bdaf182e6a95f7a12e7e072be0145f6e660fc"
+  revision = "c18b02fd17acec2424a2330ebf4cdff6189085f2"
   source = "git@gitlab.com:proemergotech/trace-go.git"
-  version = "v0.2.2"
+  version = "v0.2.3"
 
 [[projects]]
   digest = "1:6078cc3e00479167a20e29764c6080903e8da5a8806d5df7469673f722e29393"

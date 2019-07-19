@@ -30,7 +30,7 @@ version = "v0.2.3"
 [[constraint]]
 name = "gitlab.com/proemergotech/trace-go"
 source = "git@gitlab.com:proemergotech/trace-go.git"
-version = "v0.2.2"
+version = "v0.2.3"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/uuid-go"
