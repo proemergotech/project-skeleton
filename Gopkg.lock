@@ -100,7 +100,7 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:7e5aba688e451c9d0f430abc39b6fde2d9bb470d5eec0f33d29e953c48d96e86"
+  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
@@ -393,13 +393,13 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:0a445cf08b4ae84301f12dba1b737ba734e9c7baa44658eae27f7f08fb75af55"
+  digest = "1:3c5ba8db09349198a7f77e4b33154df87267632bbd07ce4f09041ad0248913d6"
   name = "gitlab.com/proemergotech/apimd-generator-go"
   packages = ["generator"]
   pruneopts = "T"
-  revision = "0a78133461d5bffb138ad15913ee777d5c282f0e"
+  revision = "497a8c31d929a2df90dd7f59932b9948cb82313a"
   source = "git@gitlab.com:proemergotech/apimd-generator-go.git"
-  version = "v0.1.2"
+  version = "v0.1.3"
 
 [[projects]]
   digest = "1:94ceab9d6924647dd824316f6a2b4a8c9e070f32105e54d56b1cbd9180984439"
