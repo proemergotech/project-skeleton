@@ -34,7 +34,7 @@ func (e ValidationError) E() error {
 			details = append(details, map[string]interface{}{
 				"field":   err.Field(),
 				"error":   service.ErrValidation,
-				"message": "Field " + err.Namespace() + " failed on: " + err.Tag(),
+				"message": "Field " + err.StructNamespace() + " failed on: " + err.Tag(),
 			})
 		}
 	} else {
