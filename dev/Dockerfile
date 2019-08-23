@@ -1,4 +1,4 @@
-FROM golang:1.11.4
+FROM golang:1.12.7
 
 ARG SERVICE_NAME=dliver-project-skeleton
 

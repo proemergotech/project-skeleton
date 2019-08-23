@@ -73,7 +73,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, errors.Wrap(err, "cannot initialize centrifuge client")
 	}
 
-	e, err := newElastic(cfg)
+	e, err := newElastic(cfg.ElasticSearchScheme, cfg.ElasticSearchHost, cfg.ElasticSearchPort)
 	if err != nil {
 		return nil, err
 	}
@@ -174,7 +174,7 @@ func newTracer(cfg *config.Config) (io.Closer, error) {
 	return closer, nil
 }
 
-func newElastic(cfg *config.Config) (*storage.Elastic, error) {
+func newElastic(scheme string, host string, port int) (*storage.Elastic, error) {
 	httpClient := &http.Client{Transport: httplog.NewLoggingTransport(http.DefaultTransport, log.GlobalLogger(), "Elasticsearch: ", true, true)}
 	elasticClient, err := elastic.NewClient(
 		elastic.SetErrorLog(elasticlog.NewErrorLogger(log.GlobalLogger())),
@@ -182,7 +182,7 @@ func newElastic(cfg *config.Config) (*storage.Elastic, error) {
 		elastic.SetHttpClient(httpClient),
 		elastic.SetRetrier(elastic.NewBackoffRetrier(elastic.NewExponentialBackoff(100*time.Millisecond, 1*time.Second))),
 		elastic.SetSniff(false),
-		elastic.SetURL(cfg.ElasticAddress),
+		elastic.SetURL(fmt.Sprintf("%v://%v:%v", scheme, host, port)),
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed creating elastic client")
