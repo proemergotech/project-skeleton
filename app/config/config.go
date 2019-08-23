@@ -10,7 +10,9 @@ type Config struct {
 	CentrifugoHost     string `mapstructure:"centrifugo_host" validate:"required"`
 	CentrifugoGrpcPort int    `mapstructure:"centrifugo_grpc_port" default:"10000"`
 
-	ElasticAddress string `mapstructure:"elastic_address" validate:"required"`
+	ElasticSearchScheme string `mapstructure:"elastic_search_scheme" default:"http"`
+	ElasticSearchHost   string `mapstructure:"elastic_search_host" validate:"required"`
+	ElasticSearchPort   int    `mapstructure:"elastic_search_port" default:"9200"`
 
 	GebUsername string `mapstructure:"geb_username" validate:"required"`
 	GebPassword string `mapstructure:"geb_password" validate:"required"`

@@ -1,13 +1,13 @@
 ARG EXECUTABLE_NAME=dliver-project-skeleton
 
-FROM golang:1.11.4-alpine AS builder
+FROM golang:1.12.7-alpine AS builder
 
 ARG DEPLOY_SSH_PRIVATE_KEY
 ARG APP_VERSION
 ARG EXECUTABLE_NAME
 
 ENV ROOT_PACKAGE=gitlab.com/proemergotech/$EXECUTABLE_NAME
-ENV DEP_VERSION=0.5.0
+ENV DEP_VERSION=0.5.4
 
 RUN apk add --update --no-cache wget openssh-client git
 RUN wget -O /usr/local/bin/dep https://github.com/golang/dep/releases/download/v$DEP_VERSION/dep-linux-amd64 && chmod +x /usr/local/bin/dep

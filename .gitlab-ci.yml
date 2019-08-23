@@ -12,7 +12,7 @@ variables:
   IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
   IMAGE_NAME_BUILD: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_SHA
   GO_SRC: src/gitlab.com/$CI_PROJECT_PATH
-  DEP_VERSION: 0.5.0
+  DEP_VERSION: 0.5.4
 
 .common-scripts:
 - &gitlab-login
@@ -20,7 +20,7 @@ variables:
 
 test:
   stage: test
-  image: golang:1.11.4
+  image: golang:1.12.7
   script:
     # install build tools
     - wget -O $GOPATH/bin/dep https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 && chmod +x $GOPATH/bin/dep
@@ -64,52 +64,52 @@ release-image:latest:
   only:
   - master
 
-#deploy:dev_auto:
-#  stage: deploy
-#  variables:
-#    GIT_STRATEGY: none
-#  dependencies: []
-#  before_script: []
-#  environment:
-#    name: dev
-#    url: https://camplace-site.dev-dliver.prmrgt.com
-#  image: proemergotech/helm-kubectl-docker:latest
-#  script:
-#  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
-#  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
-#  only:
-#  - master
-#
-#deploy:dev_feature:
-#  stage: deploy
-#  variables:
-#    GIT_STRATEGY: none
-#  dependencies: []
-#  before_script: []
-#  environment:
-#    name: dev
-#    url: https://camplace-site.dev-dliver.prmrgt.com
-#  image: proemergotech/helm-kubectl-docker:latest
-#  script:
-#  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
-#  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
-#  when: manual
-#  except:
-#  - master
-#
-#deploy:prod:
-#  stage: deploy
-#  variables:
-#    GIT_STRATEGY: none
-#  dependencies: []
-#  before_script: []
-#  environment:
-#    name: prod
-#    url: https://camplace.com
-#  image: proemergotech/helm-kubectl-docker:latest
-#  script:
-#  - echo ${KUBE_CONFIG_PROD_BASE64} | base64 -d > /.kubeconfig
-#  - kubectl --kubeconfig=/.kubeconfig -n prod patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
-#  when: manual
-#  only:
-#  - master
+deploy:dev_auto:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  dependencies: []
+  before_script: []
+  environment:
+    name: dev
+    url: https://camplace-site.dev-dliver.prmrgt.com
+  image: proemergotech/helm-kubectl-docker:latest
+  script:
+  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
+  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
+  only:
+  - master
+
+deploy:dev_feature:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  dependencies: []
+  before_script: []
+  environment:
+    name: dev
+    url: https://camplace-site.dev-dliver.prmrgt.com
+  image: proemergotech/helm-kubectl-docker:latest
+  script:
+  - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
+  - kubectl --kubeconfig=/.kubeconfig -n dev patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
+  when: manual
+  except:
+  - master
+
+deploy:prod:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  dependencies: []
+  before_script: []
+  environment:
+    name: prod
+    url: https://camplace.com
+  image: proemergotech/helm-kubectl-docker:latest
+  script:
+  - echo ${KUBE_CONFIG_PROD_BASE64} | base64 -d > /.kubeconfig
+  - kubectl --kubeconfig=/.kubeconfig -n prod patch deployment $CI_PROJECT_NAME --patch "$(cat /k8s-deployment-patch.yml | sed -e s/%CONTAINER_NAME%/$CI_PROJECT_NAME/g -e s/%IMAGE%/$CI_REGISTRY\\/$CI_PROJECT_NAMESPACE\\/$CI_PROJECT_NAME:$CI_COMMIT_SHA/g)"
+  when: manual
+  only:
+  - master
