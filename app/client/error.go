@@ -22,7 +22,7 @@ const (
 	errService  = "remote_service"
 )
 
-func restErrorMiddleware(serviceName string) plugin.Plugin {
+func RestErrorMiddleware(serviceName string) plugin.Plugin {
 	return plugin.NewPhasePlugin("after dial", func(gCtx *gcontext.Context, handler gcontext.Handler) {
 		res := gCtx.Response
 
