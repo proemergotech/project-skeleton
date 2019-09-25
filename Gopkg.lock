@@ -477,7 +477,7 @@
   version = "v0.1.2"
 
 [[projects]]
-  digest = "1:a8e547dfeaabaececb6588909ba49ceb2588a2a4270d755b0280511d89c7a746"
+  digest = "1:c9a09dc45121f42f213f30e1e3d32e59d3d0bc24c92775775db6090b88da7f3d"
   name = "gitlab.com/proemergotech/yafuds-client-go"
   packages = [
     "client",
@@ -487,9 +487,9 @@
     "internal/pb",
   ]
   pruneopts = "T"
-  revision = "75f662fa86e4826af5502103e7f9120863a48967"
+  revision = "d46d4d037d296e007f4bfd111e8860f8443dbfb2"
   source = "git@gitlab.com:proemergotech/yafuds-client-go.git"
-  version = "v0.9.1"
+  version = "v0.9.3"
 
 [[projects]]
   digest = "1:1cb088da2add92b2955ba3f26d959e08e4639f53a50fb6cef36b5bc04b241103"
