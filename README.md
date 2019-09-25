@@ -25,15 +25,25 @@ Provides a basic golang based rest service with redis, centrifugo and geb (queue
 Run `create_skeleton.sh` with the proper argument(s).   
 (Don't forget to run `goimports` after file modifications.)
 
+### Gentleman middlewares
+Chain them after the `newGentleman(...)` function call upon client initialization in `container.go`
+#### Retry middleware
+The usage of this is not necessary. Useful for business-critical calls (for example transaction-related ones.)
+It's using a custom exponential backoff solution to retry http requests. Overall and per-request timeout
+must be set, with the overall being the longer time.
+
+### Yafuds
+The client's tracer must be set BEFORE calling `yafuds.New(...)`
+
 ### How to remove unnecessary modules
 #### REDIS
-- Remove packages:
-  - [redis](./app/client/redis)
+- Remove file(s):
+  - [redis](./app/storage/redis.go)
 - Remove related code from:
   - [.env.example](./.env.example)
   - [config](./app/config/config.go)
   - [container](./app/di/container.go)
-  - [apierr factory](./app/apierr/factory.go) 
+  - [error](./app/storage/error.go) 
   - [error definitions](./app/schema/service/error.go)
   - [Gopkg.toml](./Gopkg.toml)
   
@@ -42,13 +52,14 @@ Run `create_skeleton.sh` with the proper argument(s).
   - [.env.example](./.env.example)
   - [config](./app/config/config.go)
   - [container](./app/di/container.go)
-  - [service](./app/service/service.go)
-  - [apierr details](./app/apierr/error_detail.go) 
-  - [apierr factory](./app/apierr/factory.go) 
+  - [service](./app/service/service.go) 
+  - [error](./app/service/error.go)
   - [error definitions](./app/schema/service/error.go)
   - [Gopkg.toml](./Gopkg.toml)
 
 #### Gentleman
+- Remove package(s):
+  - [client](./app/client)
 - Remove related code from:
   - [container](./app/di/container.go)
   - [Gopkg.toml](./Gopkg.toml)
@@ -62,12 +73,22 @@ Run `create_skeleton.sh` with the proper argument(s).
 - Remove [Event Server](#event-server)
 
 #### Event Server
-- Remove files:
-  - [error](./app/client/error.go)
+- Remove package(s):
+  - [event](./app/event/)
 - Remove usage from:
   - [container](./app/di/container.go)
   - [root command](./cmd/root.go)
 
+#### Yafuds
+- Remove related code from:
+  - [.env.example](./.env.example)
+  - [config](./app/config/config.go)
+  - [container](./app/di/container.go)
+  - [service](./app/service/service.go)
+  - [error](./app/service/error.go)
+  - [error definitions](./app/schema/service/error.go)
+  - [Gopkg.toml](./Gopkg.toml)
+  
 ## Example References
 * [API documentation](./API.md)
 

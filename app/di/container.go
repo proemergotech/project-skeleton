@@ -97,6 +97,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.redisCloser = redisClient
 
+	yafuds.SetTracer(opentracing.GlobalTracer())
 	yafudsClient, err := newYafuds(cfg)
 	if err != nil {
 		return nil, err
