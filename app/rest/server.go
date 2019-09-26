@@ -33,13 +33,13 @@ func (s *Server) Start(errorCh chan error) {
 	}()
 }
 
-func (s *Server) Stop(timeout time.Duration) (err error) {
+func (s *Server) Stop(timeout time.Duration) error {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
-	if err = s.httpServer.Shutdown(ctx); err != nil {
+	if err := s.httpServer.Shutdown(ctx); err != nil {
 		return errors.Wrap(err, "server graceful shutdown failed")
 	}
 
-	return
+	return nil
 }
