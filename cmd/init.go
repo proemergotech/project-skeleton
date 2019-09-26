@@ -2,12 +2,12 @@ package cmd
 
 import (
 	"context"
-	"log"
 	stdlog "log"
 	"reflect"
 
 	"github.com/go-playground/validator"
 	"github.com/spf13/viper"
+	log "gitlab.com/proemergotech/log-go"
 )
 
 // initConfig reads in config file and ENV variables if set.

@@ -100,7 +100,7 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:7e5aba688e451c9d0f430abc39b6fde2d9bb470d5eec0f33d29e953c48d96e86"
+  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
@@ -468,13 +468,13 @@
   version = "v0.2.3"
 
 [[projects]]
-  digest = "1:6078cc3e00479167a20e29764c6080903e8da5a8806d5df7469673f722e29393"
+  digest = "1:88d6c8652a67f353a4414be5dd8a68586adbe5bb097a3e5f10c156ea3ede41e2"
   name = "gitlab.com/proemergotech/uuid-go"
   packages = ["."]
   pruneopts = "T"
-  revision = "549ccbb3d028854e1c1f034e96c056542b70cd12"
+  revision = "f807c608b3f67c70e5a00bc542dbc0370367bf19"
   source = "git@gitlab.com:proemergotech/uuid-go.git"
-  version = "v0.1.2"
+  version = "v0.1.3"
 
 [[projects]]
   digest = "1:c9a09dc45121f42f213f30e1e3d32e59d3d0bc24c92775775db6090b88da7f3d"
