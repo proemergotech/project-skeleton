@@ -97,7 +97,6 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.redisCloser = redisClient
 
-	yafuds.SetTracer(opentracing.GlobalTracer())
 	yafudsClient, err := newYafuds(cfg)
 	if err != nil {
 		return nil, err
@@ -270,6 +269,7 @@ func newRedisPool(cfg *config.Config) (*redis.Pool, error) {
 }
 
 func newYafuds(cfg *config.Config) (yafuds.Client, error) {
+	yafuds.SetTracer(opentracing.GlobalTracer())
 	yafudsClient, err := yafuds.New(cfg.YafudsHost, cfg.YafudsPort, yafuds.Timeout(5*time.Second), yafuds.Retries(3))
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to connect to Yafuds")

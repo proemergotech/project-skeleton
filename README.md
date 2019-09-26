@@ -33,7 +33,8 @@ It's using a custom exponential backoff solution to retry http requests. Overall
 must be set, with the overall being the longer time.
 
 ### Yafuds
-The client's tracer must be set BEFORE calling `yafuds.New(...)`
+The client's tracer must be set BEFORE calling `yafuds.New(...)`. If there is no tracing in the service,
+remove the line `yafuds.SetTracer(opentracing.GlobalTracer())` from `container.newYafuds(...)`
 
 ### How to remove unnecessary modules
 #### REDIS
@@ -86,6 +87,17 @@ The client's tracer must be set BEFORE calling `yafuds.New(...)`
   - [container](./app/di/container.go)
   - [service](./app/service/service.go)
   - [error](./app/service/error.go)
+  - [error definitions](./app/schema/service/error.go)
+  - [Gopkg.toml](./Gopkg.toml)
+
+#### Elastic
+- Remove file(s):
+  - [elastic](./app/storage/elastic.go)
+- Remove related code from:
+  - [.env.example](./.env.example)
+  - [config](./app/config/config.go)
+  - [container](./app/di/container.go)
+  - [error](./app/storage/error.go)
   - [error definitions](./app/schema/service/error.go)
   - [Gopkg.toml](./Gopkg.toml)
   
