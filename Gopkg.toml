@@ -76,7 +76,7 @@ version = "v6.2.17"
 [[constraint]]
 name = "gitlab.com/proemergotech/centrifuge-client-go"
 source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
-version = "v2.1.2"
+version = "v2.1.3"
 
 [prune]
 go-tests = true

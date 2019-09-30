@@ -73,7 +73,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, errors.Wrap(err, "cannot initialize centrifuge client")
 	}
 
-	e, err := newElastic(cfg.ElasticSearchScheme, cfg.ElasticSearchHost, cfg.ElasticSearchPort)
+	e, err := newElastic(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -91,11 +91,11 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.gebCloser = gebQueue
 
-	redisClient, err := newRedis(cfg)
+	redisStore, err := newRedisStore(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize redis client")
 	}
-	c.redisCloser = redisClient
+	c.redisCloser = redisStore
 
 	yafudsClient, err := newYafuds(cfg)
 	if err != nil {
@@ -174,7 +174,7 @@ func newTracer(cfg *config.Config) (io.Closer, error) {
 	return closer, nil
 }
 
-func newElastic(scheme string, host string, port int) (*storage.Elastic, error) {
+func newElastic(cfg *config.Config) (*storage.Elastic, error) {
 	httpClient := &http.Client{Transport: httplog.NewLoggingTransport(http.DefaultTransport, log.GlobalLogger(), "Elasticsearch: ", true, true)}
 	elasticClient, err := elastic.NewClient(
 		elastic.SetErrorLog(elasticlog.NewErrorLogger(log.GlobalLogger())),
@@ -182,7 +182,7 @@ func newElastic(scheme string, host string, port int) (*storage.Elastic, error) 
 		elastic.SetHttpClient(httpClient),
 		elastic.SetRetrier(elastic.NewBackoffRetrier(elastic.NewExponentialBackoff(100*time.Millisecond, 1*time.Second))),
 		elastic.SetSniff(false),
-		elastic.SetURL(fmt.Sprintf("%v://%v:%v", scheme, host, port)),
+		elastic.SetURL(fmt.Sprintf("%v://%v:%v", cfg.ElasticSearchScheme, cfg.ElasticSearchHost, cfg.ElasticSearchPort)),
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed creating elastic client")
@@ -237,8 +237,14 @@ func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
 	return q, nil
 }
 
-func newRedis(cfg *config.Config) (*storage.Redis, error) {
-	redisPool, err := newRedisPool(cfg)
+func newRedisStore(cfg *config.Config) (*storage.Redis, error) {
+	redisPool, err := newRedisPool(
+		cfg.RedisStorePoolIdleTimeout,
+		cfg.RedisStorePoolMaxIdle,
+		cfg.RedisStoreHost,
+		cfg.RedisStorePort,
+		cfg.RedisStoreDatabase,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -253,17 +259,17 @@ func newRedis(cfg *config.Config) (*storage.Redis, error) {
 	return storage.NewRedis(redisPool, redisJSON), nil
 }
 
-func newRedisPool(cfg *config.Config) (*redis.Pool, error) {
-	redisPoolIdleTimeout, err := time.ParseDuration(cfg.RedisStorePoolIdleTimeout)
+func newRedisPool(poolIdleTimeout string, poolMaxIdle int, host string, port int, database int) (*redis.Pool, error) {
+	redisPoolIdleTimeout, err := time.ParseDuration(poolIdleTimeout)
 	if err != nil {
-		return nil, errors.New("invalid value for redis_pool_idle_timeout, must be duration")
+		return nil, errors.Wrap(err, "invalid value for redis_pool_idle_timeout, must be duration")
 	}
 
 	return &redis.Pool{
-		MaxIdle:     cfg.RedisStorePoolMaxIdle,
+		MaxIdle:     poolMaxIdle,
 		IdleTimeout: redisPoolIdleTimeout,
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", fmt.Sprintf("%v:%v", cfg.RedisStoreHost, cfg.RedisStorePort), redis.DialDatabase(cfg.RedisStoreDatabase))
+			return redis.Dial("tcp", fmt.Sprintf("%v:%v", host, port), redis.DialDatabase(database))
 		},
 	}, nil
 }

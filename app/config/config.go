@@ -7,6 +7,8 @@ const AppName = "dliver-project-skeleton"
 var AppVersion string
 
 type Config struct {
+	Port int `mapstructure:"port" default:"80"`
+
 	CentrifugoHost     string `mapstructure:"centrifugo_host" validate:"required"`
 	CentrifugoGrpcPort int    `mapstructure:"centrifugo_grpc_port" default:"10000"`
 
@@ -18,8 +20,6 @@ type Config struct {
 	GebPassword string `mapstructure:"geb_password" validate:"required"`
 	GebHost     string `mapstructure:"geb_host" validate:"required"`
 	GebPort     int    `mapstructure:"geb_port" default:"5672"`
-
-	Port int `mapstructure:"port" default:"80"`
 
 	RedisStoreHost            string `mapstructure:"redis_store_host" validate:"required"`
 	RedisStorePort            int    `mapstructure:"redis_store_port" default:"6379"`
