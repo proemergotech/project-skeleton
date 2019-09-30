@@ -100,7 +100,7 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
+  digest = "1:7e5aba688e451c9d0f430abc39b6fde2d9bb470d5eec0f33d29e953c48d96e86"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
@@ -402,16 +402,16 @@
   version = "v0.1.3"
 
 [[projects]]
-  digest = "1:94ceab9d6924647dd824316f6a2b4a8c9e070f32105e54d56b1cbd9180984439"
+  digest = "1:bdf0b75cd23c5910d774e7c5e2d0e41e887debc31afa4916aa68e87d1928d1ee"
   name = "gitlab.com/proemergotech/centrifuge-client-go"
   packages = [
     ".",
     "api",
   ]
   pruneopts = "T"
-  revision = "2edc1563d62db55af36c56152b2211871334ffff"
+  revision = "9ae019559cf98d08792069c7558f64067ad15863"
   source = "git@gitlab.com:proemergotech/centrifuge-client-go.git"
-  version = "v2.1.2"
+  version = "v2.1.3"
 
 [[projects]]
   digest = "1:6307cd9a79f7461b1eafa6e05fa9046d536bf0b95d3c3eea0be8b1f2317c9164"
