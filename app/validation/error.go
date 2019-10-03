@@ -8,13 +8,13 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
 )
 
-type ValidationError struct {
+type Error struct {
 	Err       error
 	Msg       string
 	PathParam string
 }
 
-func (e ValidationError) E() error {
+func (e Error) E() error {
 	msg := "validation error"
 	if e.PathParam != "" {
 		msg += ": invalid path parameter: " + e.PathParam
