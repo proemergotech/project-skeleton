@@ -26,7 +26,7 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/validationerr"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
 	log "gitlab.com/proemergotech/log-go"
@@ -50,18 +50,6 @@ type Container struct {
 	gebCloser     io.Closer
 	yafudsCloser  io.Closer
 	elasticClient *elastic.Client
-}
-
-type EchoValidator struct {
-	validator *validator.Validate
-}
-
-func (cv *EchoValidator) Validate(i interface{}) error {
-	if err := cv.validator.Struct(i); err != nil {
-		return validationerr.ValidationError{Err: err}.E()
-	}
-
-	return nil
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
@@ -103,9 +91,9 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.yafudsCloser = yafudsClient
 
-	validate := newValidator()
+	validator := newValidator()
 
-	echoEngine := newEcho(validate)
+	echoEngine := newEcho(validator)
 
 	svc := service.NewService(
 		centrifugeClient,
@@ -126,7 +114,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	c.EventServer = event.NewServer(
 		event.NewController(
 			gebQueue,
-			validate,
+			validator,
 			svc,
 		),
 	)
@@ -285,7 +273,7 @@ func newYafuds(cfg *config.Config) (yafuds.Client, error) {
 	return yafudsClient, nil
 }
 
-func newValidator() *validator.Validate {
+func newValidator() *validation.Validator {
 	v := validator.New()
 
 	v.RegisterTagNameFunc(func(field reflect.StructField) string {
@@ -306,7 +294,7 @@ func newValidator() *validator.Validate {
 	//	return nil, err
 	//}
 
-	return v
+	return validation.NewValidator(v)
 }
 
 func newHTTPServer(echoEngine *echo.Echo, port int) *http.Server {
@@ -316,13 +304,13 @@ func newHTTPServer(echoEngine *echo.Echo, port int) *http.Server {
 	}
 }
 
-func newEcho(validate *validator.Validate) *echo.Echo {
+func newEcho(validator *validation.Validator) *echo.Echo {
 	e := echo.New()
 
 	e.Use(echolog.DebugMiddleware(log.GlobalLogger(), true, true))
 	e.Use(echolog.RecoveryMiddleware(log.GlobalLogger()))
 	e.HTTPErrorHandler = rest.DLiveRHTTPErrorHandler
-	e.Validator = &EchoValidator{validator: validate}
+	e.Validator = validator
 
 	return e
 }

@@ -1,26 +1,26 @@
 package event
 
 import (
-	"github.com/go-playground/validator"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
 	"gitlab.com/proemergotech/geb-client-go/geb"
 )
 
 type Controller struct {
-	gebQueue *geb.Queue
-	validate *validator.Validate
-	svc      *service.Service
+	gebQueue  *geb.Queue
+	validator *validation.Validator
+	svc       *service.Service
 }
 
 func NewController(
 	gebQueue *geb.Queue,
-	validate *validator.Validate,
+	validator *validation.Validator,
 	svc *service.Service,
 ) *Controller {
 	return &Controller{
-		gebQueue: gebQueue,
-		validate: validate,
-		svc:      svc,
+		gebQueue:  gebQueue,
+		validator: validator,
+		svc:       svc,
 	}
 }
 
