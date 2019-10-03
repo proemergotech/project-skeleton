@@ -16,7 +16,7 @@ func NewValidator(
 
 func (v *Validator) Validate(i interface{}) error {
 	if err := v.validator.Struct(i); err != nil {
-		return ValidationError{Err: err}.E()
+		return Error{Err: err}.E()
 	}
 
 	return nil
