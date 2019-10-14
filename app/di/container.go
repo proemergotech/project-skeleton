@@ -91,9 +91,9 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.yafudsCloser = yafudsClient
 
-	validator := newValidator()
+	v := newValidator()
 
-	echoEngine := newEcho(validator)
+	echoEngine := newEcho(v)
 
 	svc := service.NewService(
 		centrifugeClient,
@@ -114,7 +114,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	c.EventServer = event.NewServer(
 		event.NewController(
 			gebQueue,
-			validator,
+			v,
 			svc,
 		),
 	)
@@ -315,9 +315,14 @@ func newEcho(validator *validation.Validator) *echo.Echo {
 	return e
 }
 
-func newGentleman(scheme string, host string, port int) *gentleman.Client {
+func newGentleman(
+	scheme string,
+	host string,
+	port int,
+	options ...gentlemantrace.Option,
+) *gentleman.Client {
 	return gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", scheme, host, port)).
-		Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
+		Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger(), options...)).
 		Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true))
 }
 
