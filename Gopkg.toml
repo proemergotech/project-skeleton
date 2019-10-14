@@ -4,7 +4,7 @@ version = "v0.8.1"
 
 [[constraint]]
 name = "github.com/go-playground/validator"
-version = "v9.29.1"
+version = "v9.30.0"
 
 [[constraint]]
 name = "github.com/spf13/cobra"
@@ -20,7 +20,7 @@ version = "v1.10.0"
 
 [[constraint]]
 name = "github.com/uber/jaeger-client-go"
-version = "v2.16.0"
+version = "v2.19.0"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/log-go"

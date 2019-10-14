@@ -31,7 +31,7 @@ FROM alpine:latest
 ARG EXECUTABLE_NAME
 
 RUN set -eux; \
-  apk add --no-cache ca-certificates curl
+  apk add --no-cache ca-certificates
 
 WORKDIR /usr/local/bin/
 

@@ -37,12 +37,12 @@
   version = "v0.16.0"
 
 [[projects]]
-  digest = "1:96fc82b0af11926610b022c6e4bf2910799823c664e21d2eb83391aefc797964"
+  digest = "1:ad8cbd98bedf33fa07f557e41dbe19d6eb12725b1daeed05817b9d03dd65cdc8"
   name = "github.com/go-playground/validator"
   packages = ["."]
   pruneopts = "T"
-  revision = "556b9da3c05f2a935bc086fb5a0bb55dd8112d2d"
-  version = "v9.29.1"
+  revision = "cd1bd581694a11c089aea885a26247c5f783a4cf"
+  version = "v9.30.0"
 
 [[projects]]
   digest = "1:8b49904d2ff610bb1c7414c7f976ed46450c053633274fafb61a66589da056a2"
@@ -335,7 +335,7 @@
   revision = "75d898a42a940fbc854dfd1a4199eabdc00cf024"
 
 [[projects]]
-  digest = "1:962c5e977daca4c54a428291cd8b598de173c3d798ffa3aa2556901449ff0702"
+  digest = "1:dae0b91e8b759b0764f9b8145f340c6651c445cba322ad63dbfe16dbe3ac158d"
   name = "github.com/uber/jaeger-client-go"
   packages = [
     ".",
@@ -357,16 +357,16 @@
     "utils",
   ]
   pruneopts = "T"
-  revision = "2f47546e3facd43297739439600bcf43f44cce5d"
-  version = "v2.16.0"
+  revision = "d4d621cd6ed9aa5f1fc91eb0d0211d336bd6b79d"
+  version = "v2.19.0"
 
 [[projects]]
-  digest = "1:df176ee81e2f96230c093a6f74cde50198e795579d695dd42aaaa801733cd90d"
+  digest = "1:1cb09ab7ae0fa89104d77886c7efc5d6a6aec74003d0d9c09fda5e794daedef3"
   name = "github.com/uber/jaeger-lib"
   packages = ["metrics"]
   pruneopts = "T"
-  revision = "0e30338a695636fe5bcf7301e8030ce8dd2a8530"
-  version = "v2.0.0"
+  revision = "a87ae9d84fb038a8d79266298970720be7c80fcd"
+  version = "v2.2.0"
 
 [[projects]]
   digest = "1:a71a71ef17f7d6fc49b0572bb3d1253a5408dd5abb48d8908ac64a6e3f919ba8"
