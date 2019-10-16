@@ -100,7 +100,7 @@
   version = "v2.0.0"
 
 [[projects]]
-  digest = "1:7e5aba688e451c9d0f430abc39b6fde2d9bb470d5eec0f33d29e953c48d96e86"
+  digest = "1:462966563db35f9fae6bacf677b75f7c8088220f97fa3f5d1d092918cd164c86"
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
@@ -444,13 +444,13 @@
   version = "v0.2.3"
 
 [[projects]]
-  digest = "1:8c8b27f58591cfbc8f54647dd009a03eb9ca8f1c8861f498a64741cbc41c2492"
+  digest = "1:bede32d94c0923003636ee39c322b85c95a06b718c0b452472dc7068159659a0"
   name = "gitlab.com/proemergotech/microtime-go"
   packages = ["."]
   pruneopts = "T"
-  revision = "67838e07db50b6d88fbed87296a806b9d4f00d90"
+  revision = "8f60aba64cb6f12c20985b960204853d6ab9236b"
   source = "git@gitlab.com:proemergotech/microtime-go.git"
-  version = "v0.1.2"
+  version = "v0.1.3"
 
 [[projects]]
   digest = "1:94b6701b504fd6075690d82836d807f084d52e804c459257213c46b21c9f2d91"
