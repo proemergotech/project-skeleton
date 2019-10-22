@@ -236,7 +236,7 @@
   version = "1.0.1"
 
 [[projects]]
-  digest = "1:1558740e3d181031b37629ccdce004d307c60abb8be74fde6748e2737c953067"
+  digest = "1:428f639bf20c69000ee05b367ba692c1cede908c21d0e1c8e29697a5dcb7bf05"
   name = "github.com/olivere/elastic"
   packages = [
     ".",
@@ -244,8 +244,8 @@
     "uritemplates",
   ]
   pruneopts = "T"
-  revision = "2ce6dee3af14e17dc059746a1de4f983169030e9"
-  version = "v6.2.21"
+  revision = "bc2ff157722a7cc55b00ac054c26a9c16f6de98a"
+  version = "v6.2.25"
 
 [[projects]]
   digest = "1:a88448fcd2802025fa764388e12f31f0a64d5d436b369a71b97a6c9da783fafe"
@@ -433,7 +433,6 @@
     "echolog",
     "elasticlog",
     "geblog",
-    "gentlemanlog",
     "httplog",
     "jaegerlog",
     "zaplog",
@@ -459,7 +458,6 @@
     ".",
     "echotrace",
     "gebtrace",
-    "gentlemantrace",
     "internal",
   ]
   pruneopts = "T"
@@ -544,7 +542,6 @@
     "http2/hpack",
     "idna",
     "internal/timeseries",
-    "publicsuffix",
     "trace",
   ]
   pruneopts = "T"
@@ -637,18 +634,8 @@
   digest = "1:dafe4b0892182d4e31d186e117289c2c3e5cde1845010bab63299e62e0fae93e"
   name = "gopkg.in/h2non/gentleman.v2"
   packages = [
-    ".",
     "context",
-    "middleware",
-    "mux",
     "plugin",
-    "plugins/body",
-    "plugins/bodytype",
-    "plugins/cookies",
-    "plugins/headers",
-    "plugins/multipart",
-    "plugins/query",
-    "plugins/url",
     "utils",
   ]
   pruneopts = "T"
@@ -687,7 +674,6 @@
     "gitlab.com/proemergotech/log-go/echolog",
     "gitlab.com/proemergotech/log-go/elasticlog",
     "gitlab.com/proemergotech/log-go/geblog",
-    "gitlab.com/proemergotech/log-go/gentlemanlog",
     "gitlab.com/proemergotech/log-go/httplog",
     "gitlab.com/proemergotech/log-go/jaegerlog",
     "gitlab.com/proemergotech/log-go/zaplog",
@@ -695,13 +681,11 @@
     "gitlab.com/proemergotech/trace-go",
     "gitlab.com/proemergotech/trace-go/echotrace",
     "gitlab.com/proemergotech/trace-go/gebtrace",
-    "gitlab.com/proemergotech/trace-go/gentlemantrace",
     "gitlab.com/proemergotech/uuid-go",
     "gitlab.com/proemergotech/yafuds-client-go/client",
     "go.uber.org/zap",
     "go.uber.org/zap/zapcore",
     "golang.org/x/net/context",
-    "gopkg.in/h2non/gentleman.v2",
     "gopkg.in/h2non/gentleman.v2/context",
     "gopkg.in/h2non/gentleman.v2/plugin",
   ]

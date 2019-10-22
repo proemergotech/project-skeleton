@@ -33,13 +33,10 @@ import (
 	"gitlab.com/proemergotech/log-go/echolog"
 	"gitlab.com/proemergotech/log-go/elasticlog"
 	"gitlab.com/proemergotech/log-go/geblog"
-	"gitlab.com/proemergotech/log-go/gentlemanlog"
 	"gitlab.com/proemergotech/log-go/httplog"
 	"gitlab.com/proemergotech/log-go/jaegerlog"
 	"gitlab.com/proemergotech/trace-go/gebtrace"
-	"gitlab.com/proemergotech/trace-go/gentlemantrace"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
-	gentleman "gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -93,7 +90,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 
 	v := newValidator()
 
-	echoEngine := newEcho(v)
+	echoEngine := newEcho(v, rest.DLiveRHTTPErrorHandler)
 
 	svc := service.NewService(
 		centrifugeClient,
@@ -304,26 +301,14 @@ func newHTTPServer(echoEngine *echo.Echo, port int) *http.Server {
 	}
 }
 
-func newEcho(validator *validation.Validator) *echo.Echo {
+func newEcho(validator *validation.Validator, httpErrorHandler echo.HTTPErrorHandler) *echo.Echo {
 	e := echo.New()
 
-	e.Use(echolog.DebugMiddleware(log.GlobalLogger(), true, true))
 	e.Use(echolog.RecoveryMiddleware(log.GlobalLogger()))
-	e.HTTPErrorHandler = rest.DLiveRHTTPErrorHandler
+	e.HTTPErrorHandler = httpErrorHandler
 	e.Validator = validator
 
 	return e
-}
-
-func newGentleman(
-	scheme string,
-	host string,
-	port int,
-	options ...gentlemantrace.Option,
-) *gentleman.Client {
-	return gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", scheme, host, port)).
-		Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger(), options...)).
-		Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true))
 }
 
 func (c *Container) Close() {

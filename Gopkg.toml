@@ -71,7 +71,7 @@ version = "v2.0.0"
 
 [[constraint]]
 name = "github.com/olivere/elastic"
-version = "v6.2.17"
+version = "v6.2.25"
 
 [[constraint]]
 name = "gitlab.com/proemergotech/centrifuge-client-go"

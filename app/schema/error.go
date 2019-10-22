@@ -36,6 +36,24 @@ func ToHTTPError(err error) (*HTTPError, int) {
 	}, httpCode
 }
 
+func ToPublicHTTPError(err error) (*HTTPError, int) {
+	httpCode := ErrorHTTPCode(err)
+	if httpCode == 0 {
+		httpCode = 500
+	}
+
+	code := ErrorCode(err)
+	if httpCode >= 500 {
+		code = "ERR_INTERNAL"
+	}
+
+	return &HTTPError{
+		Error: Error{
+			Code: code,
+		},
+	}, httpCode
+}
+
 func ErrorCode(err error) string {
 	field := errorsf.Field(err, ErrCode)
 	if field == nil {
