@@ -8,24 +8,52 @@ import (
 )
 
 type routeNotFoundError struct {
-	Err error
+	Err  error
+	Path string
 }
 
 func (e routeNotFoundError) E() error {
+	msg := "route cannot be found"
+
+	if e.Path != "" {
+		msg += ": '" + e.Path + "'"
+	}
+
+	err := e.Err
+	if err == nil {
+		err = errors.New(msg)
+	} else {
+		err = errors.Wrap(err, msg)
+	}
+
 	return errorsf.WithFields(
-		errors.Wrap(e.Err, "route cannot be found"),
+		err,
 		schema.ErrHTTPCode, 404,
 		schema.ErrCode, service.ErrRouteNotFound,
 	)
 }
 
 type methodNotAllowedError struct {
-	Err error
+	Err  error
+	Path string
 }
 
 func (e methodNotAllowedError) E() error {
+	msg := "method not allowed"
+
+	if e.Path != "" {
+		msg += ": '" + e.Path + "'"
+	}
+
+	err := e.Err
+	if err == nil {
+		err = errors.New(msg)
+	} else {
+		err = errors.Wrap(err, msg)
+	}
+
 	return errorsf.WithFields(
-		errors.Wrap(e.Err, "method not allowed"),
+		err,
 		schema.ErrHTTPCode, 405,
 		schema.ErrCode, service.ErrMethodNotAllowed,
 	)
