@@ -16,7 +16,7 @@ type HTTPError struct {
 }
 
 type Error struct {
-	Message string                   `json:"message" validate:"required"`
+	Message string                   `json:"message,omitempty" validate:"omitempty"`
 	Code    string                   `json:"code" validate:"required"`
 	Details []map[string]interface{} `json:"details,omitempty" validate:"omitempty"`
 }
