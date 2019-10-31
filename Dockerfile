@@ -1,27 +1,19 @@
 ARG EXECUTABLE_NAME=dliver-project-skeleton
 
-FROM golang:1.12.7-alpine AS builder
+FROM golang:1.13.3-alpine AS builder
 
-ARG DEPLOY_SSH_PRIVATE_KEY
 ARG APP_VERSION
 ARG EXECUTABLE_NAME
+ARG GOPROXY
+ARG GONOPROXY
+ARG GOPRIVATE
 
 ENV ROOT_PACKAGE=gitlab.com/proemergotech/$EXECUTABLE_NAME
-ENV DEP_VERSION=0.5.4
-
-RUN apk add --update --no-cache wget openssh-client git
-RUN wget -O /usr/local/bin/dep https://github.com/golang/dep/releases/download/v$DEP_VERSION/dep-linux-amd64 && chmod +x /usr/local/bin/dep
 
 ADD . $GOPATH/src/$ROOT_PACKAGE
 WORKDIR $GOPATH/src/$ROOT_PACKAGE
 
-RUN eval $(ssh-agent -s) \
-  && echo "${DEPLOY_SSH_PRIVATE_KEY}" | ssh-add - \
-  && mkdir ~/.ssh && touch ~/.ssh/known_hosts \
-  && ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts \
-  && dep ensure -vendor-only
-
-RUN go build -ldflags "-X $ROOT_PACKAGE/app/config.AppVersion=$APP_VERSION" -o "/tmp/$EXECUTABLE_NAME"
+RUN GOPROXY=$GOPROXY GONOPROXY=$GONOPROXY GOPRIVATE=$GOPRIVATE go build -ldflags "-X $ROOT_PACKAGE/app/config.AppVersion=$APP_VERSION" -o "/tmp/$EXECUTABLE_NAME"
 
 
 
