@@ -34,14 +34,13 @@ require (
 	github.com/uber-go/atomic v0.0.0-00010101000000-000000000000 // indirect
 	github.com/uber/jaeger-client-go v2.19.0+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
-	github.com/ugorji/go v1.1.7 // indirect
 	gitlab.com/proemergotech/apimd-generator-go v0.1.3
 	gitlab.com/proemergotech/centrifuge-client-go v2.1.3+incompatible
 	gitlab.com/proemergotech/geb-client-go v0.7.6
 	gitlab.com/proemergotech/log-go v0.2.3
 	gitlab.com/proemergotech/microtime-go v0.1.3
 	gitlab.com/proemergotech/trace-go v0.2.4
-	gitlab.com/proemergotech/uuid-go v0.1.4
+	gitlab.com/proemergotech/uuid-go v0.2.0
 	gitlab.com/proemergotech/yafuds-client-go v0.9.4
 	go.uber.org/zap v1.10.0
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
