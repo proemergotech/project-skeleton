@@ -41,6 +41,7 @@ github.com/go-playground/universal-translator v0.16.0/go.mod h1:1AnU7NaIRDWWzGEK
 github.com/go-playground/validator v9.30.0+incompatible h1:myhdWhx5UHvLXZ7maUcP0uYxyijMT+smaNAhARBVc9s=
 github.com/go-playground/validator v9.30.0+incompatible/go.mod h1:yrEkQXlcI+PugkyDjY2bRrL/UBU4f3rvrgkN3V8JEig=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
+github.com/gofrs/uuid v3.0.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/gofrs/uuid v3.2.0+incompatible h1:y12jRkkFxsd7GpqdSZ+/KCs/fJbqpEXSGd4+jfEaewE=
 github.com/gofrs/uuid v3.2.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/gogo/googleapis v0.0.0-20180223154316-0cd9801be74a/go.mod h1:gf4bu3Q80BeJ6H1S1vYPm8/ELATdvryBaNFGgqEef3s=
@@ -193,8 +194,8 @@ gitlab.com/proemergotech/microtime-go v0.1.3 h1:hHV4sbDKisO/A1egGVY7BTKmnPuo13Lt
 gitlab.com/proemergotech/microtime-go v0.1.3/go.mod h1:6fwhlm+gOa9pt0VxW0BzWIistGS4P5qqdzDDWsH2Kz8=
 gitlab.com/proemergotech/trace-go v0.2.4 h1:YDFuxO3LMXt+DSn0ZCySNooqG3Ua5jgYmBX0gK5AEuY=
 gitlab.com/proemergotech/trace-go v0.2.4/go.mod h1:rTadv8O0zlecTvYNEKKY5W2EQ+S5PLPKosCuYxWXJcE=
-gitlab.com/proemergotech/uuid-go v0.1.4 h1:qjT6cHWf6+QZEVcA0trKIcsPaa5nueHzyVqt/sKX9EY=
-gitlab.com/proemergotech/uuid-go v0.1.4/go.mod h1:Ks82b0bF3kXyaYkE4cA7pOTo/+hNV85Xf8KBJj+A1Wg=
+gitlab.com/proemergotech/uuid-go v0.2.0 h1:zgkvOCkgLzJHdG0v9OeB5QhGTXr2TOjWmzbdAEWVpxo=
+gitlab.com/proemergotech/uuid-go v0.2.0/go.mod h1:St/RxYciZofm2VVR9/1CcsG7FMA5WL+gH4wbhRT4dG0=
 gitlab.com/proemergotech/yafuds-client-go v0.9.4 h1:GqmDDjFBLxobVUSpWbVdoY6QhqRxPiOul02Yx7s5FmM=
 gitlab.com/proemergotech/yafuds-client-go v0.9.4/go.mod h1:9JjN/KL32eUpXbrWbuiQoQH0AxiaFPuZ6OpZGJidE4o=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
