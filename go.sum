@@ -191,8 +191,8 @@ gitlab.com/proemergotech/log-go v0.2.3 h1:gRNLA4S5aOXry3BMbqcH2HW6Yv1qCymzGY39JC
 gitlab.com/proemergotech/log-go v0.2.3/go.mod h1:zZUEyBMqHIZpg5EclyqW4W41zbvdPgM9PeKReA7O19c=
 gitlab.com/proemergotech/microtime-go v0.1.3 h1:hHV4sbDKisO/A1egGVY7BTKmnPuo13LtZ63AHPB8LUk=
 gitlab.com/proemergotech/microtime-go v0.1.3/go.mod h1:6fwhlm+gOa9pt0VxW0BzWIistGS4P5qqdzDDWsH2Kz8=
-gitlab.com/proemergotech/trace-go v0.2.3 h1:Gj4GkanxJvUXrNI2nULsN651WmdVlnC/81HYfT5Ad6k=
-gitlab.com/proemergotech/trace-go v0.2.3/go.mod h1:rTadv8O0zlecTvYNEKKY5W2EQ+S5PLPKosCuYxWXJcE=
+gitlab.com/proemergotech/trace-go v0.2.4 h1:YDFuxO3LMXt+DSn0ZCySNooqG3Ua5jgYmBX0gK5AEuY=
+gitlab.com/proemergotech/trace-go v0.2.4/go.mod h1:rTadv8O0zlecTvYNEKKY5W2EQ+S5PLPKosCuYxWXJcE=
 gitlab.com/proemergotech/uuid-go v0.1.4 h1:qjT6cHWf6+QZEVcA0trKIcsPaa5nueHzyVqt/sKX9EY=
 gitlab.com/proemergotech/uuid-go v0.1.4/go.mod h1:Ks82b0bF3kXyaYkE4cA7pOTo/+hNV85Xf8KBJj+A1Wg=
 gitlab.com/proemergotech/yafuds-client-go v0.9.4 h1:GqmDDjFBLxobVUSpWbVdoY6QhqRxPiOul02Yx7s5FmM=
