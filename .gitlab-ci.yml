@@ -19,7 +19,7 @@ variables:
 
 test:
   stage: test
-  image: golang:1.13.3
+  image: golang:1.13
   script:
     - go test -race -v ./...
 
