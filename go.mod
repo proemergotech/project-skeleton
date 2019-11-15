@@ -31,8 +31,7 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/viper v1.4.0
 	github.com/streadway/amqp v0.0.0-20190404075320-75d898a42a94 // indirect
-	github.com/uber-go/atomic v0.0.0-00010101000000-000000000000 // indirect
-	github.com/uber/jaeger-client-go v2.19.0+incompatible
+	github.com/uber/jaeger-client-go v2.20.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
 	gitlab.com/proemergotech/apimd-generator-go v0.1.3
 	gitlab.com/proemergotech/centrifuge-client-go v2.1.3+incompatible
@@ -52,5 +51,3 @@ require (
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/h2non/gentleman.v2 v2.0.3
 )
-
-replace github.com/uber-go/atomic => go.uber.org/atomic v1.5.0
