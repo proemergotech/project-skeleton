@@ -5,9 +5,9 @@ import (
 	stdlog "log"
 	"reflect"
 
-	"github.com/go-playground/validator"
 	"github.com/spf13/viper"
 	log "gitlab.com/proemergotech/log-go"
+	validator "gopkg.in/go-playground/validator.v9"
 )
 
 // initConfig reads in config file and ENV variables if set.
