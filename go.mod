@@ -11,7 +11,7 @@ require (
 	github.com/gogo/googleapis v1.2.0 // indirect
 	github.com/gogo/status v1.1.0 // indirect
 	github.com/gomodule/redigo v2.0.0+incompatible
-	github.com/json-iterator/go v1.1.6
+	github.com/json-iterator/go v1.1.7
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.2.9 // indirect
 	github.com/magiconair/properties v1.8.1 // indirect
@@ -21,6 +21,7 @@ require (
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pelletier/go-toml v1.4.0 // indirect
 	github.com/pkg/errors v0.8.1
+	github.com/prometheus/client_golang v1.1.0
 	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect

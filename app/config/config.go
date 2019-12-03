@@ -7,7 +7,8 @@ const AppName = "dliver-project-skeleton"
 var AppVersion string
 
 type Config struct {
-	Port int `mapstructure:"port" default:"80"`
+	Port       int  `mapstructure:"port" default:"80"`
+	DebugPProf bool `mapstructure:"debug_pprof" default:"false"`
 
 	CentrifugoHost     string `mapstructure:"centrifugo_host" validate:"required"`
 	CentrifugoGrpcPort int    `mapstructure:"centrifugo_grpc_port" default:"10000"`

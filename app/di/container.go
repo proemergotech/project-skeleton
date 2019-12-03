@@ -105,6 +105,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		rest.NewController(
 			echoEngine,
 			svc,
+			cfg.DebugPProf,
 		),
 	)
 
