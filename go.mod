@@ -6,8 +6,7 @@ require (
 	github.com/araddon/dateparse v0.0.0-20190622164848-0fb0a474d195 // indirect
 	github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd // indirect
 	github.com/fortytw2/leaktest v1.3.0 // indirect
-	github.com/go-playground/locales v0.12.1 // indirect
-	github.com/go-playground/universal-translator v0.16.0 // indirect
+	github.com/go-playground/validator/v10 v10.0.1
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/gogo/googleapis v1.2.0 // indirect
 	github.com/gogo/status v1.1.0 // indirect
@@ -15,7 +14,6 @@ require (
 	github.com/json-iterator/go v1.1.6
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.2.9 // indirect
-	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/magiconair/properties v1.8.1 // indirect
 	github.com/mailru/easyjson v0.0.0-20190626092158-b2ccc519800e // indirect
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32 // indirect
@@ -41,7 +39,5 @@ require (
 	go.uber.org/zap v1.10.0
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
 	golang.org/x/net v0.0.0-20191126235420-ef20fe5d7933
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
-	gopkg.in/go-playground/validator.v9 v9.30.2
 	gopkg.in/h2non/gentleman.v2 v2.0.3
 )
