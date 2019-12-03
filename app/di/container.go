@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gomodule/redigo/redis"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/labstack/echo"
@@ -36,7 +37,6 @@ import (
 	"gitlab.com/proemergotech/log-go/jaegerlog"
 	"gitlab.com/proemergotech/trace-go/gebtrace"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
-	validator "gopkg.in/go-playground/validator.v9"
 )
 
 type Container struct {
