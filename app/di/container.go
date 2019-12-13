@@ -13,7 +13,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gomodule/redigo/redis"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/olivere/elastic"
 	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"

@@ -5,7 +5,7 @@ import (
 	"net/http/pprof"
 	"runtime"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
