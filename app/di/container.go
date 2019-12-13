@@ -90,7 +90,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 
 	v := newValidator()
 
-	echoEngine := newEcho(v, rest.DLiveRHTTPErrorHandler)
+	echoEngine := newEcho(cfg.Port, v, rest.DLiveRHTTPErrorHandler)
 
 	svc := service.NewService(
 		centrifugeClient,
@@ -98,10 +98,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	)
 
 	c.RestServer = rest.NewServer(
-		newHTTPServer(
-			echoEngine,
-			cfg.Port,
-		),
+		echoEngine,
 		rest.NewController(
 			echoEngine,
 			svc,
@@ -302,12 +299,19 @@ func newHTTPServer(echoEngine *echo.Echo, port int) *http.Server {
 	}
 }
 
-func newEcho(validator *validation.Validator, httpErrorHandler echo.HTTPErrorHandler) *echo.Echo {
+func newEcho(port int, validator *validation.Validator, httpErrorHandler echo.HTTPErrorHandler) *echo.Echo {
 	e := echo.New()
 
 	e.Use(echolog.RecoveryMiddleware(log.GlobalLogger()))
 	e.HTTPErrorHandler = httpErrorHandler
 	e.Validator = validator
+	e.HideBanner = true
+	e.HidePort = true
+
+	e.Server = &http.Server{
+		Addr:    ":" + strconv.Itoa(port),
+		Handler: e,
+	}
 
 	return e
 }
