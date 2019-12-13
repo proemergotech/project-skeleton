@@ -3,7 +3,6 @@ services:
 - docker:dind
 
 stages:
-- test
 - build
 - release
 - deploy
@@ -11,14 +10,13 @@ stages:
 variables:
   IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
   IMAGE_NAME_BUILD: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_SHA
-  GO_SRC: src/gitlab.com/$CI_PROJECT_PATH
 
 .common-scripts:
 - &gitlab-login
     docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
 test:
-  stage: test
+  stage: build
   image: golang:1.13
   script:
     - go test -race -v ./...
@@ -36,7 +34,15 @@ build:
     .
   - docker push $IMAGE_NAME_BUILD
 
-release-image:latest:
+verify:
+  stage: build
+  script:
+    - apk update && apk add git
+    - ./verify.sh
+  except:
+    - master
+
+latest:
   variables:
     IMAGE_NAME_LATEST: $CI_REGISTRY/$CI_PROJECT_PATH:latest
   dependencies: []
@@ -49,7 +55,7 @@ release-image:latest:
   only:
   - master
 
-deploy:dev_auto:
+dev_auto:
   stage: deploy
   variables:
     GIT_STRATEGY: none
@@ -66,7 +72,7 @@ deploy:dev_auto:
   only:
   - master
 
-deploy:dev_feature:
+dev_feature:
   stage: deploy
   variables:
     GIT_STRATEGY: none
@@ -84,7 +90,7 @@ deploy:dev_feature:
   except:
   - master
 
-deploy:prod:
+prod:
   stage: deploy
   variables:
     GIT_STRATEGY: none
