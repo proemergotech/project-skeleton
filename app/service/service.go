@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"gitlab.com/proemergotech/centrifuge-client-go/api"
+	"gitlab.com/proemergotech/centrifuge-client-go/v2/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	log "gitlab.com/proemergotech/log-go"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"

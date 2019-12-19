@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/pkg/errors"
-	"gitlab.com/proemergotech/centrifuge-client-go/api"
+	"gitlab.com/proemergotech/centrifuge-client-go/v2/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"

@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.2.0 / 2019-12-18
+- update dependencies
+- fix verify.sh
+- remove `newHTTPServer` from container
+
 ## v1.1.0 / 2019-12-13
 - use echo directly in rest/server
 

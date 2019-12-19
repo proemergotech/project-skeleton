@@ -24,7 +24,7 @@ project_name_dash=${project_name//[^a-zA-Z0-9]/-}
 #  vendor             - all 3rd party dependencies
 #  create_skeleton.sh - this script file
 #  *_test.go          - all test files
-rsync -av --exclude=.git --exclude=.idea --exclude=vendor --exclude=create_skeleton.sh --exclude=*_test.go . ${target_dir}
+rsync -av --exclude=.git --exclude=.idea --exclude=CHANGELOG.md --exclude=create_skeleton.sh --exclude=*_test.go . ${target_dir}
 
 # Replace skeleton project text and folder names to the new one
 grep -rl ${skeleton_underscore} ${target_dir}/ | xargs sed -i "s@$skeleton_underscore@$project_name_underscore@g"
