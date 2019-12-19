@@ -19,7 +19,7 @@ import (
 	"github.com/pkg/errors"
 	jaeger "github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	centrifuge "gitlab.com/proemergotech/centrifuge-client-go"
+	centrifuge "gitlab.com/proemergotech/centrifuge-client-go/v2"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
@@ -290,13 +290,6 @@ func newValidator() *validation.Validator {
 	//}
 
 	return validation.NewValidator(v)
-}
-
-func newHTTPServer(echoEngine *echo.Echo, port int) *http.Server {
-	return &http.Server{
-		Addr:    ":" + strconv.Itoa(port),
-		Handler: echoEngine,
-	}
 }
 
 func newEcho(port int, validator *validation.Validator, httpErrorHandler echo.HTTPErrorHandler) *echo.Echo {
