@@ -39,6 +39,8 @@ verify:
   script:
     - apk update && apk add git
     - ./verify.sh
+  only:
+    - branches
   except:
     - master
 

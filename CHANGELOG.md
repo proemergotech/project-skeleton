@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.3.0 / 2020-01-07
+- update proemergotech libraries to v1.0.0
+- update verify job in ci script to run only on non master branches and ignore everything else (tag pipelines etc)
+
 ## v1.2.0 / 2019-12-18
 - update dependencies
 - fix verify.sh
