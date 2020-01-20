@@ -45,7 +45,7 @@ func (c *Controller) start() {
 		c.echoEngine.GET("/debug/pprof/trace", echo.WrapHandler(http.HandlerFunc(pprof.Trace)))
 	}
 
-	c.echoEngine.Add(http.MethodGet, "/healthcheck", func(eCtx echo.Context) error {
+	c.echoEngine.GET("/healthcheck", func(eCtx echo.Context) error {
 		return eCtx.String(http.StatusOK, "ok")
 	})
 
@@ -57,7 +57,7 @@ func (c *Controller) start() {
 
 	// todo: remove
 	//  Example root
-	apiRoutes.Add(http.MethodPost, "/dummy", func(eCtx echo.Context) error {
+	apiRoutes.POST("/dummy", func(eCtx echo.Context) error {
 		req := &struct {
 			DummyData1 string `json:"dummy_data_1"`
 			DummyData2 string `json:"dummy_data_2"`
