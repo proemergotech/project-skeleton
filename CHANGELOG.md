@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.3.1 / 2020-01-20
+- Use built-in echo methods
+
 ## v1.3.0 / 2020-01-07
 - update proemergotech libraries to v1.0.0
 - update verify job in ci script to run only on non master branches and ignore everything else (tag pipelines etc)
