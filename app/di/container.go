@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator/v10/non-standard/validators"
 	"github.com/gomodule/redigo/redis"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/labstack/echo/v4"
@@ -88,7 +89,10 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.yafudsCloser = yafudsClient
 
-	v := newValidator()
+	v, err := newValidator()
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot initialize validator")
+	}
 
 	echoEngine := newEcho(cfg.Port, v, rest.DLiveRHTTPErrorHandler)
 
@@ -268,7 +272,7 @@ func newYafuds(cfg *config.Config) (yafuds.Client, error) {
 	return yafudsClient, nil
 }
 
-func newValidator() *validation.Validator {
+func newValidator() (*validation.Validator, error) {
 	v := validator.New()
 
 	v.RegisterTagNameFunc(func(field reflect.StructField) string {
@@ -280,6 +284,10 @@ func newValidator() *validation.Validator {
 
 		return name
 	})
+	err := v.RegisterValidation("notblank", validators.NotBlank)
+	if err != nil {
+		return nil, err
+	}
 
 	// TODO: remove example validation for enums:
 	//err = v.RegisterValidation("enum_status", func(fl validator.FieldLevel) bool {
@@ -289,7 +297,7 @@ func newValidator() *validation.Validator {
 	//	return nil, err
 	//}
 
-	return validation.NewValidator(v)
+	return validation.NewValidator(v), nil
 }
 
 func newEcho(port int, validator *validation.Validator, httpErrorHandler echo.HTTPErrorHandler) *echo.Echo {
