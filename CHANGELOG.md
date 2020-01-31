@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.5.0 / 2020-01-31
+- removed -mod-readonly from build.sh
+
 ## v1.4.0 / 2020-01-27
 - added notblank validation rule
 
