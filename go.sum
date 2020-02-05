@@ -243,12 +243,16 @@ gitlab.com/proemergotech/log-go v0.2.3 h1:gRNLA4S5aOXry3BMbqcH2HW6Yv1qCymzGY39JC
 gitlab.com/proemergotech/log-go v0.2.3/go.mod h1:zZUEyBMqHIZpg5EclyqW4W41zbvdPgM9PeKReA7O19c=
 gitlab.com/proemergotech/log-go/v2 v2.0.0 h1:fCVfj7y+o3/pvdhK2MiUgMEX0YcEqaWlPb5Z1M2VvIg=
 gitlab.com/proemergotech/log-go/v2 v2.0.0/go.mod h1:oRZmh7EtaZ0zMCSnzXRGj038ZcuBpxKnOyIFqhbIrlc=
+gitlab.com/proemergotech/log-go/v2 v2.0.1 h1:kfhbkrzTHuz2IGDJ7MzbR5b6F5PhkRFeC9BPBgE8phk=
+gitlab.com/proemergotech/log-go/v2 v2.0.1/go.mod h1:nt/Z2BXLc+QegbprirvXt/vH9EeBjgTqPsV+9YfkbAk=
 gitlab.com/proemergotech/microtime-go v1.0.0 h1:wl2XE35GsBa2k/9QhWTYhfMspju9F4+RyfihOWf1Xt0=
 gitlab.com/proemergotech/microtime-go v1.0.0/go.mod h1:chABU4vj60i50yYokDSPjWbzlpVcpHlcGDJ5m4TCuVY=
 gitlab.com/proemergotech/trace-go v0.2.4 h1:YDFuxO3LMXt+DSn0ZCySNooqG3Ua5jgYmBX0gK5AEuY=
 gitlab.com/proemergotech/trace-go v0.2.4/go.mod h1:rTadv8O0zlecTvYNEKKY5W2EQ+S5PLPKosCuYxWXJcE=
 gitlab.com/proemergotech/trace-go/v2 v2.0.0 h1:E+18r6VoH6C920IAPieh83w1aLPRXP5xvev/2M2idjY=
 gitlab.com/proemergotech/trace-go/v2 v2.0.0/go.mod h1:4gYOlVFqSVD1kTSso9XsVPplZodUOm2AjEBOp5koMVI=
+gitlab.com/proemergotech/trace-go/v2 v2.0.1 h1:1CXiut6hku/T+dKEWnz+hKLuBafeJmwe+Ll+EzOuHag=
+gitlab.com/proemergotech/trace-go/v2 v2.0.1/go.mod h1:4gYOlVFqSVD1kTSso9XsVPplZodUOm2AjEBOp5koMVI=
 gitlab.com/proemergotech/uuid-go v1.0.0 h1:RBMECWTthH4ywazwzvJfjx77QICGG66X9uzHY45fZvU=
 gitlab.com/proemergotech/uuid-go v1.0.0/go.mod h1:St/RxYciZofm2VVR9/1CcsG7FMA5WL+gH4wbhRT4dG0=
 gitlab.com/proemergotech/yafuds-client-go v1.0.0 h1:gz8no8OoGRIzcPaVDs53H/5jjUudcShUcN3AlOQbS6k=
