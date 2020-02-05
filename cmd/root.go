@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/di"
-	log "gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go/v2"
 )
 
 var (

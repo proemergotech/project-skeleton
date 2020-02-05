@@ -11,7 +11,7 @@ import (
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
 
-	"gitlab.com/proemergotech/log-go"
+	"gitlab.com/proemergotech/log-go/v2"
 )
 
 type evalFunc func(error, *http.Request, *http.Response) error

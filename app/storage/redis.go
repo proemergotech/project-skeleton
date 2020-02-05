@@ -6,7 +6,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	jsoniter "github.com/json-iterator/go"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	log "gitlab.com/proemergotech/log-go"
+	log "gitlab.com/proemergotech/log-go/v2"
 )
 
 type Redis struct {

@@ -8,9 +8,9 @@ import (
 	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/cmd"
-	log "gitlab.com/proemergotech/log-go"
-	"gitlab.com/proemergotech/log-go/zaplog"
-	trace "gitlab.com/proemergotech/trace-go"
+	log "gitlab.com/proemergotech/log-go/v2"
+	"gitlab.com/proemergotech/log-go/v2/zaplog"
+	trace "gitlab.com/proemergotech/trace-go/v2"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
