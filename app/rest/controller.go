@@ -10,9 +10,9 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	log "gitlab.com/proemergotech/log-go"
-	"gitlab.com/proemergotech/log-go/echolog"
-	"gitlab.com/proemergotech/trace-go/echotrace"
+	log "gitlab.com/proemergotech/log-go/v2"
+	"gitlab.com/proemergotech/log-go/v2/echolog"
+	"gitlab.com/proemergotech/trace-go/v2/echotrace"
 )
 
 type Controller struct {
