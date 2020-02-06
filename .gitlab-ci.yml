@@ -19,7 +19,7 @@ test:
   stage: build
   image: golang:1.13
   script:
-    - go test -race -v ./...
+    - go test -mod=readonly -race -v ./...
 
 build:
   stage: build
