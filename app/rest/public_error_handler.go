@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	log "gitlab.com/proemergotech/log-go/v2"
+	log "gitlab.com/proemergotech/log-go"
 )
 
 func PublicDLiveRHTTPErrorHandler(err error, eCtx echo.Context) {

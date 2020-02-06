@@ -1,11 +1,5 @@
 # Release Notes
 
-## v1.6.1 / 2020-02-05
-- fix imports for log and trace, use v2
-
-## v1.6.0 / 2020-02-05
-- update geb/log/trace to v2 because of the geb client rewrite
-
 ## v1.5.0 / 2020-01-31
 - removed -mod-readonly from build.sh
 
