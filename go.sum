@@ -235,14 +235,13 @@ github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
 gitlab.com/proemergotech/apimd-generator-go v1.0.0 h1:m1AgNZ61VVc7cxv17jYnPKDmNoceAXaZNkYa+2gS5aI=
 gitlab.com/proemergotech/apimd-generator-go v1.0.0/go.mod h1:vEQGzFLobM68Xq+WPqN6HgEGMvX/D4FQSWQ5uwW3sSU=
-gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.1 h1:XFHo+Iw0WQo2LoWCwD/ixdCnNuSQhWECbW5zDhSb3/A=
-gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.1/go.mod h1:cRuPW18EMoBmrn/w3H0mcBFWRn64c4YrH8qMr3PHvHo=
+gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.2 h1:mO+mGiZRyPKKGS0GTUFgSy2U9uF8ddoQU9cRpgQE/Js=
+gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.2/go.mod h1:GdBksnLZCh7fi3jByDS9L2sLXsI2Y8tGhEgxWC82JZE=
 gitlab.com/proemergotech/geb-client-go v0.0.0-20180219104357-0c4869a38c69/go.mod h1:u/tVLM+C4vSqDr+tWMHclKNtaY8Ri+WnCiNJQ9REiEI=
 gitlab.com/proemergotech/geb-client-go v0.7.6 h1:WiyThnWm02QNGNL5CJPL9Es7L3c4runeWGIprp30tjs=
 gitlab.com/proemergotech/geb-client-go v0.7.6/go.mod h1:u/tVLM+C4vSqDr+tWMHclKNtaY8Ri+WnCiNJQ9REiEI=
 gitlab.com/proemergotech/geb-client-go v1.0.0 h1:e4rpk2rvO+kLPlgSQheijhu9dBtUuFB+9sYWDtxmQsc=
 gitlab.com/proemergotech/geb-client-go v1.0.0/go.mod h1:rg5Yo0I0tACQCiAX3R8PPzWoJ12QOpdrm5hSZ8QdErs=
-gitlab.com/proemergotech/log-go v0.2.1/go.mod h1:zZUEyBMqHIZpg5EclyqW4W41zbvdPgM9PeKReA7O19c=
 gitlab.com/proemergotech/log-go v0.2.3 h1:gRNLA4S5aOXry3BMbqcH2HW6Yv1qCymzGY39JCCxRxQ=
 gitlab.com/proemergotech/log-go v0.2.3/go.mod h1:zZUEyBMqHIZpg5EclyqW4W41zbvdPgM9PeKReA7O19c=
 gitlab.com/proemergotech/log-go v1.0.0 h1:cW7lKDiHgAcaa68GYqliIdlZWW+UDnsrdVyOsP8QTSc=

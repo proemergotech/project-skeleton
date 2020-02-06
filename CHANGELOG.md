@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.6.0 / 2020-02-06
+- added -mod-readonly to .gitlab-ci.yml test job
+- updated centrifuge-client-go to v2.2.2
+
 ## v1.5.0 / 2020-01-31
 - removed -mod-readonly from build.sh
 
