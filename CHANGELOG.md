@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.7.0 / 2020-02-13
+- update geb/trace/log/yafuds-client library
+
 ## v1.6.0 / 2020-02-06
 - added -mod-readonly to .gitlab-ci.yml test job
 - updated centrifuge-client-go to v2.2.2

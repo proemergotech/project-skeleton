@@ -28,15 +28,15 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	"gitlab.com/proemergotech/geb-client-go/geb"
-	"gitlab.com/proemergotech/geb-client-go/geb/rabbitmq"
-	log "gitlab.com/proemergotech/log-go"
-	"gitlab.com/proemergotech/log-go/echolog"
-	"gitlab.com/proemergotech/log-go/elasticlog"
-	"gitlab.com/proemergotech/log-go/geblog"
-	"gitlab.com/proemergotech/log-go/httplog"
-	"gitlab.com/proemergotech/log-go/jaegerlog"
-	"gitlab.com/proemergotech/trace-go/gebtrace"
+	"gitlab.com/proemergotech/geb-client-go/v2/geb"
+	"gitlab.com/proemergotech/geb-client-go/v2/geb/rabbitmq"
+	log "gitlab.com/proemergotech/log-go/v2"
+	"gitlab.com/proemergotech/log-go/v2/echolog"
+	"gitlab.com/proemergotech/log-go/v2/elasticlog"
+	"gitlab.com/proemergotech/log-go/v2/geblog"
+	"gitlab.com/proemergotech/log-go/v2/httplog"
+	"gitlab.com/proemergotech/log-go/v2/jaegerlog"
+	"gitlab.com/proemergotech/trace-go/v2/gebtrace"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
 )
 
@@ -209,14 +209,9 @@ func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
 
 		return nil
 	})
-	if err := q.OnError(func(err error, reconnect func()) {
+	if err := q.OnError(func(err error) {
 		err = errors.Wrap(err, "Geb connection error")
 		log.Error(context.Background(), err.Error(), "error", err)
-
-		go func() {
-			time.Sleep(2 * time.Second)
-			reconnect()
-		}()
 	}); err != nil {
 		return nil, err
 	}

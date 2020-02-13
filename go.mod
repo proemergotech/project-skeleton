@@ -28,12 +28,12 @@ require (
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
 	gitlab.com/proemergotech/apimd-generator-go v1.0.0
 	gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.2
-	gitlab.com/proemergotech/geb-client-go v1.0.0
-	gitlab.com/proemergotech/log-go v1.0.0
+	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
+	gitlab.com/proemergotech/log-go/v2 v2.0.1
 	gitlab.com/proemergotech/microtime-go v1.0.0
-	gitlab.com/proemergotech/trace-go v1.0.0
+	gitlab.com/proemergotech/trace-go/v2 v2.0.1
 	gitlab.com/proemergotech/uuid-go v1.0.0
-	gitlab.com/proemergotech/yafuds-client-go v1.0.0
+	gitlab.com/proemergotech/yafuds-client-go v1.1.0
 	go.uber.org/zap v1.10.0
 	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
 	gopkg.in/h2non/gentleman.v2 v2.0.3
