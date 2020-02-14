@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.8.0 / 2020-02-14
+- fix gebQueue.Start() usage in event controller
+- move stage to the first place in gitlab ci definitions
+- update README.md to mention go mod instead of dep
+
 ## v1.7.0 / 2020-02-13
 - update geb/trace/log/yafuds-client library
 

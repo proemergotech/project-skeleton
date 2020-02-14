@@ -45,10 +45,10 @@ verify:
     - master
 
 latest:
+  stage: release
   variables:
     IMAGE_NAME_LATEST: $CI_REGISTRY/$CI_PROJECT_PATH:latest
   dependencies: []
-  stage: release
   script:
   - *gitlab-login
   - docker pull $IMAGE_NAME_BUILD
