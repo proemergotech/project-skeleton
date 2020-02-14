@@ -109,8 +109,7 @@ remove the line `yafuds.SetTracer(opentracing.GlobalTracer())` from `container.n
 ### Dependencies
 - install go
 - check out project to: $GOPATH/src/gitlab.com/proemergotech/dliver-project-skeleton
-- install dep
-- add dependencies to project with "dep ensure"
+- add dependencies to project with "go mod tidy"
 
 ### Testing
 

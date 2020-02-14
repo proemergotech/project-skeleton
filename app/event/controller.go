@@ -29,7 +29,5 @@ func (c *Controller) start() error {
 	// TODO:
 	//  add gebQueue.OnEvent handlers here
 
-	c.gebQueue.Start()
-
-	return nil
+	return c.gebQueue.Start()
 }
