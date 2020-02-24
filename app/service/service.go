@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
+	jsoniter "github.com/json-iterator/go"
 	"gitlab.com/proemergotech/centrifuge-client-go/v2/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	log "gitlab.com/proemergotech/log-go/v2"
@@ -13,24 +13,25 @@ import (
 
 type Service struct {
 	centrifugeClient api.CentrifugeClient
+	centrifugeJSON   jsoniter.API
 	yafudsClient     yafuds.Client
 }
 
 func NewService(
 	centrifugeClient api.CentrifugeClient,
+	centrifugeJSON jsoniter.API,
 	yafudsClient yafuds.Client,
 ) *Service {
 	return &Service{
 		centrifugeClient: centrifugeClient,
+		centrifugeJSON:   centrifugeJSON,
 		yafudsClient:     yafudsClient,
 	}
 }
 
 // Centrifuge example
-func (s *Service) SendCentrifuge(ctx context.Context, namespace string, identifier string, eventData interface{}) {
-	centrifugeChannel := namespace + ":" + identifier
-
-	data, err := json.Marshal(eventData)
+func (s *Service) SendCentrifuge(ctx context.Context, centrifugeChannel string, eventData interface{}) {
+	data, err := s.centrifugeJSON.Marshal(eventData)
 	if err != nil {
 		err = service.SemanticError{Err: err, Msg: fmt.Sprintf("unable to marshal eventData of type: %T", eventData)}.E()
 		log.Error(ctx, err.Error(), "error", err)
