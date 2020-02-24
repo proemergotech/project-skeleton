@@ -58,6 +58,12 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize centrifuge client")
 	}
+	centrifugeJSON := jsoniter.Config{
+		SortMapKeys:            true,
+		ValidateJsonRawMessage: true,
+		OnlyTaggedField:        true,
+		TagKey:                 "centrifuge",
+	}.Froze()
 
 	e, err := newElastic(cfg)
 	if err != nil {
@@ -98,6 +104,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 
 	svc := service.NewService(
 		centrifugeClient,
+		centrifugeJSON,
 		yafudsClient,
 	)
 

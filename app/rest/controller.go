@@ -71,7 +71,7 @@ func (c *Controller) start() {
 			return err
 		}
 
-		c.svc.SendCentrifuge(eCtx.Request().Context(), "", "", req)
+		c.svc.SendCentrifuge(eCtx.Request().Context(), "", req)
 
 		return eCtx.NoContent(http.StatusOK)
 	})

@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.9.0 / 2020-02-24
+- added centrifugeJSON so centrifuge messages are marshalled using the `centrifuge` tag
+
 ## v1.8.0 / 2020-02-14
 - fix gebQueue.Start() usage in event controller
 - move stage to the first place in gitlab ci definitions
