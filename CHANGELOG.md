@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.10.0 / 2020-02-27
+- refactor clientHTTPError to return better error messages
+
 ## v1.9.0 / 2020-02-24
 - added centrifugeJSON so centrifuge messages are marshalled using the `centrifuge` tag
 
