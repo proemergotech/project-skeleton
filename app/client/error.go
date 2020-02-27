@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -56,21 +57,32 @@ func (e clientHTTPError) E() error {
 			errors.New("invalid error response format"),
 			errHTTPCode, e.Res.StatusCode,
 			errService, e.ServiceName,
+			schema.ErrCode, service.ErrClient,
+			schema.ErrHTTPCode, 500,
 		)
 	} else if errResp.Error.Code == "" {
 		return errorsf.WithFields(
 			errors.New("invalid error response format: missing code field"),
 			errHTTPCode, e.Res.StatusCode,
 			errService, e.ServiceName,
+			schema.ErrCode, service.ErrClient,
+			schema.ErrHTTPCode, 500,
 		)
 	}
 
+	msg := fmt.Sprintf("error calling %s service", e.ServiceName)
+	if errResp.Error.Message != "" {
+		msg = fmt.Sprintf("%s: %s", msg, errResp.Error.Message)
+	}
+
 	return errorsf.WithFields(
-		errors.New(errResp.Error.Message),
+		errors.New(msg),
 		errCode, errResp.Error.Code,
 		errHTTPCode, e.Res.StatusCode,
 		errDetails, errResp.Error.Details,
 		errService, e.ServiceName,
+		schema.ErrCode, service.ErrClient,
+		schema.ErrHTTPCode, 500,
 	)
 }
 

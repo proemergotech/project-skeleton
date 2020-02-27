@@ -23,6 +23,7 @@ const (
 	ErrRedis         = "ERR_REDIS"
 	ErrSemanticError = "ERR_SEMANTIC"
 	ErrYafuds        = "ERR_YAFUDS"
+	ErrClient        = "ERR_CLIENT"
 )
 
 type SemanticError struct {
