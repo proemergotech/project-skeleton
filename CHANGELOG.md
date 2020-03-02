@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.11.0 / 2020-03-02
+- remove apimd generator
+- update to go 1.14
+- change environment url to `https://camplace.dev` in .gitlab-ci.yml
+
 ## v1.10.0 / 2020-02-27
 - refactor clientHTTPError to return better error messages
 

@@ -1,6 +1,6 @@
 module gitlab.com/proemergotech/dliver-project-skeleton
 
-go 1.13
+go 1.14
 
 require (
 	github.com/araddon/dateparse v0.0.0-20190622164848-0fb0a474d195 // indirect
@@ -26,7 +26,6 @@ require (
 	github.com/streadway/amqp v0.0.0-20190404075320-75d898a42a94 // indirect
 	github.com/uber/jaeger-client-go v2.20.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
-	gitlab.com/proemergotech/apimd-generator-go v1.0.0
 	gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.2
 	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
 	gitlab.com/proemergotech/log-go/v2 v2.0.1

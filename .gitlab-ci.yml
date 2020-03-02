@@ -17,7 +17,7 @@ variables:
 
 test:
   stage: build
-  image: golang:1.13
+  image: golang:1.14
   script:
     - go test -mod=readonly -race -v ./...
 
@@ -65,7 +65,7 @@ dev_auto:
   before_script: []
   environment:
     name: dev
-    url: https://camplace-site.dev-dliver.prmrgt.com
+    url: https://camplace.dev
   image: proemergotech/helm-kubectl-docker:latest
   script:
   - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
@@ -82,7 +82,7 @@ dev_feature:
   before_script: []
   environment:
     name: dev
-    url: https://camplace-site.dev-dliver.prmrgt.com
+    url: https://camplace.dev
   image: proemergotech/helm-kubectl-docker:latest
   script:
   - echo ${KUBE_CONFIG_DEV_BASE64} | base64 -d > /.kubeconfig
