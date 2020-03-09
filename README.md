@@ -100,9 +100,6 @@ remove the line `yafuds.SetTracer(opentracing.GlobalTracer())` from `container.n
   - [error](./app/storage/error.go)
   - [error definitions](./app/schema/service/error.go)
   - [Gopkg.toml](./Gopkg.toml)
-  
-## Example References
-* [API documentation](./API.md)
 
 ## Development
 

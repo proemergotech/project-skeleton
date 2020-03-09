@@ -3,7 +3,6 @@ module gitlab.com/proemergotech/dliver-project-skeleton
 go 1.14
 
 require (
-	github.com/araddon/dateparse v0.0.0-20190622164848-0fb0a474d195 // indirect
 	github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd // indirect
 	github.com/go-playground/validator/v10 v10.0.1
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
@@ -28,12 +27,13 @@ require (
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
 	gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.2
 	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
-	gitlab.com/proemergotech/log-go/v2 v2.0.1
-	gitlab.com/proemergotech/microtime-go v1.0.0
+	gitlab.com/proemergotech/log-go/v3 v3.0.0
 	gitlab.com/proemergotech/trace-go/v2 v2.0.1
 	gitlab.com/proemergotech/uuid-go v1.0.0
 	gitlab.com/proemergotech/yafuds-client-go v1.1.0
 	go.uber.org/zap v1.10.0
 	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
+	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/h2non/gentleman.v2 v2.0.3
+	gopkg.in/yaml.v2 v2.2.7 // indirect
 )

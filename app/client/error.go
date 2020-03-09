@@ -10,7 +10,7 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
-	log "gitlab.com/proemergotech/log-go/v2"
+	log "gitlab.com/proemergotech/log-go/v3"
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
 )
