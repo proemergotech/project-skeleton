@@ -10,8 +10,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	log "gitlab.com/proemergotech/log-go/v2"
-	"gitlab.com/proemergotech/log-go/v2/echolog"
+	log "gitlab.com/proemergotech/log-go/v3"
+	"gitlab.com/proemergotech/log-go/v3/echolog"
 	"gitlab.com/proemergotech/trace-go/v2/echotrace"
 )
 

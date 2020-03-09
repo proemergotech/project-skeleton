@@ -24,18 +24,17 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
 	"gitlab.com/proemergotech/geb-client-go/v2/geb"
 	"gitlab.com/proemergotech/geb-client-go/v2/geb/rabbitmq"
-	log "gitlab.com/proemergotech/log-go/v2"
-	"gitlab.com/proemergotech/log-go/v2/echolog"
-	"gitlab.com/proemergotech/log-go/v2/elasticlog"
-	"gitlab.com/proemergotech/log-go/v2/geblog"
-	"gitlab.com/proemergotech/log-go/v2/httplog"
-	"gitlab.com/proemergotech/log-go/v2/jaegerlog"
+	log "gitlab.com/proemergotech/log-go/v3"
+	"gitlab.com/proemergotech/log-go/v3/echolog"
+	"gitlab.com/proemergotech/log-go/v3/elasticlog"
+	"gitlab.com/proemergotech/log-go/v3/geblog"
+	"gitlab.com/proemergotech/log-go/v3/httplog"
+	"gitlab.com/proemergotech/log-go/v3/jaegerlog"
 	"gitlab.com/proemergotech/trace-go/v2/gebtrace"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
 )
@@ -202,20 +201,10 @@ func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
 	q.UsePublish(geblog.PublishMiddleware(log.GlobalLogger(), true))
 	q.UsePublish(gebtrace.PublishMiddleware(opentracing.GlobalTracer(), log.GlobalLogger()))
 	q.UseOnEvent(geb.RecoveryMiddleware())
-	q.UseOnEvent(geblog.OnEventMiddleware(log.GlobalLogger(), true))
+	q.UseOnEvent(geblog.OnEventDebugMiddleware(log.GlobalLogger(), true))
 	q.UseOnEvent(gebtrace.OnEventMiddleware(opentracing.GlobalTracer(), log.GlobalLogger()))
-	q.UseOnEvent(func(e *geb.Event, next func(*geb.Event) error) error {
-		if err := next(e); err != nil {
-			httpCode := schema.ErrorHTTPCode(err)
-			if httpCode >= 400 && httpCode < 500 {
-				log.Warn(e.Context(), err.Error(), "error", err)
-			} else {
-				log.Error(e.Context(), err.Error(), "error", err)
-			}
-		}
+	q.UseOnEvent(geblog.OnEventErrorMiddleware(log.GlobalLogger()))
 
-		return nil
-	})
 	if err := q.OnError(func(err error) {
 		err = errors.Wrap(err, "Geb connection error")
 		log.Error(context.Background(), err.Error(), "error", err)

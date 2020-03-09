@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
-	log "gitlab.com/proemergotech/log-go/v2"
+	log "gitlab.com/proemergotech/log-go/v3"
 )
 
 // initConfig reads in config file and ENV variables if set.
