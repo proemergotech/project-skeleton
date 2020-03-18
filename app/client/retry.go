@@ -2,102 +2,174 @@ package client
 
 import (
 	"bytes"
+	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"net/http/httputil"
 	"time"
 
 	"github.com/pkg/errors"
+	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/log-go/v3"
 	"golang.org/x/net/context"
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
-
-	"gitlab.com/proemergotech/log-go/v3"
 )
 
-type evalFunc func(error, *http.Request, *http.Response) error
+var noopCancel = func() {}
+
+type Option func(*transport)
+
+type evalFunc func(error, *http.Request, *http.Response) (retry bool, err error)
 
 type transport struct {
 	evaluator      evalFunc
 	transport      http.RoundTripper
-	context        *gcontext.Context
+	gctx           *gcontext.Context
 	backoffTimeout time.Duration
 	requestTimeout time.Duration
+	loggingEnabled bool
+	logResponse    bool
 }
 
-func RetryMiddleware(backoffTimeout time.Duration, requestTimeout time.Duration) plugin.Plugin {
-	return plugin.NewPhasePlugin("before dial", func(ctx *gcontext.Context, handler gcontext.Handler) {
-		intercept(ctx, backoffTimeout, requestTimeout)
-		handler.Next(ctx)
+func RetryMiddleware(options ...Option) plugin.Plugin {
+	return plugin.NewPhasePlugin("before dial", func(gctx *gcontext.Context, handler gcontext.Handler) {
+		t := &transport{
+			evaluator:      defaultEvaluator,
+			transport:      gctx.Client.Transport,
+			gctx:           gctx,
+			backoffTimeout: DefaultMaxElapsedTime,
+		}
+
+		for _, opt := range options {
+			opt(t)
+		}
+
+		gctx.Client.Transport = t
+
+		handler.Next(gctx)
 	})
 }
 
-func intercept(ctx *gcontext.Context, backoffTimeout time.Duration, requestTimeout time.Duration) {
-	t := &transport{
-		evaluator:      evaluator,
-		transport:      ctx.Client.Transport,
-		context:        ctx,
-		backoffTimeout: backoffTimeout,
-		requestTimeout: requestTimeout,
-	}
-	if backoffTimeout == 0 {
-		t.backoffTimeout = DefaultMaxElapsedTime
-	}
-
-	ctx.Client.Transport = t
-}
-
-var evaluator = func(err error, req *http.Request, res *http.Response) error {
-	if err != nil {
-		return err
-	}
-
-	if res.StatusCode >= 500 || res.StatusCode == http.StatusRequestTimeout || res.StatusCode == http.StatusNotFound {
-		return errors.New("server response error")
-	}
-
-	return nil
-}
-
 func (t *transport) RoundTrip(req *http.Request) (*http.Response, error) {
-	res := t.context.Response
+	var body []byte
 
-	buf, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		return res, err
-	}
-	err = req.Body.Close()
-	if err != nil {
-		return res, err
+	if req.Body != nil {
+		buf, err := ioutil.ReadAll(req.Body)
+		if err != nil {
+			_ = req.Body.Close()
+			return t.gctx.Response, err
+		}
+		_ = req.Body.Close()
+
+		body = buf
 	}
 
-	b := NewExponentialBackOff(t.backoffTimeout, DefaultMaxInterval, DefaultRandomizationFactor)
-	var errRetryAttempt error
+	reqCopy := req
+	resetTimeout := false
+
+	if t.requestTimeout > 0 {
+		if _, ok := req.Context().Deadline(); !ok {
+			reqCopy = req.Clone(req.Context())
+			resetTimeout = true
+		}
+	}
+
+	return t.retry(reqCopy, body, reqCopy.Context().Done(), resetTimeout)
+}
+
+func (t *transport) retry(req *http.Request, body []byte, done <-chan struct{}, resetTimeout bool) (*http.Response, error) {
+	cancel := noopCancel
+	retryCount := 0
+	backoff := NewExponentialBackOff(t.backoffTimeout, DefaultMaxInterval, DefaultRandomizationFactor)
+	origCtx := req.Context()
+
 	for {
-		reqCopy := &http.Request{}
-		*reqCopy = *req
+		if resetTimeout {
+			ctx, c := context.WithTimeout(origCtx, t.requestTimeout)
+			req = req.WithContext(ctx)
+			cancel = c
+		}
 
-		ctx2, cancel := context.WithTimeout(req.Context(), t.requestTimeout)
-		reqCopy = reqCopy.WithContext(ctx2)
+		if body != nil {
+			req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+		}
 
-		reqCopy.Body = ioutil.NopCloser(bytes.NewBuffer(buf))
-
-		res, err = t.transport.RoundTrip(reqCopy)
-		err = t.evaluator(err, req, res)
+		res, err := t.transport.RoundTrip(req)
+		retry, err := t.evaluator(err, req, res)
+		if !retry {
+			return res, err
+		}
 
 		cancel()
-		if err == nil {
-			if errRetryAttempt != nil {
-				log.Warn(req.Context(), "The request had to be retried.", "url", req.RequestURI, "error", errRetryAttempt)
-			}
-			return res, nil
-		}
-		errRetryAttempt = err
 
-		hasNext, duration := b.NextBackOff()
+		if res != nil {
+			if t.logResponse {
+				b, _ := httputil.DumpResponse(res, true)
+				_ = res.Body.Close()
+
+				err = errorsf.WithFields(err, "failed_retry_response", string(b))
+			} else {
+				_, _ = io.Copy(ioutil.Discard, res.Body)
+				_ = res.Body.Close()
+			}
+		}
+
+		hasNext, duration := backoff.NextBackOff()
 		if !hasNext {
 			return nil, err
 		}
 
-		time.Sleep(duration)
+		select {
+		case <-time.After(duration):
+			retryCount++
+			if t.loggingEnabled {
+				log.Warn(req.Context(), fmt.Sprintf("error during request, retry # %d", retryCount), "error", err)
+			}
+		case <-done:
+			return nil, err
+		}
+	}
+}
+
+func defaultEvaluator(err error, req *http.Request, res *http.Response) (bool, error) {
+	if err != nil {
+		return true, err
+	}
+
+	if res.StatusCode >= 500 || res.StatusCode == http.StatusRequestTimeout {
+		return true, errors.New("server response error")
+	}
+
+	return false, nil
+}
+
+func BackoffTimeout(timeout time.Duration) Option {
+	return func(t *transport) {
+		t.backoffTimeout = timeout
+	}
+}
+
+func RequestTimeout(timeout time.Duration) Option {
+	return func(t *transport) {
+		t.requestTimeout = timeout
+	}
+}
+
+func Evaluator(evalFn evalFunc) Option {
+	return func(t *transport) {
+		t.evaluator = evalFn
+	}
+}
+
+func EnableLogging() Option {
+	return func(t *transport) {
+		t.loggingEnabled = true
+	}
+}
+func LogResponse() Option {
+	return func(t *transport) {
+		t.logResponse = true
 	}
 }

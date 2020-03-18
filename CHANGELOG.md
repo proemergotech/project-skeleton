@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.13.0 / 2020-03-18
+- update retry middleware (not backward compatible)
+
 ## v1.12.0 / 2020-03-05
 - remove API.md reference from README.md
 - update log-go to v3.0.0
