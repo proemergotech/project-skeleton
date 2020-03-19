@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/errors"
 )
 
 const (
@@ -55,7 +55,7 @@ func ToPublicHTTPError(err error) (*HTTPError, int) {
 }
 
 func ErrorCode(err error) string {
-	field := errorsf.Field(err, ErrCode)
+	field := errors.Field(err, ErrCode)
 	if field == nil {
 		return ""
 	}
@@ -64,7 +64,7 @@ func ErrorCode(err error) string {
 }
 
 func ErrorHTTPCode(err error) int {
-	field := errorsf.Field(err, ErrHTTPCode)
+	field := errors.Field(err, ErrHTTPCode)
 	if field == nil {
 		return 0
 	}
@@ -73,7 +73,7 @@ func ErrorHTTPCode(err error) int {
 }
 
 func ErrorGRPCCode(err error) int {
-	field := errorsf.Field(err, ErrGRPCCode)
+	field := errors.Field(err, ErrGRPCCode)
 	if field == nil {
 		return 0
 	}
@@ -82,7 +82,7 @@ func ErrorGRPCCode(err error) int {
 }
 
 func ErrorDetails(err error) []map[string]interface{} {
-	field := errorsf.Field(err, ErrDetails)
+	field := errors.Field(err, ErrDetails)
 	if field == nil {
 		return []map[string]interface{}{}
 	}

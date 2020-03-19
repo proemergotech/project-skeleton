@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.15.0 / 2020-03-23
+- create lib from errors
+- remove .env.example
+- update yafuds-client-go to v1.2.0
+
 ## v1.14.0 / 2020-03-20
 - remove .env.example (remove config example too if it exists)
 - move initConfig to command Run method so we can create separate config for every command

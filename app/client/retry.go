@@ -9,8 +9,7 @@ import (
 	"net/http/httputil"
 	"time"
 
-	"github.com/pkg/errors"
-	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/errors"
 	"gitlab.com/proemergotech/log-go/v3"
 	"golang.org/x/net/context"
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
@@ -109,7 +108,7 @@ func (t *transport) retry(req *http.Request, body []byte, done <-chan struct{}, 
 				b, _ := httputil.DumpResponse(res, true)
 				_ = res.Body.Close()
 
-				err = errorsf.WithFields(err, "failed_retry_response", string(b))
+				err = errors.WithFields(err, "failed_retry_response", string(b))
 			} else {
 				_, _ = io.Copy(ioutil.Discard, res.Body)
 				_ = res.Body.Close()

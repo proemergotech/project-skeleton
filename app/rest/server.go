@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"github.com/pkg/errors"
+	"gitlab.com/proemergotech/errors"
 )
 
 type Server struct {

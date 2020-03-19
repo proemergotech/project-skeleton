@@ -1,11 +1,10 @@
 package service
 
 import (
-	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/centrifuge-client-go/v2/api"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/errors"
 )
 
 type centrifugeError struct {
@@ -30,7 +29,7 @@ func (e centrifugeError) E() error {
 		err = errors.Wrap(err, "centrifuge error")
 	}
 
-	return errorsf.WithFields(
+	return errors.WithFields(
 		err,
 		schema.ErrCode, service.ErrCentrifuge,
 		schema.ErrHTTPCode, 500,
@@ -49,12 +48,9 @@ func (e yafudsError) E() error {
 		msg += ": " + e.Msg
 	}
 
-	err := e.Err
-	if err == nil {
-		err = errors.New(msg)
-	} else {
-		err = errors.Wrap(err, msg)
-	}
-
-	return errorsf.WithFields(err, schema.ErrCode, service.ErrYafuds, schema.ErrHTTPCode, 500)
+	return errors.WithFields(
+		errors.WrapOrNew(e.Err, msg),
+		schema.ErrCode, service.ErrYafuds,
+		schema.ErrHTTPCode, 500,
+	)
 }
