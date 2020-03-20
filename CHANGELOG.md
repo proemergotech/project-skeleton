@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.14.0 / 2020-03-20
+- remove .env.example (remove config example too if it exists)
+- move initConfig to command Run method so we can create separate config for every command
+
 ## v1.13.0 / 2020-03-18
 - update retry middleware (not backward compatible)
 

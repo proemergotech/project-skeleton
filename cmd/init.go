@@ -11,7 +11,7 @@ import (
 )
 
 // initConfig reads in config file and ENV variables if set.
-func initConfig() {
+func initConfig(cfg interface{}) {
 	hasErrors := false
 	val := reflect.ValueOf(cfg).Elem()
 	for i := 0; i < val.NumField(); i++ {

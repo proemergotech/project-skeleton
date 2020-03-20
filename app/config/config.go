@@ -39,3 +39,8 @@ type Config struct {
 	YafudsHost string `mapstructure:"yafuds_host" validate:"required"`
 	YafudsPort string `mapstructure:"yafuds_port" default:"7890"`
 }
+
+type BootstrapConfig struct {
+	YafudsHost string `mapstructure:"yafuds_host" validate:"required"`
+	YafudsPort string `mapstructure:"yafuds_port" default:"7890"`
+}

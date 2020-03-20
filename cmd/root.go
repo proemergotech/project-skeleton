@@ -14,17 +14,13 @@ import (
 	log "gitlab.com/proemergotech/log-go/v3"
 )
 
-var (
-	cfg = &config.Config{}
-)
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use: config.AppName,
-	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		initConfig()
-	},
 	Run: func(cmd *cobra.Command, args []string) {
+		cfg := &config.Config{}
+		initConfig(cfg)
+
 		container, err := di.NewContainer(cfg)
 		if err != nil {
 			log.Panic(context.Background(), "Couldn't load container", "error", err)
