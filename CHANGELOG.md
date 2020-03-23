@@ -1,8 +1,10 @@
 # Release Notes
 
+## v1.16.0 / 2020-03-23
+- update log-go to v3.0.1 (truncate long zaplog messages)
+
 ## v1.15.0 / 2020-03-23
 - create lib from errors
-- remove .env.example
 - update yafuds-client-go to v1.2.0
 
 ## v1.14.0 / 2020-03-20
