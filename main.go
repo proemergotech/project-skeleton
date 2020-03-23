@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/cmd"
+	"gitlab.com/proemergotech/errors"
 	log "gitlab.com/proemergotech/log-go/v3"
 	"gitlab.com/proemergotech/log-go/v3/zaplog"
 	trace "gitlab.com/proemergotech/trace-go/v2"

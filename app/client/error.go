@@ -6,10 +6,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/errors"
 	log "gitlab.com/proemergotech/log-go/v3"
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
@@ -53,7 +52,7 @@ func (e clientHTTPError) E() error {
 	errResp := &schema.HTTPError{}
 	err := jsonDecoder.Decode(errResp)
 	if err != nil && err != io.EOF {
-		return errorsf.WithFields(
+		return errors.WithFields(
 			errors.New("invalid error response format"),
 			errHTTPCode, e.Res.StatusCode,
 			errService, e.ServiceName,
@@ -61,7 +60,7 @@ func (e clientHTTPError) E() error {
 			schema.ErrHTTPCode, 500,
 		)
 	} else if errResp.Error.Code == "" {
-		return errorsf.WithFields(
+		return errors.WithFields(
 			errors.New("invalid error response format: missing code field"),
 			errHTTPCode, e.Res.StatusCode,
 			errService, e.ServiceName,
@@ -75,7 +74,7 @@ func (e clientHTTPError) E() error {
 		msg = fmt.Sprintf("%s: %s", msg, errResp.Error.Message)
 	}
 
-	return errorsf.WithFields(
+	return errors.WithFields(
 		errors.New(msg),
 		errCode, errResp.Error.Code,
 		errHTTPCode, e.Res.StatusCode,
@@ -87,7 +86,7 @@ func (e clientHTTPError) E() error {
 }
 
 func ErrorCode(err error) string {
-	field := errorsf.Field(err, errCode)
+	field := errors.Field(err, errCode)
 	if field == nil {
 		return ""
 	}
@@ -96,7 +95,7 @@ func ErrorCode(err error) string {
 }
 
 func ErrorHTTPCode(err error) int {
-	field := errorsf.Field(err, errHTTPCode)
+	field := errors.Field(err, errHTTPCode)
 	if field == nil {
 		return 0
 	}
@@ -105,7 +104,7 @@ func ErrorHTTPCode(err error) int {
 }
 
 func ErrorDetails(err error) []map[string]interface{} {
-	field := errorsf.Field(err, errDetails)
+	field := errors.Field(err, errDetails)
 	if field == nil {
 		return []map[string]interface{}{}
 	}

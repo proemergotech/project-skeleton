@@ -7,10 +7,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/di"
+	"gitlab.com/proemergotech/errors"
 	log "gitlab.com/proemergotech/log-go/v3"
 )
 

@@ -2,10 +2,9 @@ package validation
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/pkg/errors"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/errors"
 )
 
 type Error struct {
@@ -41,7 +40,7 @@ func (e Error) E() error {
 		err = errors.Wrap(err, msg)
 	}
 
-	return errorsf.WithFields(
+	return errors.WithFields(
 		err,
 		schema.ErrCode, service.ErrValidation,
 		schema.ErrHTTPCode, 400,

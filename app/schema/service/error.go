@@ -1,10 +1,8 @@
 package service
 
 import (
-	"github.com/pkg/errors"
-
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/errors"
 )
 
 const (
@@ -38,15 +36,8 @@ func (e SemanticError) E() error {
 		msg += ": " + e.Msg
 	}
 
-	err := e.Err
-	if err == nil {
-		err = errors.New(msg)
-	} else {
-		err = errors.Wrap(err, msg)
-	}
-
-	return errorsf.WithFields(
-		err,
+	return errors.WithFields(
+		errors.WrapOrNew(e.Err, msg),
 		append(e.Fields,
 			schema.ErrCode, ErrSemanticError,
 			schema.ErrHTTPCode, 500,

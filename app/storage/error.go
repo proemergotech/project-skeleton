@@ -1,11 +1,9 @@
 package storage
 
 import (
-	"github.com/pkg/errors"
-
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/errorsf"
+	"gitlab.com/proemergotech/errors"
 )
 
 type elasticError struct {
@@ -19,14 +17,11 @@ func (e elasticError) E() error {
 		msg += ": " + e.Msg
 	}
 
-	err := e.Err
-	if err == nil {
-		err = errors.New(msg)
-	} else {
-		err = errors.Wrap(err, msg)
-	}
-
-	return errorsf.WithFields(err, schema.ErrCode, service.ErrElastic, schema.ErrHTTPCode, 500)
+	return errors.WithFields(
+		errors.WrapOrNew(e.Err, msg),
+		schema.ErrCode, service.ErrElastic,
+		schema.ErrHTTPCode, 500,
+	)
 }
 
 type redisError struct {
@@ -40,15 +35,8 @@ func (e redisError) E() error {
 		msg += ": " + e.Msg
 	}
 
-	err := e.Err
-	if err == nil {
-		err = errors.New(msg)
-	} else {
-		err = errors.Wrap(err, msg)
-	}
-
-	return errorsf.WithFields(
-		err,
+	return errors.WithFields(
+		errors.WrapOrNew(e.Err, msg),
 		schema.ErrCode, service.ErrRedis,
 		schema.ErrHTTPCode, 500,
 	)

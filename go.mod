@@ -16,7 +16,6 @@ require (
 	github.com/olivere/elastic v6.2.25+incompatible
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pelletier/go-toml v1.4.0 // indirect
-	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v1.1.0
 	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cobra v0.0.5
@@ -26,11 +25,12 @@ require (
 	github.com/uber/jaeger-client-go v2.20.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
 	gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.2
+	gitlab.com/proemergotech/errors v1.0.0
 	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
 	gitlab.com/proemergotech/log-go/v3 v3.0.0
 	gitlab.com/proemergotech/trace-go/v2 v2.0.1
 	gitlab.com/proemergotech/uuid-go v1.0.0
-	gitlab.com/proemergotech/yafuds-client-go v1.1.0
+	gitlab.com/proemergotech/yafuds-client-go v1.2.0
 	go.uber.org/zap v1.10.0
 	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
