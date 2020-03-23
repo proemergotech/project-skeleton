@@ -235,6 +235,8 @@ gitlab.com/proemergotech/geb-client-go/v2 v2.0.0 h1:/Toq/4YIJ3mJm8jm/wCiNPSU58Dt
 gitlab.com/proemergotech/geb-client-go/v2 v2.0.0/go.mod h1:nOQXtPy77q1qzXNrII1aoVIK3zoyiYQKlw3KsArsm4I=
 gitlab.com/proemergotech/log-go/v3 v3.0.0 h1:7MTP+3G4K8DTa0vHWgfgzQSxdcvUVis+HOln5UA33aE=
 gitlab.com/proemergotech/log-go/v3 v3.0.0/go.mod h1:MPmlCQGJLR5nrHT1tev/3o6tnIXSuijBzDyWgo0sj54=
+gitlab.com/proemergotech/log-go/v3 v3.0.1 h1:bLeyWPNI3qNQuKOfmv6QNUVYJz1jfUQ0kQm0+ZsC0gI=
+gitlab.com/proemergotech/log-go/v3 v3.0.1/go.mod h1:MPmlCQGJLR5nrHT1tev/3o6tnIXSuijBzDyWgo0sj54=
 gitlab.com/proemergotech/trace-go/v2 v2.0.1 h1:1CXiut6hku/T+dKEWnz+hKLuBafeJmwe+Ll+EzOuHag=
 gitlab.com/proemergotech/trace-go/v2 v2.0.1/go.mod h1:4gYOlVFqSVD1kTSso9XsVPplZodUOm2AjEBOp5koMVI=
 gitlab.com/proemergotech/uuid-go v1.0.0 h1:RBMECWTthH4ywazwzvJfjx77QICGG66X9uzHY45fZvU=
