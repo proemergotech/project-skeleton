@@ -24,11 +24,11 @@ func PublicDLiveRHTTPErrorHandler(err error, eCtx echo.Context) {
 
 		switch sc {
 		case http.StatusNotFound:
-			err = routeNotFoundError{Err: eErr, URL: eCtx.Request().URL.String()}.E()
+			err = routeNotFoundError{Err: eErr, Method: eCtx.Request().Method, URL: eCtx.Request().URL.String()}.E()
 		case http.StatusMethodNotAllowed:
-			err = methodNotAllowedError{Err: eErr, URL: eCtx.Request().URL.String()}.E()
+			err = methodNotAllowedError{Err: eErr, Method: eCtx.Request().Method, URL: eCtx.Request().URL.String()}.E()
 		default:
-			err = service.SemanticError{Err: eErr, Fields: []interface{}{"url", eCtx.Request().URL.String()}}.E()
+			err = service.SemanticError{Err: eErr, Fields: []interface{}{"method", eCtx.Request().Method, "url", eCtx.Request().URL.String()}}.E()
 		}
 	}
 
