@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.17.0 / 2020-03-26
+- add http method to routeNotFoundError and methodNotAllowedError
+
 ## v1.16.0 / 2020-03-23
 - update log-go to v3.0.1 (truncate long zaplog messages)
 

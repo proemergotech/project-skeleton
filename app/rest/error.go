@@ -1,21 +1,24 @@
 package rest
 
 import (
+	"fmt"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	"gitlab.com/proemergotech/errors"
 )
 
 type routeNotFoundError struct {
-	Err error
-	URL string
+	Err    error
+	Method string
+	URL    string
 }
 
 func (e routeNotFoundError) E() error {
 	msg := "route cannot be found"
 
-	if e.URL != "" {
-		msg += ": '" + e.URL + "'"
+	if e.Method != "" && e.URL != "" {
+		msg += fmt.Sprintf(": [%s] %s", e.Method, e.URL)
 	}
 
 	return errors.WithFields(
@@ -26,15 +29,16 @@ func (e routeNotFoundError) E() error {
 }
 
 type methodNotAllowedError struct {
-	Err error
-	URL string
+	Err    error
+	Method string
+	URL    string
 }
 
 func (e methodNotAllowedError) E() error {
 	msg := "method not allowed"
 
-	if e.URL != "" {
-		msg += ": '" + e.URL + "'"
+	if e.Method != "" && e.URL != "" {
+		msg += fmt.Sprintf(": [%s] %s", e.Method, e.URL)
 	}
 
 	return errors.WithFields(
