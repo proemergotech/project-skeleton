@@ -5,10 +5,11 @@ import (
 )
 
 const (
-	ErrCode     = "code"
-	ErrDetails  = "details"
-	ErrHTTPCode = "http_code"
-	ErrGRPCCode = "grcp_code"
+	ErrCode          = "code"
+	ErrDetails       = "details"
+	ErrPublicDetails = "public_details"
+	ErrHTTPCode      = "http_code"
+	ErrGRPCCode      = "grcp_code"
 )
 
 type HTTPError struct {
@@ -49,7 +50,8 @@ func ToPublicHTTPError(err error) (*HTTPError, int) {
 
 	return &HTTPError{
 		Error: Error{
-			Code: code,
+			Code:    code,
+			Details: ErrorPublicDetails(err),
 		},
 	}, httpCode
 }
@@ -83,6 +85,15 @@ func ErrorGRPCCode(err error) int {
 
 func ErrorDetails(err error) []map[string]interface{} {
 	field := errors.Field(err, ErrDetails)
+	if field == nil {
+		return []map[string]interface{}{}
+	}
+
+	return field.([]map[string]interface{})
+}
+
+func ErrorPublicDetails(err error) []map[string]interface{} {
+	field := errors.Field(err, ErrPublicDetails)
 	if field == nil {
 		return []map[string]interface{}{}
 	}

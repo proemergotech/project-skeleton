@@ -24,16 +24,22 @@ func (e Error) E() error {
 
 	err := e.Err
 	var details []map[string]interface{}
+	var publicDetails []map[string]interface{}
 	if err == nil {
 		err = errors.New(msg)
 	} else if errs, ok := err.(validator.ValidationErrors); ok {
 		err = errors.New(msg)
 		details = make([]map[string]interface{}, 0, len(errs))
+		publicDetails = make([]map[string]interface{}, 0, len(errs))
 		for _, err := range errs {
 			details = append(details, map[string]interface{}{
 				"field":   err.Field(),
 				"error":   service.ErrValidation,
 				"message": "Field " + err.StructNamespace() + " failed on: " + err.Tag(),
+			})
+			publicDetails = append(publicDetails, map[string]interface{}{
+				"field":     err.Field(),
+				"validator": err.Tag(),
 			})
 		}
 	} else {
@@ -45,5 +51,6 @@ func (e Error) E() error {
 		schema.ErrCode, service.ErrValidation,
 		schema.ErrHTTPCode, 400,
 		schema.ErrDetails, details,
+		schema.ErrPublicDetails, publicDetails,
 	)
 }

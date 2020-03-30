@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.18.0 / 2020-03-30
+- create public details for validation.Error
+
 ## v1.17.0 / 2020-03-26
 - add http method to routeNotFoundError and methodNotAllowedError
 
