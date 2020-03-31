@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.19.0 / 2020-03-31
+- added multiple tags to validator.RegisterTagNameFunc for searching a StructField's name 
+
 ## v1.18.0 / 2020-03-30
 - create public details for validation.Error
 
