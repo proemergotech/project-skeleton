@@ -40,6 +40,19 @@ var rootCmd = &cobra.Command{
 
 		log.Info(context.Background(), "Rest server started")
 
+		publicRestErrorCh := make(chan error)
+		container.PublicRestServer.Start(publicRestErrorCh)
+
+		defer func() {
+			if err := container.PublicRestServer.Stop(5 * time.Second); err != nil {
+				err = errors.Wrap(err, "Public rest server graceful shutdown failed")
+				log.Panic(context.Background(), err.Error(), "error", err)
+			}
+			log.Info(context.Background(), "Public rest server graceful shutdown complete")
+		}()
+
+		log.Info(context.Background(), "Public rest server started")
+
 		if err := container.EventServer.Start(); err != nil {
 			err = errors.Wrap(err, "Failed starting event server")
 			log.Panic(context.Background(), err.Error(), "error", err)
@@ -52,6 +65,9 @@ var rootCmd = &cobra.Command{
 		case <-sigs:
 		case err := <-errorCh:
 			err = errors.Wrap(err, "Rest server fatal error")
+			log.Panic(context.Background(), err.Error(), "error", err)
+		case err := <-publicRestErrorCh:
+			err = errors.Wrap(err, "Public rest server fatal error")
 			log.Panic(context.Background(), err.Error(), "error", err)
 		}
 	},

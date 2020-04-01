@@ -15,7 +15,7 @@ import (
 	"gitlab.com/proemergotech/trace-go/v2/echotrace"
 )
 
-type Controller struct {
+type controller struct {
 	echoEngine *echo.Echo
 	svc        *service.Service
 	debugPProf bool
@@ -25,15 +25,15 @@ func NewController(
 	echoEngine *echo.Echo,
 	svc *service.Service,
 	debugPProf bool,
-) *Controller {
-	return &Controller{
+) Controller {
+	return &controller{
 		echoEngine: echoEngine,
 		svc:        svc,
 		debugPProf: debugPProf,
 	}
 }
 
-func (c *Controller) start() {
+func (c *controller) Start() {
 	if c.debugPProf {
 		runtime.SetBlockProfileRate(1)
 		runtime.SetMutexProfileFraction(5)

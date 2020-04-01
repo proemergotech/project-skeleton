@@ -8,14 +8,18 @@ import (
 	"gitlab.com/proemergotech/errors"
 )
 
+type Controller interface {
+	Start()
+}
+
 type Server struct {
 	echoEngine *echo.Echo
-	controller *Controller
+	controller Controller
 }
 
 func NewServer(
 	echoEngine *echo.Echo,
-	controller *Controller,
+	controller Controller,
 ) *Server {
 	return &Server{
 		echoEngine: echoEngine,
@@ -24,7 +28,7 @@ func NewServer(
 }
 
 func (s *Server) Start(errorCh chan error) {
-	s.controller.start()
+	s.controller.Start()
 
 	go func() {
 		if err := s.echoEngine.StartServer(s.echoEngine.Server); err != nil {

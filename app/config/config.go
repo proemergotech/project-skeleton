@@ -8,6 +8,7 @@ var AppVersion string
 
 type Config struct {
 	Port       int  `mapstructure:"port" default:"80"`
+	PublicPort int  `mapstructure:"public_port" default:"8080"`
 	DebugPProf bool `mapstructure:"debug_pprof" default:"false"`
 
 	CentrifugoHost     string `mapstructure:"centrifugo_host" validate:"required"`

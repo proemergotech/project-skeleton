@@ -40,13 +40,14 @@ import (
 )
 
 type Container struct {
-	RestServer    *rest.Server
-	EventServer   *event.Server
-	redisCloser   io.Closer
-	traceCloser   io.Closer
-	gebCloser     io.Closer
-	yafudsCloser  io.Closer
-	elasticClient *elastic.Client
+	RestServer       *rest.Server
+	PublicRestServer *rest.Server
+	EventServer      *event.Server
+	redisCloser      io.Closer
+	traceCloser      io.Closer
+	gebCloser        io.Closer
+	yafudsCloser     io.Closer
+	elasticClient    *elastic.Client
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
@@ -94,12 +95,13 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.yafudsCloser = yafudsClient
 
-	v, err := newValidator()
+	v, err := NewValidator()
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize validator")
 	}
 
 	echoEngine := newEcho(cfg.Port, v, rest.DLiveRHTTPErrorHandler)
+	publicEchoEngine := newEcho(cfg.PublicPort, v, rest.PublicDLiveRHTTPErrorHandler)
 
 	svc := service.NewService(
 		centrifugeClient,
@@ -113,6 +115,14 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 			echoEngine,
 			svc,
 			cfg.DebugPProf,
+		),
+	)
+
+	c.PublicRestServer = rest.NewServer(
+		publicEchoEngine,
+		rest.NewPublicController(
+			publicEchoEngine,
+			svc,
 		),
 	)
 
@@ -263,7 +273,7 @@ func newYafuds(cfg *config.Config) (yafuds.Client, error) {
 	return yafudsClient, nil
 }
 
-func newValidator() (*validation.Validator, error) {
+func NewValidator() (*validation.Validator, error) {
 	v := validator.New()
 
 	v.RegisterTagNameFunc(func(field reflect.StructField) string {
