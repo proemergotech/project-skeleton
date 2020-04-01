@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.20.0 / 2020-04-01
+- added public controller
+- (re)added api.md **for public routes only**
+
 ## v1.19.0 / 2020-03-31
 - added multiple tags to validator.RegisterTagNameFunc for searching a StructField's name 
 

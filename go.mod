@@ -24,10 +24,12 @@ require (
 	github.com/streadway/amqp v0.0.0-20190404075320-75d898a42a94 // indirect
 	github.com/uber/jaeger-client-go v2.20.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
+	gitlab.com/proemergotech/apimd-generator-go v1.0.0
 	gitlab.com/proemergotech/centrifuge-client-go/v2 v2.2.2
 	gitlab.com/proemergotech/errors v1.0.0
 	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
 	gitlab.com/proemergotech/log-go/v3 v3.0.1
+	gitlab.com/proemergotech/microtime-go v1.0.0
 	gitlab.com/proemergotech/trace-go/v2 v2.0.1
 	gitlab.com/proemergotech/uuid-go v1.0.0
 	gitlab.com/proemergotech/yafuds-client-go v1.2.0
