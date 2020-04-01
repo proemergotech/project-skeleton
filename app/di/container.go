@@ -267,13 +267,14 @@ func newValidator() (*validation.Validator, error) {
 	v := validator.New()
 
 	v.RegisterTagNameFunc(func(field reflect.StructField) string {
-		name := strings.SplitN(field.Tag.Get("json"), ",", 2)[0]
-
-		if name == "-" {
-			name = ""
+		tags := []string{"param", "json", "query"}
+		for _, t := range tags {
+			name := strings.SplitN(field.Tag.Get(t), ",", 2)[0]
+			if name != "" && name != "-" {
+				return name
+			}
 		}
-
-		return name
+		return ""
 	})
 	err := v.RegisterValidation("notblank", validators.NotBlank)
 	if err != nil {
