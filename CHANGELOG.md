@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.21.0 / 2020-04-03
+- update gentleman retry middleware, add logRequest option
+- update .gitignore
+
 ## v1.20.0 / 2020-04-01
 - added public controller
 - (re)added api.md **for public routes only**

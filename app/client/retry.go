@@ -29,6 +29,7 @@ type transport struct {
 	backoffTimeout time.Duration
 	requestTimeout time.Duration
 	loggingEnabled bool
+	logRequest     bool
 	logResponse    bool
 }
 
@@ -104,15 +105,25 @@ func (t *transport) retry(req *http.Request, body []byte, done <-chan struct{}, 
 		cancel()
 
 		if res != nil {
-			if t.logResponse {
-				b, _ := httputil.DumpResponse(res, true)
-				_ = res.Body.Close()
-
-				err = errors.WithFields(err, "failed_retry_response", string(b))
-			} else {
+			if !t.logRequest && !t.logResponse {
 				_, _ = io.Copy(ioutil.Discard, res.Body)
-				_ = res.Body.Close()
+			} else {
+				fields := make([]interface{}, 0, 4)
+
+				if t.logRequest {
+					b, _ := httputil.DumpRequest(req, true)
+					fields = append(fields, "request", string(b))
+				}
+
+				if t.logResponse {
+					b, _ := httputil.DumpResponse(res, true)
+					fields = append(fields, "response", string(b))
+				}
+
+				err = errors.WithFields(err, fields...)
 			}
+
+			_ = res.Body.Close()
 		}
 
 		hasNext, duration := backoff.NextBackOff()
@@ -167,6 +178,13 @@ func EnableLogging() Option {
 		t.loggingEnabled = true
 	}
 }
+
+func LogRequest() Option {
+	return func(t *transport) {
+		t.logRequest = true
+	}
+}
+
 func LogResponse() Option {
 	return func(t *transport) {
 		t.logResponse = true

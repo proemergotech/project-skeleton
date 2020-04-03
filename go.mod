@@ -35,7 +35,5 @@ require (
 	gitlab.com/proemergotech/yafuds-client-go v1.2.0
 	go.uber.org/zap v1.10.0
 	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
-	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/h2non/gentleman.v2 v2.0.3
-	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
