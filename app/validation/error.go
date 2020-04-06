@@ -8,16 +8,18 @@ import (
 )
 
 type Error struct {
-	Err       error
-	Msg       string
-	PathParam string
+	Err    error
+	Msg    string
+	Fields []ErrorField
+}
+
+type ErrorField struct {
+	Field         string
+	ValidationTag string
 }
 
 func (e Error) E() error {
 	msg := "validation error"
-	if e.PathParam != "" {
-		msg += ": invalid path parameter: " + e.PathParam
-	}
 	if e.Msg != "" {
 		msg += ": " + e.Msg
 	}
@@ -44,6 +46,18 @@ func (e Error) E() error {
 		}
 	} else {
 		err = errors.Wrap(err, msg)
+	}
+
+	for _, f := range e.Fields {
+		details = append(details, map[string]interface{}{
+			"field":   f.Field,
+			"error":   service.ErrValidation,
+			"message": "Field " + f.Field + " failed on: " + f.ValidationTag,
+		})
+		publicDetails = append(publicDetails, map[string]interface{}{
+			"field":     f.Field,
+			"validator": f.ValidationTag,
+		})
 	}
 
 	return errors.WithFields(

@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.23.0 / 2020-04-06
+- added Fields to validation error so the error can be created manually with proper details
+
 ## v1.22.0 / 2020-04-06
 - update trace-go
 
