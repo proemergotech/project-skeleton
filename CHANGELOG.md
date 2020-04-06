@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.22.0 / 2020-04-06
+- update trace-go
+
 ## v1.21.0 / 2020-04-03
 - update gentleman retry middleware, add logRequest option
 - update .gitignore
