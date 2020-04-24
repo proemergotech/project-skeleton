@@ -6,6 +6,7 @@ import (
 
 	jsoniter "github.com/json-iterator/go"
 	"gitlab.com/proemergotech/centrifuge-client-go/v2/api"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
 	log "gitlab.com/proemergotech/log-go/v3"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
@@ -15,17 +16,20 @@ type Service struct {
 	centrifugeClient api.CentrifugeClient
 	centrifugeJSON   jsoniter.API
 	yafudsClient     yafuds.Client
+	dummyClient      *client.Dummy
 }
 
 func NewService(
 	centrifugeClient api.CentrifugeClient,
 	centrifugeJSON jsoniter.API,
 	yafudsClient yafuds.Client,
+	dummyClient *client.Dummy,
 ) *Service {
 	return &Service{
 		centrifugeClient: centrifugeClient,
 		centrifugeJSON:   centrifugeJSON,
 		yafudsClient:     yafudsClient,
+		dummyClient:      dummyClient,
 	}
 }
 
