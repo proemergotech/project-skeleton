@@ -85,6 +85,25 @@ func (e clientHTTPError) E() error {
 	)
 }
 
+type clientError struct {
+	Err error
+	Msg string
+}
+
+func (e clientError) E() error {
+	msg := "client error"
+
+	if e.Msg != "" {
+		msg = e.Msg
+	}
+
+	return errors.WithFields(
+		errors.WrapOrNew(e.Err, msg),
+		schema.ErrCode, service.ErrClient,
+		schema.ErrHTTPCode, 500,
+	)
+}
+
 func ErrorCode(err error) string {
 	field := errors.Field(err, errCode)
 	if field == nil {

@@ -20,6 +20,7 @@ import (
 	jaeger "github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
 	centrifuge "gitlab.com/proemergotech/centrifuge-client-go/v2"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
@@ -33,10 +34,13 @@ import (
 	"gitlab.com/proemergotech/log-go/v3/echolog"
 	"gitlab.com/proemergotech/log-go/v3/elasticlog"
 	"gitlab.com/proemergotech/log-go/v3/geblog"
+	"gitlab.com/proemergotech/log-go/v3/gentlemanlog"
 	"gitlab.com/proemergotech/log-go/v3/httplog"
 	"gitlab.com/proemergotech/log-go/v3/jaegerlog"
 	"gitlab.com/proemergotech/trace-go/v2/gebtrace"
+	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
+	"gopkg.in/h2non/gentleman.v2"
 )
 
 type Container struct {
@@ -95,6 +99,13 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.yafudsCloser = yafudsClient
 
+	dummyClient := client.NewDummy(gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.DummyServiceScheme, cfg.DummyServiceHost, cfg.DummyServicePort)).
+		Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
+		Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true)).
+		Use(client.RestErrorMiddleware("dummy")).
+		Use(client.RetryMiddleware(client.BackoffTimeout(10*time.Second), client.EnableLogging(), client.RequestTimeout(2*time.Second))),
+	)
+
 	v, err := NewValidator()
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize validator")
@@ -107,6 +118,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		centrifugeClient,
 		centrifugeJSON,
 		yafudsClient,
+		dummyClient,
 	)
 
 	c.RestServer = rest.NewServer(

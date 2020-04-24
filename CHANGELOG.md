@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.24.0 / 2020-04-24
+- added clientError
+
 ## v1.23.0 / 2020-04-06
 - added Fields to validation error so the error can be created manually with proper details
 
