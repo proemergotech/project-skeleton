@@ -5,8 +5,9 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	jsoniter "github.com/json-iterator/go"
+	"gitlab.com/proemergotech/log-go/v3"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	log "gitlab.com/proemergotech/log-go/v3"
 )
 
 type Redis struct {
@@ -32,7 +33,8 @@ func (rc *Redis) closeConn(ctx context.Context, conn redis.Conn) {
 	}
 }
 
-// Implementation example for get simple value
+// todo: remove
+//  Implementation example for get simple value
 func (rc *Redis) GetSimpleFunc(ctx context.Context, key string) (string, error) {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
@@ -45,7 +47,8 @@ func (rc *Redis) GetSimpleFunc(ctx context.Context, key string) (string, error) 
 	return value, nil
 }
 
-// Implementation example for save complex value
+// todo: remove
+//  Implementation example for save complex value
 func (rc *Redis) SaveComplexFunc(ctx context.Context, key string, value DummyType) error {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
@@ -63,7 +66,8 @@ func (rc *Redis) SaveComplexFunc(ctx context.Context, key string, value DummyTyp
 	return nil
 }
 
-// Implementation example for get complex value
+// todo: remove
+//  Implementation example for get complex value
 func (rc *Redis) GetComplexFunc(ctx context.Context, key string) (*DummyType, error) {
 	conn := rc.redisPool.Get()
 	defer rc.closeConn(ctx, conn)
@@ -84,6 +88,8 @@ func (rc *Redis) GetComplexFunc(ctx context.Context, key string) (*DummyType, er
 	return result, nil
 }
 
+// todo: remove
+//  Example struct with redis tag
 type DummyType struct {
 	Test string `json:"test_dummy" redis:"dummy_test"`
 }

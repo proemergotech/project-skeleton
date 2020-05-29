@@ -1,9 +1,10 @@
 package event
 
 import (
+	"gitlab.com/proemergotech/geb-client-go/v2/geb"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	"gitlab.com/proemergotech/geb-client-go/v2/geb"
 )
 
 type Controller struct {
@@ -26,7 +27,7 @@ func NewController(
 
 func (c *Controller) start() error {
 
-	// TODO:
+	// todo:
 	//  add gebQueue.OnEvent handlers here
 
 	return c.gebQueue.Start()

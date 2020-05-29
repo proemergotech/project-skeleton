@@ -2,9 +2,10 @@ package validation
 
 import (
 	"github.com/go-playground/validator/v10"
+	"gitlab.com/proemergotech/errors"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/errors"
 )
 
 type Error struct {

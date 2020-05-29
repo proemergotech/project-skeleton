@@ -1,6 +1,6 @@
 run:
   # timeout for analysis, e.g. 30s, 5m, default is 1m
-  deadline: 1m
+  timeout: 1m
 
   # include test files or not, default is true
   tests: true
@@ -48,6 +48,8 @@ issues:
   # excluded by default patterns execute `golangci-lint run --help`
   exclude:
     - "declaration of \"err\" shadows declaration at"
+    - "Consider preallocating `details`"
+    - "Consider preallocating `publicDetails`"
 
   # Maximum issues count per one linter. Set to 0 to disable. Default is 50.
   max-per-linter: 0

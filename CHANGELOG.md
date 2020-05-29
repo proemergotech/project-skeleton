@@ -1,5 +1,12 @@
 # Release Notes
 
+## v1.25.0 / 2020-05-28
+- update API.md with more examples
+- add ci linter
+- add linter excludes
+- add/fix remove todos
+- organize imports
+
 ## v1.24.0 / 2020-04-24
 - added clientError
 

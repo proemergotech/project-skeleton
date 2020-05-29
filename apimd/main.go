@@ -87,14 +87,16 @@ func (d *definitions) Groups(factory *generator.Factory) []generator.Group {
 					Description: []string{
 						"Dummy endpoint's description",
 					},
-					Path:   "/dummy",
+					Path:   "/dummy/:dummy_param_1",
 					Method: http.MethodPost,
 					Request: &struct {
-						DummyData1 string `json:"dummy_data_1" validate:"required"`
-						DummyData2 string `json:"dummy_data_2"`
+						DummyParam1 string `param:"dummy_param_1" validate:"required"`
+						DummyData1  string `json:"dummy_data_1" validate:"required"`
+						DummyData2  string `json:"dummy_data_2"`
 					}{
-						DummyData1: d.body("dummy1").String(),
-						DummyData2: d.body("dummy2").String(),
+						DummyParam1: d.param("dummy_p1").String(),
+						DummyData1:  d.body("dummy_d1").desc("required parameter of the dummy endpoint").String(),
+						DummyData2:  d.body("dummy_d2").opt().String(),
 					},
 					Responses: map[int]interface{}{
 						http.StatusOK: nil,
@@ -144,6 +146,11 @@ func (d *definitions) body(val string) *value {
 
 func (v *value) desc(d string) *value {
 	v.Description(d)
+	return v
+}
+
+func (v *value) opt() *value {
+	v.Optional()
 	return v
 }
 

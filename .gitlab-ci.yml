@@ -21,6 +21,13 @@ test:
   script:
     - go test -mod=readonly -race -v ./...
 
+lint:
+  image: golangci/golangci-lint:latest-alpine
+  stage: build
+  script:
+    - golangci-lint run -v --timeout 2m --out-format tab -c .golangci.yml
+  allow_failure: true
+
 build:
   stage: build
   script:
@@ -73,6 +80,8 @@ dev_auto:
   - /update_images.sh
   only:
   - master
+  except:
+  - branches@proemergotech/dliver-project-skeleton # todo: remove
 
 dev_feature:
   stage: deploy

@@ -38,10 +38,11 @@ func (pc *publicController) Start() {
 
 	// todo: remove
 	//  Example root
-	apiRoutes.POST("/dummy", func(eCtx echo.Context) error {
+	apiRoutes.POST("/dummy/:dummy_param_1", func(eCtx echo.Context) error {
 		req := &struct {
-			DummyData1 string `json:"dummy_data_1" validate:"required"`
-			DummyData2 string `json:"dummy_data_2"`
+			DummyParam1 string `param:"dummy_param_1"`
+			DummyData1  string `json:"dummy_data_1" validate:"required"`
+			DummyData2  string `json:"dummy_data_2"`
 		}{}
 
 		if err := eCtx.Bind(req); err != nil {
