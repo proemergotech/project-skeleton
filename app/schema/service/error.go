@@ -1,8 +1,9 @@
 package service
 
 import (
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/errors"
+
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 )
 
 const (

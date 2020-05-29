@@ -2,9 +2,10 @@ package service
 
 import (
 	"gitlab.com/proemergotech/centrifuge-client-go/v2/api"
+	"gitlab.com/proemergotech/errors"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/errors"
 )
 
 type centrifugeError struct {

@@ -6,10 +6,11 @@ import (
 
 	jsoniter "github.com/json-iterator/go"
 	"gitlab.com/proemergotech/centrifuge-client-go/v2/api"
+	"gitlab.com/proemergotech/log-go/v3"
+	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	log "gitlab.com/proemergotech/log-go/v3"
-	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
 )
 
 type Service struct {
@@ -33,7 +34,8 @@ func NewService(
 	}
 }
 
-// Centrifuge example
+// todo: remove
+//  Centrifuge example
 func (s *Service) SendCentrifuge(ctx context.Context, centrifugeChannel string, eventData interface{}) {
 	data, err := s.centrifugeJSON.Marshal(eventData)
 	if err != nil {

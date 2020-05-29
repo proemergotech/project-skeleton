@@ -2,8 +2,7 @@ package storage
 
 import (
 	"github.com/olivere/elastic"
-
-	uuid "gitlab.com/proemergotech/uuid-go"
+	"gitlab.com/proemergotech/uuid-go"
 )
 
 type Elastic struct {

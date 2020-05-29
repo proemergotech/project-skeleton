@@ -5,7 +5,8 @@ import (
 	"testing"
 )
 
-// Example unit tests
+// todo: remove
+//  Example unit tests
 func TestDummy(t *testing.T) {
 	runDummyTestCase(t, 5, 5, 10)
 }

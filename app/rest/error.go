@@ -3,9 +3,10 @@ package rest
 import (
 	"fmt"
 
+	"gitlab.com/proemergotech/errors"
+
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
-	"gitlab.com/proemergotech/errors"
 )
 
 type routeNotFoundError struct {

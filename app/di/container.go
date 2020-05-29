@@ -16,21 +16,14 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/labstack/echo/v4"
 	"github.com/olivere/elastic"
-	opentracing "github.com/opentracing/opentracing-go"
-	jaeger "github.com/uber/jaeger-client-go"
+	"github.com/opentracing/opentracing-go"
+	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	centrifuge "gitlab.com/proemergotech/centrifuge-client-go/v2"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
+	"gitlab.com/proemergotech/centrifuge-client-go/v2"
 	"gitlab.com/proemergotech/errors"
 	"gitlab.com/proemergotech/geb-client-go/v2/geb"
 	"gitlab.com/proemergotech/geb-client-go/v2/geb/rabbitmq"
-	log "gitlab.com/proemergotech/log-go/v3"
+	"gitlab.com/proemergotech/log-go/v3"
 	"gitlab.com/proemergotech/log-go/v3/echolog"
 	"gitlab.com/proemergotech/log-go/v3/elasticlog"
 	"gitlab.com/proemergotech/log-go/v3/geblog"
@@ -41,6 +34,14 @@ import (
 	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
 	"gopkg.in/h2non/gentleman.v2"
+
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
 )
 
 type Container struct {
@@ -99,6 +100,8 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.yafudsCloser = yafudsClient
 
+	// todo: remove
+	//  Example gentleman declaration
 	dummyClient := client.NewDummy(gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.DummyServiceScheme, cfg.DummyServiceHost, cfg.DummyServicePort)).
 		Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
 		Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true)).
@@ -298,12 +301,15 @@ func NewValidator() (*validation.Validator, error) {
 		}
 		return ""
 	})
+
+	// use it for fields with type slice and map - for these `required` isn't working as expected
 	err := v.RegisterValidation("notblank", validators.NotBlank)
 	if err != nil {
 		return nil, err
 	}
 
-	// TODO: remove example validation for enums:
+	// todo: remove
+	//  example validation for enums:
 	//err = v.RegisterValidation("enum_status", func(fl validator.FieldLevel) bool {
 	//	return schema.Statuses[fl.Field().String()]
 	//})

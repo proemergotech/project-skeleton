@@ -6,13 +6,14 @@ import (
 	"runtime"
 
 	"github.com/labstack/echo/v4"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	log "gitlab.com/proemergotech/log-go/v3"
+	"gitlab.com/proemergotech/log-go/v3"
 	"gitlab.com/proemergotech/log-go/v3/echolog"
 	"gitlab.com/proemergotech/trace-go/v2/echotrace"
+
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
 )
 
 type controller struct {
@@ -57,10 +58,11 @@ func (c *controller) Start() {
 
 	// todo: remove
 	//  Example root
-	apiRoutes.POST("/dummy", func(eCtx echo.Context) error {
+	apiRoutes.POST("/dummy/:dummy_param_1", func(eCtx echo.Context) error {
 		req := &struct {
-			DummyData1 string `json:"dummy_data_1"`
-			DummyData2 string `json:"dummy_data_2"`
+			DummyParam1 string `param:"dummy_param_1"`
+			DummyData1  string `json:"dummy_data_1" validate:"required"`
+			DummyData2  string `json:"dummy_data_2"`
 		}{}
 
 		if err := eCtx.Bind(req); err != nil {
