@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.26.0 / 2020-06-05
+- added meta.yml with version
+- added site config client & usage as an example
+- removed dummy client
+
 ## v1.25.0 / 2020-05-28
 - update API.md with more examples
 - add ci linter
