@@ -17,20 +17,20 @@ type Service struct {
 	centrifugeClient api.CentrifugeClient
 	centrifugeJSON   jsoniter.API
 	yafudsClient     yafuds.Client
-	dummyClient      *client.Dummy
+	siteConfigClient *client.SiteConfig
 }
 
 func NewService(
 	centrifugeClient api.CentrifugeClient,
 	centrifugeJSON jsoniter.API,
 	yafudsClient yafuds.Client,
-	dummyClient *client.Dummy,
+	siteConfigClient *client.SiteConfig,
 ) *Service {
 	return &Service{
 		centrifugeClient: centrifugeClient,
 		centrifugeJSON:   centrifugeJSON,
 		yafudsClient:     yafudsClient,
-		dummyClient:      dummyClient,
+		siteConfigClient: siteConfigClient,
 	}
 }
 

@@ -30,6 +30,7 @@ import (
 	"gitlab.com/proemergotech/log-go/v3/gentlemanlog"
 	"gitlab.com/proemergotech/log-go/v3/httplog"
 	"gitlab.com/proemergotech/log-go/v3/jaegerlog"
+	"gitlab.com/proemergotech/trace-go/v2"
 	"gitlab.com/proemergotech/trace-go/v2/gebtrace"
 	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
@@ -100,14 +101,19 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.yafudsCloser = yafudsClient
 
-	// todo: remove
-	//  Example gentleman declaration
-	dummyClient := client.NewDummy(gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.DummyServiceScheme, cfg.DummyServiceHost, cfg.DummyServicePort)).
-		Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
-		Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true)).
-		Use(client.RestErrorMiddleware("dummy")).
-		Use(client.RetryMiddleware(client.BackoffTimeout(10*time.Second), client.EnableLogging(), client.RequestTimeout(2*time.Second))),
+	opt, _ := gentlemantrace.Trace(trace.Ignore)
+
+	siteConfigClient, err := client.NewSiteConfig(
+		context.Background(),
+		gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.SiteConfigServiceScheme, cfg.SiteConfigServiceHost, cfg.SiteConfigServicePort)).
+			Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger(), opt)).
+			Use(gentlemanlog.Middleware(log.GlobalLogger(), true, false)).
+			Use(client.RestErrorMiddleware("site_config")).
+			Use(client.RetryMiddleware(client.BackoffTimeout(10*time.Second), client.EnableLogging(), client.RequestTimeout(2*time.Second))),
 	)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot initialize site config")
+	}
 
 	v, err := NewValidator()
 	if err != nil {
@@ -121,7 +127,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		centrifugeClient,
 		centrifugeJSON,
 		yafudsClient,
-		dummyClient,
+		siteConfigClient,
 	)
 
 	c.RestServer = rest.NewServer(
@@ -310,12 +316,12 @@ func NewValidator() (*validation.Validator, error) {
 
 	// todo: remove
 	//  example validation for enums:
-	//err = v.RegisterValidation("enum_status", func(fl validator.FieldLevel) bool {
+	// err = v.RegisterValidation("enum_status", func(fl validator.FieldLevel) bool {
 	//	return schema.Statuses[fl.Field().String()]
-	//})
-	//if err != nil {
+	// })
+	// if err != nil {
 	//	return nil, err
-	//}
+	// }
 
 	return validation.NewValidator(v), nil
 }
