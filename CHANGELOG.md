@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.27.0 / 2020-06-26
+- new yafuds client version
+
 ## v1.26.0 / 2020-06-05
 - added meta.yml with version
 - added site config client & usage as an example
