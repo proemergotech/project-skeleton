@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.28.0 / 2020-06-30
+- ignore ctx not used errors in golang ci
+- update lint job in gitlab ci
+- update root cmd to use runner for starting/stopping servers 
+
 ## v1.27.0 / 2020-06-26
 - new yafuds client version
 

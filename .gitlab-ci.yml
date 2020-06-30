@@ -22,8 +22,8 @@ test:
     - go test -mod=readonly -race -v ./...
 
 lint:
-  image: golangci/golangci-lint:latest-alpine
   stage: build
+  image: golangci/golangci-lint:latest-alpine
   script:
     - golangci-lint run -v --timeout 2m --out-format tab -c .golangci.yml
   allow_failure: true

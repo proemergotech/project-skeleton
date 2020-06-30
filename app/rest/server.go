@@ -27,7 +27,7 @@ func NewServer(
 	}
 }
 
-func (s *Server) Start(errorCh chan error) {
+func (s *Server) Start(errorCh chan<- error) {
 	s.controller.Start()
 
 	go func() {
