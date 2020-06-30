@@ -5,11 +5,11 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/proemergotech/errors"
 	"gitlab.com/proemergotech/log-go/v3"
+	"gitlab.com/proemergotech/trace-go/v2"
 
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/di"
@@ -28,48 +28,28 @@ var rootCmd = &cobra.Command{
 		}
 		defer container.Close()
 
-		errorCh := make(chan error)
-		container.RestServer.Start(errorCh)
+		runner := newRunner()
+		defer runner.stop()
 
-		defer func() {
-			if err := container.RestServer.Stop(5 * time.Second); err != nil {
-				err = errors.Wrap(err, "Rest server graceful shutdown failed")
-				log.Panic(context.Background(), err.Error(), "error", err)
-			}
-			log.Info(context.Background(), "Shutdown complete")
-		}()
-
-		log.Info(context.Background(), "Rest server started")
-
-		publicRestErrorCh := make(chan error)
-		container.PublicRestServer.Start(publicRestErrorCh)
-
-		defer func() {
-			if err := container.PublicRestServer.Stop(5 * time.Second); err != nil {
-				err = errors.Wrap(err, "Public rest server graceful shutdown failed")
-				log.Panic(context.Background(), err.Error(), "error", err)
-			}
-			log.Info(context.Background(), "Public rest server graceful shutdown complete")
-		}()
-
-		log.Info(context.Background(), "Public rest server started")
-
-		if err := container.EventServer.Start(); err != nil {
-			err = errors.Wrap(err, "Failed starting event server")
-			log.Panic(context.Background(), err.Error(), "error", err)
-		}
-		log.Info(context.Background(), "Event server started")
+		runner.start("rest server", container.RestServer.Start, container.RestServer.Stop)
+		runner.start("public rest server", container.PublicRestServer.Start, container.PublicRestServer.Stop)
+		runner.start("event server", container.EventServer.Start, container.EventServer.Stop)
 
 		sigs := make(chan os.Signal, 1)
 		signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case <-sigs:
-		case err := <-errorCh:
-			err = errors.Wrap(err, "Rest server fatal error")
-			log.Panic(context.Background(), err.Error(), "error", err)
-		case err := <-publicRestErrorCh:
-			err = errors.Wrap(err, "Public rest server fatal error")
-			log.Panic(context.Background(), err.Error(), "error", err)
+		case err := <-runner.errors():
+			ctx := context.Background()
+
+			correlationID := errors.Field(err, trace.CorrelationIDField)
+			if correlationID != nil {
+				ctx = trace.WithCorrelation(ctx, &trace.Correlation{
+					CorrelationID: correlationID.(string),
+				})
+			}
+
+			log.Panic(ctx, err.Error(), "error", err)
 		}
 	},
 }

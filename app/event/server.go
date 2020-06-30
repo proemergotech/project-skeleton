@@ -1,5 +1,9 @@
 package event
 
+import (
+	"time"
+)
+
 type Server struct {
 	controller *Controller
 }
@@ -12,6 +16,15 @@ func NewServer(
 	}
 }
 
-func (s *Server) Start() error {
-	return s.controller.start()
+func (s *Server) Start(errorCh chan<- error) {
+	err := s.controller.start()
+	if err != nil {
+		go func() {
+			errorCh <- err
+		}()
+	}
+}
+
+func (s *Server) Stop(timeout time.Duration) error {
+	return nil
 }
