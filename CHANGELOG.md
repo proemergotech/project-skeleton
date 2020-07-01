@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.29.0 / 2020-06-30
+- moved http retry logic to lib
+
 ## v1.28.0 / 2020-06-30
 - ignore ctx not used errors in golang ci
 - update lint job in gitlab ci
