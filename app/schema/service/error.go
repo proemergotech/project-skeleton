@@ -8,7 +8,8 @@ import (
 
 const (
 	// 400
-	ErrValidation = "ERR_VALIDATION"
+	ErrValidation               = "ERR_VALIDATION"
+	ErrDummyInvalidEventPayload = "ERR_DUMMY_INVALID_EVENT_PAYLOAD"
 
 	// 404
 	ErrRouteNotFound = "ERR_ROUTE_NOT_FOUND"

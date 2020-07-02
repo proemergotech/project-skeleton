@@ -43,6 +43,12 @@ type Config struct {
 	SiteConfigServiceScheme string `mapstructure:"site_config_service_scheme" default:"http"`
 	SiteConfigServiceHost   string `mapstructure:"site_config_service_host" validate:"required"`
 	SiteConfigServicePort   int    `mapstructure:"site_config_service_port" default:"80"`
+
+	ConfigFileContent map[string]Content `mapstructure:"content" validate:"required"`
+}
+
+type Content struct {
+	Price float64 `mapstructure:"price"`
 }
 
 type BootstrapConfig struct {
