@@ -4,7 +4,10 @@
 vendor/
 
 .env*
-/.dliver-project-skeleton.*
+!.env.*
 
 bin/
 .idea
+
+.dliver-project-skeleton.*
+!.dliver-project-skeleton.example.*

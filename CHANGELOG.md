@@ -1,5 +1,12 @@
 # Release Notes
 
+## v1.30.0 / 2020-07-02
+- add redis script example
+- add elastic example
+- add yafuds example
+- add geb event example with error handling
+- add config file read example
+
 ## v1.29.0 / 2020-06-30
 - moved http retry logic to lib
 

@@ -101,6 +101,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, err
 	}
 	c.yafudsCloser = yafudsClient
+	yafudsStorage := storage.NewYafuds(yafudsClient)
 
 	opt, _ := gentlemantrace.Trace(trace.Ignore)
 
@@ -133,7 +134,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	svc := service.NewService(
 		centrifugeClient,
 		centrifugeJSON,
-		yafudsClient,
+		yafudsStorage,
 		siteConfigClient,
 	)
 

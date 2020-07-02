@@ -42,3 +42,21 @@ func (e redisError) E() error {
 		schema.ErrHTTPCode, 500,
 	)
 }
+
+type yafudsError struct {
+	Err error
+	Msg string
+}
+
+func (e yafudsError) E() error {
+	msg := "yafuds error"
+	if e.Msg != "" {
+		msg += ": " + e.Msg
+	}
+
+	return errors.WithFields(
+		errors.WrapOrNew(e.Err, msg),
+		schema.ErrCode, service.ErrYafuds,
+		schema.ErrHTTPCode, 500,
+	)
+}

@@ -3,15 +3,42 @@ package cmd
 import (
 	"context"
 	stdlog "log"
+	"os"
 	"reflect"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
 	"gitlab.com/proemergotech/log-go/v3"
+
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 )
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig(cfg interface{}) {
+	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	cfgFile := viper.GetString("config")
+	if cfgFile != "" {
+		if _, err := os.Stat(cfgFile); os.IsNotExist(err) {
+			log.Panic(context.Background(), "specified config file does not exists", "config_file", cfgFile)
+		}
+		viper.SetConfigFile(cfgFile)
+	} else {
+		cwdir, err := os.Getwd()
+		if err != nil {
+			log.Panic(context.Background(), err.Error(), "err", err)
+		}
+
+		viper.AddConfigPath(cwdir)
+		viper.SetConfigName("." + config.AppName)
+	}
+
+	if err := viper.ReadInConfig(); err != nil {
+		log.Panic(context.Background(), "unable to read config", "err", err)
+	}
+
 	hasErrors := false
 	val := reflect.ValueOf(cfg).Elem()
 	for i := 0; i < val.NumField(); i++ {
