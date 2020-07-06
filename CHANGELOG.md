@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.31.0 / 2020-07-03
+- wrap gentleman errors in RestErrorMiddleware to make stack trace available
+
 ## v1.30.0 / 2020-07-02
 - add redis script example
 - add elastic example

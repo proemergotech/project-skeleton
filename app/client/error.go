@@ -23,7 +23,7 @@ const (
 )
 
 func RestErrorMiddleware(serviceName string) plugin.Plugin {
-	return plugin.NewPhasePlugin("after dial", func(gCtx *gcontext.Context, handler gcontext.Handler) {
+	afterDialHandler := func(gCtx *gcontext.Context, handler gcontext.Handler) {
 		res := gCtx.Response
 
 		if res == nil || res.StatusCode < 400 {
@@ -39,7 +39,30 @@ func RestErrorMiddleware(serviceName string) plugin.Plugin {
 		}()
 
 		handler.Error(gCtx, clientHTTPError{Res: res, ServiceName: serviceName}.E())
-	})
+	}
+
+	errorHandler := func(gCtx *gcontext.Context, handler gcontext.Handler) {
+		if gCtx.Error == nil {
+			handler.Next(gCtx)
+			return
+		}
+
+		err := gCtx.Error
+		if schema.ErrorCode(err) == "" {
+			err = clientError{Err: err, Msg: fmt.Sprintf("error occured during call of %s", serviceName)}.E()
+		}
+
+		handler.Error(gCtx, err)
+	}
+
+	handlers := plugin.Handlers{
+		"after dial": afterDialHandler,
+		"error":      errorHandler,
+	}
+
+	return &plugin.Layer{
+		Handlers: handlers,
+	}
 }
 
 type clientHTTPError struct {
