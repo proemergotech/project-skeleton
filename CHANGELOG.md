@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.32.0 / 2020-07-13
+- update log version
+
 ## v1.31.0 / 2020-07-03
 - wrap gentleman errors in RestErrorMiddleware to make stack trace available
 

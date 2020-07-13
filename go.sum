@@ -228,8 +228,8 @@ gitlab.com/proemergotech/errors v1.0.0/go.mod h1:bcWKlsKDXjjfDDaQ0GH0N0t51L0k2RJ
 gitlab.com/proemergotech/geb-client-go/v2 v2.0.0 h1:/Toq/4YIJ3mJm8jm/wCiNPSU58Dthxq6LpbBCDEgkHw=
 gitlab.com/proemergotech/geb-client-go/v2 v2.0.0/go.mod h1:nOQXtPy77q1qzXNrII1aoVIK3zoyiYQKlw3KsArsm4I=
 gitlab.com/proemergotech/log-go/v3 v3.0.0/go.mod h1:MPmlCQGJLR5nrHT1tev/3o6tnIXSuijBzDyWgo0sj54=
-gitlab.com/proemergotech/log-go/v3 v3.0.1 h1:bLeyWPNI3qNQuKOfmv6QNUVYJz1jfUQ0kQm0+ZsC0gI=
-gitlab.com/proemergotech/log-go/v3 v3.0.1/go.mod h1:MPmlCQGJLR5nrHT1tev/3o6tnIXSuijBzDyWgo0sj54=
+gitlab.com/proemergotech/log-go/v3 v3.0.2 h1:A0mxMPoC7ePgyBrNaLvcYvZM3Rh1wNt1mTSjqsI9nIk=
+gitlab.com/proemergotech/log-go/v3 v3.0.2/go.mod h1:MPmlCQGJLR5nrHT1tev/3o6tnIXSuijBzDyWgo0sj54=
 gitlab.com/proemergotech/microtime-go v1.0.0 h1:wl2XE35GsBa2k/9QhWTYhfMspju9F4+RyfihOWf1Xt0=
 gitlab.com/proemergotech/microtime-go v1.0.0/go.mod h1:chABU4vj60i50yYokDSPjWbzlpVcpHlcGDJ5m4TCuVY=
 gitlab.com/proemergotech/retry v1.0.1 h1:p8wLvgJ6niJ5ONU5qMI6fI435EfoLVn/OVawAZf+vqQ=
