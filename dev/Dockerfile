@@ -3,6 +3,7 @@ FROM golang:1.14
 ARG SERVICE_NAME=dliver-project-skeleton
 
 RUN go get github.com/githubnemo/CompileDaemon
+RUN go get github.com/go-delve/delve/cmd/dlv
 
 RUN mkdir -p /go/src/gitlab.com/proemergotech/$SERVICE_NAME
 WORKDIR /go/src/gitlab.com/proemergotech/$SERVICE_NAME
