@@ -14,6 +14,7 @@ DLiveR Project Skeleton
 - [Development](#development)
   - [Dependencies](#dependencies)
   - [Testing](#testing)
+  - [Debug](#debug)
 
 ## Overview
 
@@ -111,3 +112,27 @@ remove the line `yafuds.SetTracer(opentracing.GlobalTracer())` from `container.n
 ### Testing
 
 For the go based tests run `go test -v ./...` command from the root directory.  
+
+### Debug
+
+To remote debug a service we need 2 things.  
+
+- Add some extra option to full-compose when overriding, e.g.:
+```
+  profile-service-go:
+    image: profile-service-go:dev
+    build: ~/dev/dliver-profile-service-go/dev
+    command: ["/usr/local/bin/entrypoint.sh", "debug"]
+    environment: *goproxy
+    volumes:
+      - ~/dev/dliver-profile-service-go:/go/src/gitlab.com/proemergotech/dliver-profile-service-go
+      - ~/gopkg:/go/pkg
+    ports:
+      - 2345:2345
+    security_opt:
+      - seccomp:unconfined
+```
+`security_opt` is necessary to run delve inside container and the extra port mapping to access from outside.  
+In `command` call `debug` instead of `run`.  
+The container will build the service, then wait for the debugger to attach.  
+- In Goland create a Go remote debug configuration, set the full compose machine ip/domain and the port from the previous mapping.

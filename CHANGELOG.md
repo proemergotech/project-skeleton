@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.33.0 / 2020-07-23
+- add debug option for dev mode
+
 ## v1.32.0 / 2020-07-13
 - update log version
 
