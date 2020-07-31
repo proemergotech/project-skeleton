@@ -52,6 +52,11 @@ issues:
     - "Consider preallocating `publicDetails`"
     - "`ctx` is unused"
 
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - goconst
+
   # Maximum issues count per one linter. Set to 0 to disable. Default is 50.
   max-per-linter: 0
 
