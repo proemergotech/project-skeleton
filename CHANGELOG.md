@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.35.0 / 2020-07-31
+- exclude goconst linter from go test files.
+
 ## v1.34.0 / 2020-07-30
 - improve golangci-lint report readability in gitlab ci
 
