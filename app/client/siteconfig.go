@@ -21,7 +21,7 @@ type SiteConfig struct {
 }
 
 func NewSiteConfig(ctx context.Context, httpClient *gentleman.Client) (*SiteConfig, error) {
-	conf := &SiteConfig{httpClient: httpClient}
+	conf := &SiteConfig{mutex: &sync.RWMutex{}, httpClient: httpClient}
 
 	resp, err := conf.loadSiteConfig(trace.WithCorrelation(ctx, trace.NewCorrelation()))
 	if err != nil {
