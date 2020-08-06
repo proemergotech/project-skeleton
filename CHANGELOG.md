@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.36.0 / 2020-08-06
+- fixed siteconfig mutex initialization
+
 ## v1.35.0 / 2020-07-31
 - exclude goconst linter from go test files.
 
