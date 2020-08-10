@@ -18,7 +18,6 @@ const (
 	ErrMethodNotAllowed = "ERR_METHOD_NOT_ALLOWED"
 
 	// 500
-	ErrCentrifuge    = "ERR_CENTRIFUGE"
 	ErrElastic       = "ERR_ELASTIC"
 	ErrRedis         = "ERR_REDIS"
 	ErrSemanticError = "ERR_SEMANTIC"

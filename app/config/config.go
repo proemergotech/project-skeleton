@@ -11,8 +11,9 @@ type Config struct {
 	PublicPort int  `mapstructure:"public_port" default:"8080"`
 	DebugPProf bool `mapstructure:"debug_pprof" default:"false"`
 
-	CentrifugoHost     string `mapstructure:"centrifugo_host" validate:"required"`
-	CentrifugoGrpcPort int    `mapstructure:"centrifugo_grpc_port" default:"10000"`
+	CentrifugeScheme string `mapstructure:"centrifuge_scheme" default:"http"`
+	CentrifugeHost   string `mapstructure:"centrifuge_host" validate:"required"`
+	CentrifugePort   string `mapstructure:"centrifuge_port" default:"80"`
 
 	ElasticSearchScheme string `mapstructure:"elastic_search_scheme" default:"http"`
 	ElasticSearchHost   string `mapstructure:"elastic_search_host" validate:"required"`

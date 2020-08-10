@@ -19,7 +19,6 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	"gitlab.com/proemergotech/centrifuge-client-go/v2"
 	"gitlab.com/proemergotech/errors"
 	"gitlab.com/proemergotech/geb-client-go/v2/geb"
 	"gitlab.com/proemergotech/geb-client-go/v2/geb/rabbitmq"
@@ -60,17 +59,18 @@ type Container struct {
 func NewContainer(cfg *config.Config) (*Container, error) {
 	c := &Container{}
 
-	centrifuge.SetLogger(log.GlobalLogger())
-	centrifugeClient, err := centrifuge.New(cfg.CentrifugoHost, cfg.CentrifugoGrpcPort, centrifuge.Timeout(5*time.Second))
-	if err != nil {
-		return nil, errors.Wrap(err, "cannot initialize centrifuge client")
-	}
 	centrifugeJSON := jsoniter.Config{
 		SortMapKeys:            true,
 		ValidateJsonRawMessage: true,
 		OnlyTaggedField:        true,
 		TagKey:                 "centrifuge",
 	}.Froze()
+	centrifugeClient := client.NewCentrifuge(
+		gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.CentrifugeScheme, cfg.CentrifugeHost, cfg.CentrifugePort)).
+			Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
+			Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true)).
+			Use(client.RestErrorMiddleware("centrifuge")),
+	)
 
 	e, err := newElastic(cfg)
 	if err != nil {
