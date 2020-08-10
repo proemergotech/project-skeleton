@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.37.0 / 2020-08-10
+- removed old centrifugo
+
 ## v1.36.0 / 2020-08-06
 - fixed siteconfig mutex initialization
 
