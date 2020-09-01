@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.38.0 / 2020-08-31
+- make ci lint blocker
+
 ## v1.37.0 / 2020-08-10
 - removed old centrifugo
 
