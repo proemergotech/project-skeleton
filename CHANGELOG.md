@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.39.0 / 2020-09-09
+- update trace library
+
 ## v1.38.0 / 2020-08-31
 - make ci lint blocker
 
