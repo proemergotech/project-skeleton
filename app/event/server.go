@@ -25,6 +25,6 @@ func (s *Server) Start(errorCh chan<- error) {
 	}
 }
 
-func (s *Server) Stop(timeout time.Duration) error {
+func (s *Server) Stop(_ time.Duration) error {
 	return nil
 }

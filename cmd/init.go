@@ -10,8 +10,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
 	"gitlab.com/proemergotech/log-go/v3"
-
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 )
 
 // initConfig reads in config file and ENV variables if set.
@@ -25,18 +23,10 @@ func initConfig(cfg interface{}) {
 			log.Panic(context.Background(), "specified config file does not exists", "config_file", cfgFile)
 		}
 		viper.SetConfigFile(cfgFile)
-	} else {
-		cwdir, err := os.Getwd()
-		if err != nil {
-			log.Panic(context.Background(), err.Error(), "err", err)
+
+		if err := viper.ReadInConfig(); err != nil {
+			log.Panic(context.Background(), "unable to read config", "err", err)
 		}
-
-		viper.AddConfigPath(cwdir)
-		viper.SetConfigName("." + config.AppName)
-	}
-
-	if err := viper.ReadInConfig(); err != nil {
-		log.Panic(context.Background(), "unable to read config", "err", err)
 	}
 
 	hasErrors := false
