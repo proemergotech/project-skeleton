@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.40.0 / 2020-09-11
+- update initConfig method
+- fix inspection issue
+- fix meta.yml version
+
 ## v1.39.0 / 2020-09-09
 - update trace library
 
