@@ -8,7 +8,7 @@ require (
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/gogo/googleapis v1.2.0 // indirect
 	github.com/gogo/status v1.1.0 // indirect
-	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/gomodule/redigo v1.8.2
 	github.com/json-iterator/go v1.1.7
 	github.com/labstack/echo/v4 v4.1.11
 	github.com/magiconair/properties v1.8.1 // indirect
@@ -28,7 +28,7 @@ require (
 	gitlab.com/proemergotech/errors v1.0.0
 	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
 	gitlab.com/proemergotech/log-go/v3 v3.0.2
-	gitlab.com/proemergotech/microtime-go v1.0.0
+	gitlab.com/proemergotech/microtime-go v1.1.0
 	gitlab.com/proemergotech/retry v1.0.1
 	gitlab.com/proemergotech/trace-go/v2 v2.1.0
 	gitlab.com/proemergotech/uuid-go v1.0.0

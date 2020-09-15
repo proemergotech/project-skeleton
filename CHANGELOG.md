@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.41.0 / 2020-09-15
+- updated microtime version
+- changed redigo version to 1.x (2.0 is deprecated)
+
 ## v1.40.0 / 2020-09-11
 - update initConfig method
 - fix inspection issue

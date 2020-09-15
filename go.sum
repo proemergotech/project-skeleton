@@ -70,8 +70,8 @@ github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5y
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.3.2 h1:6nsPYzhq5kReh6QImI3k5qWzO4PEbvbIW2cwSfR/6xs=
 github.com/golang/protobuf v1.3.2/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
-github.com/gomodule/redigo v2.0.0+incompatible h1:K/R+8tc58AaqLkqG2Ol3Qk+DR/TlNuhuh457pBFPtt0=
-github.com/gomodule/redigo v2.0.0+incompatible/go.mod h1:B4C85qUVwatsJoIUNIfCRsp7qO0iAmpGFZ4EELWSbC4=
+github.com/gomodule/redigo v1.8.2 h1:H5XSIre1MB5NbPYFp+i1NBbb5qN1W8Y8YAQoAYbkm8k=
+github.com/gomodule/redigo v1.8.2/go.mod h1:P9dn9mFrCBvWhGE1wpxx6fgq7BAeLBk+UUUzlpkBYO0=
 github.com/google/btree v1.0.0/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
 github.com/google/go-cmp v0.3.0 h1:crn/baboCvb5fXaQ0IJ1SGTsTVrWpDsCWC8EGETZijY=
@@ -199,6 +199,8 @@ github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXf
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
+github.com/stretchr/testify v1.5.1 h1:nOGnQDM7FYENwehXlg/kFVnos3rEvtKTjRvOWSzb6H4=
+github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5cxcmMvtA=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
 github.com/uber/jaeger-client-go v2.20.1+incompatible h1:HgqpYBng0n7tLJIlyT4kPCIv5XgCsF+kai1NnnrJzEU=
 github.com/uber/jaeger-client-go v2.20.1+incompatible/go.mod h1:WVhlPFC8FDjOFMMWRy2pZqQJSXxYSwNYOkTr/Z6d3Kk=
@@ -227,8 +229,8 @@ gitlab.com/proemergotech/geb-client-go/v2 v2.0.0/go.mod h1:nOQXtPy77q1qzXNrII1ao
 gitlab.com/proemergotech/log-go/v3 v3.0.0/go.mod h1:MPmlCQGJLR5nrHT1tev/3o6tnIXSuijBzDyWgo0sj54=
 gitlab.com/proemergotech/log-go/v3 v3.0.2 h1:A0mxMPoC7ePgyBrNaLvcYvZM3Rh1wNt1mTSjqsI9nIk=
 gitlab.com/proemergotech/log-go/v3 v3.0.2/go.mod h1:MPmlCQGJLR5nrHT1tev/3o6tnIXSuijBzDyWgo0sj54=
-gitlab.com/proemergotech/microtime-go v1.0.0 h1:wl2XE35GsBa2k/9QhWTYhfMspju9F4+RyfihOWf1Xt0=
-gitlab.com/proemergotech/microtime-go v1.0.0/go.mod h1:chABU4vj60i50yYokDSPjWbzlpVcpHlcGDJ5m4TCuVY=
+gitlab.com/proemergotech/microtime-go v1.1.0 h1:IMdhw2s0MnrYIOhKDEE0ZLqQSTauYWEE+yxlT3weBSQ=
+gitlab.com/proemergotech/microtime-go v1.1.0/go.mod h1:chABU4vj60i50yYokDSPjWbzlpVcpHlcGDJ5m4TCuVY=
 gitlab.com/proemergotech/retry v1.0.1 h1:p8wLvgJ6niJ5ONU5qMI6fI435EfoLVn/OVawAZf+vqQ=
 gitlab.com/proemergotech/retry v1.0.1/go.mod h1:0PgDHTWBnjsROg+bck1qzgL43LUEQ5JZ71SonRI9hLU=
 gitlab.com/proemergotech/trace-go/v2 v2.0.1/go.mod h1:4gYOlVFqSVD1kTSso9XsVPplZodUOm2AjEBOp5koMVI=
