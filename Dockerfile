@@ -1,6 +1,6 @@
 ARG EXECUTABLE_NAME=dliver-project-skeleton
 
-FROM golang:1.14-alpine AS builder
+FROM golang:1.15-alpine AS builder
 
 ARG APP_VERSION
 ARG EXECUTABLE_NAME
