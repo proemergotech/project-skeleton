@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.42.0 / 2020-09-24
+- updated log lib version
+- update to go 1.15
+
 ## v1.41.0 / 2020-09-15
 - updated microtime version
 - changed redigo version to 1.x (2.0 is deprecated)
