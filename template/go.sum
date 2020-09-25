@@ -213,6 +213,8 @@ github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
 gitlab.com/proemergotech/apimd-generator-go v1.0.0 h1:m1AgNZ61VVc7cxv17jYnPKDmNoceAXaZNkYa+2gS5aI=
 gitlab.com/proemergotech/apimd-generator-go v1.0.0/go.mod h1:vEQGzFLobM68Xq+WPqN6HgEGMvX/D4FQSWQ5uwW3sSU=
+gitlab.com/proemergotech/bind v1.0.0 h1:lDJhX3owfqk7i2R/v8b67u1KB5Z5UHCqJ6QYSLtR1w0=
+gitlab.com/proemergotech/bind v1.0.0/go.mod h1:sm1ccMJXDsJOePJBQnBZfgtmP+ICyrXv4QsK+VI5xXw=
 gitlab.com/proemergotech/errors v1.0.0 h1:G2Cnhbcl+gDqZeQ6TnKI89f87fXxR2YPeyDZxuZkWO4=
 gitlab.com/proemergotech/errors v1.0.0/go.mod h1:bcWKlsKDXjjfDDaQ0GH0N0t51L0k2RJIKKwkMpXZglg=
 gitlab.com/proemergotech/geb-client-go/v2 v2.0.0 h1:/Toq/4YIJ3mJm8jm/wCiNPSU58Dthxq6LpbBCDEgkHw=
@@ -308,6 +310,8 @@ gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 h1:YR8cESwS4TdDjEe65xsg0ogR
 gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/h2non/gentleman.v2 v2.0.3 h1:exsUPKJDFwNjJykboVj8+BKPWMNOxR/AmPL3f7Hutwo=
 gopkg.in/h2non/gentleman.v2 v2.0.3/go.mod h1:A1c7zwrTgAyyf6AbpvVksYtBayTB4STBUGmdkEtlHeA=
+gopkg.in/h2non/gentleman.v2 v2.0.4 h1:9R3K6CFYd/RdXDLi0pGXwaPnRx/pn5EZlrN3VkNygWc=
+gopkg.in/h2non/gentleman.v2 v2.0.4/go.mod h1:A1c7zwrTgAyyf6AbpvVksYtBayTB4STBUGmdkEtlHeA=
 gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22 h1:VpOs+IwYnYBaFnrNAeB8UUWtL3vEUnzSCL1nVjPhqrw=
 gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22/go.mod h1:yeKp02qBN3iKW1OzL3MGk2IdtZzaj7SFntXj72NppTA=
 gopkg.in/resty.v1 v1.12.0/go.mod h1:mDo4pnntr5jdWRML875a/NmxYqAlA73dVijT2AXvQQo=
