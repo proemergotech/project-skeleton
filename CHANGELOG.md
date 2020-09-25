@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.44.0 / 2020-09-25
+- add gentleman bind
+
 ## v1.43.0 / 2020-09-25
 - moved content to template directory
 

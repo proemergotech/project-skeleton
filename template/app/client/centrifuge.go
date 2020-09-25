@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"gitlab.com/proemergotech/bind/gentlemanbind"
 	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
 	"gopkg.in/h2non/gentleman.v2"
 
@@ -22,7 +23,7 @@ func (c *Centrifuge) Publish(ctx context.Context, req *centrifuge.PublishRequest
 	_, err := c.request(ctx).
 		Method(http.MethodPost).
 		Path("/api/v1/publish").
-		JSON(req).
+		Use(gentlemanbind.Bind(req)).
 		Do()
 	if err != nil {
 		return err
