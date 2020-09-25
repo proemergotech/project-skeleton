@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.43.0 / 2020-09-25
+- moved content to template directory
+
 ## v1.42.0 / 2020-09-24
 - updated log lib version
 - update to go 1.15
