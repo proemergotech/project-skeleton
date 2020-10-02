@@ -12,8 +12,11 @@ import (
 	"gitlab.com/proemergotech/log-go/v3/echolog"
 	"gitlab.com/proemergotech/trace-go/v2/echotrace"
 
+	//%:{{ `
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 type controller struct {
@@ -56,14 +59,13 @@ func (c *controller) Start() {
 	apiRoutes.Use(echolog.DebugMiddleware(log.GlobalLogger(), true, true))
 	apiRoutes.Use(echotrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger()))
 
+	//%: {{ if .Examples }}
 	// todo: remove
 	//  Example root
 	apiRoutes.POST("/dummy/:dummy_param_1", func(eCtx echo.Context) error {
-		req := &struct {
-			DummyParam1 string `param:"dummy_param_1"`
-			DummyData1  string `json:"dummy_data_1" validate:"required"`
-			DummyData2  string `json:"dummy_data_2"`
-		}{}
+		//%:{{ `
+		req := &skeleton.DummyRequest{}
+		//%: ` | replace "skeleton" .SchemaPackage }}
 
 		if err := eCtx.Bind(req); err != nil {
 			return validation.Error{Err: err, Msg: "cannot bind request"}.E()
@@ -73,8 +75,12 @@ func (c *controller) Start() {
 			return err
 		}
 
-		c.svc.SendCentrifuge(eCtx.Request().Context(), "", req)
+		err := c.svc.Dummy(eCtx.Request().Context(), req)
+		if err != nil {
+			return err
+		}
 
 		return eCtx.NoContent(http.StatusOK)
 	})
+	//%: {{ end }}
 }

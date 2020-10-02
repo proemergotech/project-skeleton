@@ -1,11 +1,14 @@
+//%: {{ if .Geb }}
 package event
 
 import (
 	"gitlab.com/proemergotech/geb-client-go/v2/geb"
 
-	serviceSchema "gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	//%:{{ `
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 type Controller struct {
@@ -28,6 +31,7 @@ func NewController(
 
 func (c *Controller) start() error {
 
+	//%: {{ if .Examples }}
 	// todo:
 	//  add gebQueue.OnEvent handlers here
 
@@ -35,7 +39,9 @@ func (c *Controller) start() error {
 	//   Example event handler
 	err := c.gebQueue.OnEvent("event/service_name/dummy/created/v1").
 		Listen(func(e *geb.Event) error {
-			req := &serviceSchema.AddedEvent{}
+			//%:{{ `
+			req := &skeleton.AddedEvent{}
+			//%: ` | replace "skeleton" .SchemaPackage }}
 
 			err := e.Unmarshal(req)
 			if err != nil {
@@ -52,6 +58,9 @@ func (c *Controller) start() error {
 	if err != nil {
 		return err
 	}
+	//%: {{ end }}
 
 	return c.gebQueue.Start()
 }
+
+//%: {{ end }}

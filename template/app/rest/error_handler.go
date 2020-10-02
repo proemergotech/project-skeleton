@@ -6,8 +6,10 @@ import (
 	"github.com/labstack/echo/v4"
 	"gitlab.com/proemergotech/log-go/v3"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 func DLiveRHTTPErrorHandler(err error, eCtx echo.Context) {
@@ -29,7 +31,9 @@ func DLiveRHTTPErrorHandler(err error, eCtx echo.Context) {
 		case http.StatusMethodNotAllowed:
 			err = methodNotAllowedError{Err: eErr, Method: eCtx.Request().Method, URL: eCtx.Request().URL.String()}.E()
 		default:
-			err = service.SemanticError{Err: eErr, Fields: []interface{}{"method", eCtx.Request().Method, "url", eCtx.Request().URL.String()}}.E()
+			//%:{{ `
+			err = skeleton.SemanticError{Err: eErr, Fields: []interface{}{"method", eCtx.Request().Method, "url", eCtx.Request().URL.String()}}.E()
+			//%: ` | replace "skeleton" .SchemaPackage }}
 		}
 	}
 

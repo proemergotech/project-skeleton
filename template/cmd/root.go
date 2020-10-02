@@ -11,8 +11,10 @@ import (
 	"gitlab.com/proemergotech/log-go/v3"
 	"gitlab.com/proemergotech/trace-go/v2"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/di"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -32,8 +34,12 @@ var rootCmd = &cobra.Command{
 		defer runner.stop()
 
 		runner.start("rest server", container.RestServer.Start, container.RestServer.Stop)
+		//%: {{- if .PublicRest }}
 		runner.start("public rest server", container.PublicRestServer.Start, container.PublicRestServer.Stop)
+		//%: {{- end }}
+		//%: {{- if .Geb }}
 		runner.start("event server", container.EventServer.Start, container.EventServer.Stop)
+		//%: {{- end }}
 
 		sigs := make(chan os.Signal, 1)
 		signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)

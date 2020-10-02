@@ -1,3 +1,4 @@
+//%: {{ if .PublicRest }}
 package main
 
 import (
@@ -8,10 +9,12 @@ import (
 	"gitlab.com/proemergotech/apimd-generator-go/generator"
 	"gitlab.com/proemergotech/microtime-go"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/di"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 func main() {
@@ -104,7 +107,9 @@ func (d *definitions) Groups(factory *generator.Factory) []generator.Group {
 							DummyData1 string `json:"dummy_data_1" validate:"required"`
 							DummyData2 string `json:"dummy_data_2"`
 						}{}),
-						http.StatusInternalServerError: d.publicHTTPError(service.SemanticError{Msg: "Caused by internal problem, should be solved on server side"}.E()),
+						//%:{{ `
+						http.StatusInternalServerError: d.publicHTTPError(skeleton.SemanticError{Msg: "Caused by internal problem, should be solved on server side"}.E()),
+						//%: ` | replace "skeleton" .SchemaPackage }}
 					},
 				},
 			},
@@ -165,3 +170,5 @@ func (d *definitions) publicHTTPError(err error) schema.HTTPError {
 	res, _ := schema.ToPublicHTTPError(err)
 	return *res
 }
+
+//%: {{ end }}

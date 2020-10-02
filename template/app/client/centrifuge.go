@@ -1,3 +1,4 @@
+//%: {{ if .Centrifuge }}
 package client
 
 import (
@@ -8,7 +9,9 @@ import (
 	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
 	"gopkg.in/h2non/gentleman.v2"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/centrifuge"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
 )
 
 type Centrifuge struct {
@@ -35,3 +38,5 @@ func (c *Centrifuge) Publish(ctx context.Context, req *centrifuge.PublishRequest
 func (c *Centrifuge) request(ctx context.Context) *gentleman.Request {
 	return gentlemantrace.WithContext(ctx, c.httpClient.Request())
 }
+
+//%: {{ end }}

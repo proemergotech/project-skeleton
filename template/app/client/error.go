@@ -1,3 +1,4 @@
+//%: {{ if or .Centrifuge .SiteConfig }}
 package client
 
 import (
@@ -11,8 +12,10 @@ import (
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 const (
@@ -33,7 +36,9 @@ func RestErrorMiddleware(serviceName string) plugin.Plugin {
 
 		defer func() {
 			if err := res.Body.Close(); err != nil {
-				err = service.SemanticError{Err: err}.E()
+				//%:{{ `
+				err = skeleton.SemanticError{Err: err}.E()
+				//%: ` | replace "skeleton" .SchemaPackage }}
 				log.Error(gCtx.Request.Context(), err.Error(), "error", err)
 			}
 		}()
@@ -80,7 +85,9 @@ func (e clientHTTPError) E() error {
 			errors.New("invalid error response format"),
 			errHTTPCode, e.Res.StatusCode,
 			errService, e.ServiceName,
-			schema.ErrCode, service.ErrClient,
+			//%:{{ `
+			schema.ErrCode, skeleton.ErrClient,
+			//%: ` | replace "skeleton" .SchemaPackage }}
 			schema.ErrHTTPCode, 500,
 		)
 	} else if errResp.Error.Code == "" {
@@ -88,7 +95,9 @@ func (e clientHTTPError) E() error {
 			errors.New("invalid error response format: missing code field"),
 			errHTTPCode, e.Res.StatusCode,
 			errService, e.ServiceName,
-			schema.ErrCode, service.ErrClient,
+			//%:{{ `
+			schema.ErrCode, skeleton.ErrClient,
+			//%: ` | replace "skeleton" .SchemaPackage }}
 			schema.ErrHTTPCode, 500,
 		)
 	}
@@ -104,7 +113,9 @@ func (e clientHTTPError) E() error {
 		errHTTPCode, e.Res.StatusCode,
 		errDetails, errResp.Error.Details,
 		errService, e.ServiceName,
-		schema.ErrCode, service.ErrClient,
+		//%:{{ `
+		schema.ErrCode, skeleton.ErrClient,
+		//%: ` | replace "skeleton" .SchemaPackage }}
 		schema.ErrHTTPCode, 500,
 	)
 }
@@ -123,7 +134,9 @@ func (e clientError) E() error {
 
 	return errors.WithFields(
 		errors.WrapOrNew(e.Err, msg),
-		schema.ErrCode, service.ErrClient,
+		//%:{{ `
+		schema.ErrCode, skeleton.ErrClient,
+		//%: ` | replace "skeleton" .SchemaPackage }}
 		schema.ErrHTTPCode, 500,
 	)
 }
@@ -154,3 +167,5 @@ func ErrorDetails(err error) []map[string]interface{} {
 
 	return field.([]map[string]interface{})
 }
+
+//%: {{ end }}

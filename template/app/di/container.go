@@ -36,6 +36,7 @@ import (
 	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
 	"gopkg.in/h2non/gentleman.v2"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
@@ -43,22 +44,42 @@ import (
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
 )
 
 type Container struct {
-	RestServer       *rest.Server
+	RestServer *rest.Server
+	//%: {{- if .PublicRest }}
 	PublicRestServer *rest.Server
-	EventServer      *event.Server
-	redisCloser      io.Closer
-	traceCloser      io.Closer
-	gebCloser        io.Closer
-	yafudsCloser     io.Closer
-	elasticClient    *elastic.Client
+	//%: {{- end }}
+	//%: {{- if .Geb }}
+	EventServer *event.Server
+	//%: {{- end }}
+	//%: {{- if .RedisCache }}
+	redisCacheCloser io.Closer
+	//%: {{- end }}
+	//%: {{- if .RedisStore }}
+	redisStoreCloser io.Closer
+	//%: {{- end }}
+	//%: {{- if .RedisNotice }}
+	redisNoticeCloser io.Closer
+	//%: {{- end }}
+	traceCloser io.Closer
+	//%: {{- if .Geb }}
+	gebCloser io.Closer
+	//%: {{- end }}
+	//%: {{- if .Yafuds }}
+	yafudsCloser io.Closer
+	//%: {{- end }}
+	//%: {{- if .Elastic }}
+	elasticClient *elastic.Client
+	//%: {{- end }}
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
 	c := &Container{}
 
+	//%: {{ if .Centrifuge }}
 	centrifugeJSON := jsoniter.Config{
 		SortMapKeys:            true,
 		ValidateJsonRawMessage: true,
@@ -71,12 +92,15 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 			Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true)).
 			Use(client.RestErrorMiddleware("centrifuge")),
 	)
+	//%: {{ end }}
 
+	//%: {{ if .Elastic }}
 	e, err := newElastic(cfg)
 	if err != nil {
 		return nil, err
 	}
 	c.elasticClient = e.ElasticClient
+	//%: {{ end }}
 
 	closer, err := newTracer(cfg)
 	if err != nil {
@@ -84,27 +108,49 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 	c.traceCloser = closer
 
+	//%: {{ if .Geb }}
 	gebQueue, err := newGebQueue(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize geb queue")
 	}
 	c.gebCloser = gebQueue
+	//%: {{ end }}
 
+	//%: {{ if .RedisCache }}
+	redisCache, err := newRedisCache(cfg)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot initialize redis client")
+	}
+	c.redisCacheCloser = redisCache
+	//%: {{ end }}
+
+	//%: {{ if .RedisStore }}
 	redisStore, err := newRedisStore(cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize redis client")
 	}
-	c.redisCloser = redisStore
+	c.redisStoreCloser = redisStore
+	//%: {{ end }}
 
+	//%: {{ if .RedisNotice }}
+	redisNotice, err := newRedisNotice(cfg)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot initialize redis client")
+	}
+	c.redisNoticeCloser = redisNotice
+	//%: {{ end }}
+
+	//%: {{ if .Yafuds }}
 	yafudsClient, err := newYafuds(cfg)
 	if err != nil {
 		return nil, err
 	}
 	c.yafudsCloser = yafudsClient
 	yafudsStorage := storage.NewYafuds(yafudsClient)
+	//%: {{ end }}
 
+	//%: {{ if .SiteConfig }}
 	opt, _ := gentlemantrace.Trace(trace.Ignore)
-
 	siteConfigClient, err := client.NewSiteConfig(
 		context.Background(),
 		gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.SiteConfigServiceScheme, cfg.SiteConfigServiceHost, cfg.SiteConfigServicePort)).
@@ -122,6 +168,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize site config")
 	}
+	//%: {{ end }}
 
 	v, err := NewValidator()
 	if err != nil {
@@ -129,13 +176,21 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	}
 
 	echoEngine := newEcho(cfg.Port, v, rest.DLiveRHTTPErrorHandler)
+	//%: {{ if .PublicRest }}
 	publicEchoEngine := newEcho(cfg.PublicPort, v, rest.PublicDLiveRHTTPErrorHandler)
+	//%: {{ end }}
 
 	svc := service.NewService(
+		//%: {{ if .Centrifuge }}
 		centrifugeClient,
 		centrifugeJSON,
+		//%: {{ end }}
+		//%: {{ if .Yafuds }}
 		yafudsStorage,
+		//%: {{ end }}
+		//%: {{ if .SiteConfig }}
 		siteConfigClient,
+		//%: {{ end }}
 	)
 
 	c.RestServer = rest.NewServer(
@@ -147,6 +202,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		),
 	)
 
+	//%: {{ if .PublicRest }}
 	c.PublicRestServer = rest.NewServer(
 		publicEchoEngine,
 		rest.NewPublicController(
@@ -154,7 +210,9 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 			svc,
 		),
 	)
+	//%: {{ end }}
 
+	//%: {{ if .Geb }}
 	c.EventServer = event.NewServer(
 		event.NewController(
 			gebQueue,
@@ -162,6 +220,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 			svc,
 		),
 	)
+	//%: {{ end }}
 
 	return c, nil
 }
@@ -206,6 +265,7 @@ func newTracer(cfg *config.Config) (io.Closer, error) {
 	return closer, nil
 }
 
+//%: {{ if .Elastic }}
 func newElastic(cfg *config.Config) (*storage.Elastic, error) {
 	httpClient := &http.Client{Transport: httplog.NewLoggingTransport(http.DefaultTransport, log.GlobalLogger(), "Elasticsearch: ", true, true)}
 	elasticClient, err := elastic.NewClient(
@@ -221,8 +281,9 @@ func newElastic(cfg *config.Config) (*storage.Elastic, error) {
 	}
 
 	return storage.NewElastic(elasticClient), nil
-}
+} //%: {{ end }}
 
+//%: {{ if .Geb }}
 func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
 	q := geb.NewQueue(
 		rabbitmq.NewHandler(
@@ -252,9 +313,33 @@ func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
 	}
 
 	return q, nil
-}
+} //%: {{ end }}
 
-func newRedisStore(cfg *config.Config) (*storage.Redis, error) {
+//%: {{ if .RedisCache }}
+func newRedisCache(cfg *config.Config) (*storage.RedisCache, error) {
+	redisPool, err := newRedisPool(
+		cfg.RedisCachePoolIdleTimeout,
+		cfg.RedisCachePoolMaxIdle,
+		cfg.RedisCacheHost,
+		cfg.RedisCachePort,
+		cfg.RedisCacheDatabase,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	redisJSON := jsoniter.Config{
+		SortMapKeys:            true,
+		ValidateJsonRawMessage: true,
+		OnlyTaggedField:        true,
+		TagKey:                 "redis",
+	}.Froze()
+
+	return storage.NewRedisCache(redisPool, redisJSON), nil
+} //%: {{ end }}
+
+//%: {{ if .RedisStore }}
+func newRedisStore(cfg *config.Config) (*storage.RedisStore, error) {
 	redisPool, err := newRedisPool(
 		cfg.RedisStorePoolIdleTimeout,
 		cfg.RedisStorePoolMaxIdle,
@@ -273,9 +358,33 @@ func newRedisStore(cfg *config.Config) (*storage.Redis, error) {
 		TagKey:                 "redis",
 	}.Froze()
 
-	return storage.NewRedis(redisPool, redisJSON), nil
-}
+	return storage.NewRedisStore(redisPool, redisJSON), nil
+} //%: {{ end }}
 
+//%: {{ if .RedisNotice }}
+func newRedisNotice(cfg *config.Config) (*storage.RedisNotice, error) {
+	redisPool, err := newRedisPool(
+		cfg.RedisNoticePoolIdleTimeout,
+		cfg.RedisNoticePoolMaxIdle,
+		cfg.RedisNoticeHost,
+		cfg.RedisNoticePort,
+		cfg.RedisNoticeDatabase,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	redisJSON := jsoniter.Config{
+		SortMapKeys:            true,
+		ValidateJsonRawMessage: true,
+		OnlyTaggedField:        true,
+		TagKey:                 "redis",
+	}.Froze()
+
+	return storage.NewRedisNotice(redisPool, redisJSON), nil
+} //%: {{ end }}
+
+//%: {{ if or .RedisCache .RedisStore .RedisNotice  }}
 func newRedisPool(poolIdleTimeout string, poolMaxIdle int, host string, port int, database int) (*redis.Pool, error) {
 	redisPoolIdleTimeout, err := time.ParseDuration(poolIdleTimeout)
 	if err != nil {
@@ -289,8 +398,9 @@ func newRedisPool(poolIdleTimeout string, poolMaxIdle int, host string, port int
 			return redis.Dial("tcp", fmt.Sprintf("%v:%v", host, port), redis.DialDatabase(database))
 		},
 	}, nil
-}
+} //%: {{ end }}
 
+//%: {{ if .Yafuds }}
 func newYafuds(cfg *config.Config) (yafuds.Client, error) {
 	yafuds.SetTracer(opentracing.GlobalTracer())
 	yafudsClient, err := yafuds.New(cfg.YafudsHost, cfg.YafudsPort, yafuds.Timeout(5*time.Second), yafuds.Retries(3))
@@ -300,7 +410,7 @@ func newYafuds(cfg *config.Config) (yafuds.Client, error) {
 	yafuds.SetLogger(log.GlobalLogger())
 
 	return yafudsClient, nil
-}
+} //%: {{ end }}
 
 func NewValidator() (*validation.Validator, error) {
 	v := validator.New()
@@ -322,6 +432,7 @@ func NewValidator() (*validation.Validator, error) {
 		return nil, err
 	}
 
+	//%: {{ if .Examples }}
 	// todo: remove
 	//  example validation for enums:
 	// err = v.RegisterValidation("enum_status", func(fl validator.FieldLevel) bool {
@@ -330,6 +441,7 @@ func NewValidator() (*validation.Validator, error) {
 	// if err != nil {
 	//	return nil, err
 	// }
+	//%: {{ end }}
 
 	return validation.NewValidator(v), nil
 }
@@ -352,25 +464,47 @@ func newEcho(port int, validator *validation.Validator, httpErrorHandler echo.HT
 }
 
 func (c *Container) Close() {
+	//%: {{ if .Elastic }}
 	c.elasticClient.Stop()
+	//%: {{ end }}
 
+	//%: {{ if .Geb }}
 	if err := c.gebCloser.Close(); err != nil {
 		err = errors.Wrap(err, "gebQueue graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
+	//%: {{ end }}
 
-	if err := c.redisCloser.Close(); err != nil {
+	//%: {{ if .RedisCache }}
+	if err := c.redisCacheCloser.Close(); err != nil {
 		err = errors.Wrap(err, "redis graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
+	//%: {{ end }}
+
+	//%: {{ if .RedisStore }}
+	if err := c.redisStoreCloser.Close(); err != nil {
+		err = errors.Wrap(err, "redis graceful close failed")
+		log.Warn(context.Background(), err.Error(), "error", err)
+	}
+	//%: {{ end }}
+
+	//%: {{ if .RedisNotice }}
+	if err := c.redisNoticeCloser.Close(); err != nil {
+		err = errors.Wrap(err, "redis graceful close failed")
+		log.Warn(context.Background(), err.Error(), "error", err)
+	}
+	//%: {{ end }}
 
 	if err := c.traceCloser.Close(); err != nil {
 		err = errors.Wrap(err, "tracer graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
 
+	//%: {{ if .Yafuds }}
 	if err := c.yafudsCloser.Close(); err != nil {
 		err = errors.Wrap(err, "yafuds graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
+	//%: {{ end }}
 }

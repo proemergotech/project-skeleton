@@ -1,4 +1,6 @@
+#%:{{ `
 ARG EXECUTABLE_NAME=dliver-project-skeleton
+#%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}
 
 FROM golang:1.15-alpine AS builder
 
@@ -33,4 +35,6 @@ RUN chmod +x ./$EXECUTABLE_NAME
 EXPOSE 80
 
 # can't use variables here, there is no shell to interpret them
+#%:{{ `
 CMD ["dliver-project-skeleton"]
+#%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}

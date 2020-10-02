@@ -1,3 +1,4 @@
+//%: {{- if .Elastic }}
 package storage
 
 import (
@@ -7,6 +8,7 @@ import (
 	"gitlab.com/proemergotech/uuid-go"
 )
 
+//%: {{- if .Examples }}
 const dummyIndex = "dummy_index_v1"
 
 // todo: remove
@@ -21,6 +23,8 @@ if ('offline' == doc['state'].value ) {
 
 return (doc['_id'].value + params.sort_hash).hashCode();`
 
+//%: {{- end }}
+
 type Elastic struct {
 	ElasticClient *elastic.Client
 }
@@ -29,6 +33,7 @@ func NewElastic(elasticClient *elastic.Client) *Elastic {
 	return &Elastic{ElasticClient: elasticClient}
 }
 
+//%: {{- if .Examples }}
 // todo: remove
 //  Implementation example for search in elastic
 func (e *Elastic) DummySearch(ctx context.Context, siteGroupCode, queryStr string, limit, offset int) ([]uuid.UUID, int, uuid.UUID, error) {
@@ -87,3 +92,7 @@ func elasticHitsToUUIDs(hits []*elastic.SearchHit) ([]uuid.UUID, error) {
 	}
 	return res, nil
 }
+
+//%: {{- end }}
+
+//%: {{- end }}

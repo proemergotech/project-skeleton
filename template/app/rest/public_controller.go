@@ -1,3 +1,4 @@
+//%: {{ if .PublicRest }}
 package rest
 
 import (
@@ -11,8 +12,10 @@ import (
 	"gitlab.com/proemergotech/trace-go/v2"
 	"gitlab.com/proemergotech/trace-go/v2/echotrace"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
 )
 
 type publicController struct {
@@ -58,3 +61,5 @@ func (pc *publicController) Start() {
 		return eCtx.NoContent(http.StatusOK)
 	})
 }
+
+//%: {{ end }}

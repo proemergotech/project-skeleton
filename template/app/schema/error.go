@@ -5,11 +5,12 @@ import (
 )
 
 const (
-	ErrCode          = "code"
-	ErrDetails       = "details"
+	ErrCode    = "code"
+	ErrDetails = "details"
+	//%: {{ if .PublicRest }}
 	ErrPublicDetails = "public_details"
-	ErrHTTPCode      = "http_code"
-	ErrGRPCCode      = "grcp_code"
+	//%: {{ end }}
+	ErrHTTPCode = "http_code"
 )
 
 type HTTPError struct {
@@ -37,6 +38,7 @@ func ToHTTPError(err error) (*HTTPError, int) {
 	}, httpCode
 }
 
+//%: {{ if .PublicRest }}
 func ToPublicHTTPError(err error) (*HTTPError, int) {
 	httpCode := ErrorHTTPCode(err)
 	if httpCode == 0 {
@@ -54,7 +56,7 @@ func ToPublicHTTPError(err error) (*HTTPError, int) {
 			Details: ErrorPublicDetails(err),
 		},
 	}, httpCode
-}
+} //%: {{ end }}
 
 func ErrorCode(err error) string {
 	field := errors.Field(err, ErrCode)
@@ -74,15 +76,6 @@ func ErrorHTTPCode(err error) int {
 	return field.(int)
 }
 
-func ErrorGRPCCode(err error) int {
-	field := errors.Field(err, ErrGRPCCode)
-	if field == nil {
-		return 0
-	}
-
-	return field.(int)
-}
-
 func ErrorDetails(err error) []map[string]interface{} {
 	field := errors.Field(err, ErrDetails)
 	if field == nil {
@@ -92,6 +85,7 @@ func ErrorDetails(err error) []map[string]interface{} {
 	return field.([]map[string]interface{})
 }
 
+//%: {{ if .PublicRest }}
 func ErrorPublicDetails(err error) []map[string]interface{} {
 	field := errors.Field(err, ErrPublicDetails)
 	if field == nil {
@@ -99,4 +93,4 @@ func ErrorPublicDetails(err error) []map[string]interface{} {
 	}
 
 	return field.([]map[string]interface{})
-}
+} //%: {{ end }}

@@ -1,3 +1,4 @@
+//%: {{ if .Yafuds }}
 package storage
 
 import (
@@ -8,12 +9,15 @@ import (
 
 	"gitlab.com/proemergotech/yafuds-client-go/client"
 
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/service"
+	//%:{{ `
+	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
+//%: {{ if .Examples }}
 const (
 	YcolBaseEditable = "BASE_EDITABLE"
-)
+) //%: {{ end }}
 
 type Yafuds struct {
 	client client.Client
@@ -25,9 +29,12 @@ func NewYafuds(client client.Client) *Yafuds {
 	}
 }
 
+//%: {{ if .Examples }}
 // todo: remove
 //   Implementation example for save value
-func (y *Yafuds) Save(ctx context.Context, dummy *service.DummyType) (string, string, error) {
+//%:{{ `
+func (y *Yafuds) Save(ctx context.Context, dummy *skeleton.DummyType) (string, string, error) {
+	//%: ` | replace "skeleton" .SchemaPackage }}
 	var oldVersion, newVersion string
 	err := y.client.Retry(ctx, func() error {
 		columns := []client.Column{
@@ -58,7 +65,7 @@ func (y *Yafuds) Save(ctx context.Context, dummy *service.DummyType) (string, st
 	}
 
 	return oldVersion, newVersion, nil
-}
+} //%: {{ end }}
 
 func versionOldNew(oldCells []*client.Cell, newColRefs map[string]uint32) (string, string) {
 	colRefs := make(map[string]uint32, len(oldCells)+len(newColRefs))
@@ -84,3 +91,5 @@ func versionOldNew(oldCells []*client.Cell, newColRefs map[string]uint32) (strin
 
 	return strings.Join(oldPairs, ","), strings.Join(newPairs, ",")
 }
+
+//%: {{ end }}
