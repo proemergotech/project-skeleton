@@ -1,7 +1,11 @@
+//%:{{ `
 module gitlab.com/proemergotech/dliver-project-skeleton
+
+//%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}
 
 go 1.15
 
+//%: {{ regexReplaceAll "(?m)^.*indirect.*$\n" `
 require (
 	github.com/HdrHistogram/hdrhistogram-go v0.9.0 // indirect
 	github.com/codahale/hdrhistogram v0.9.0 // indirect
@@ -29,3 +33,4 @@ require (
 	go.uber.org/zap v1.10.0
 	gopkg.in/h2non/gentleman.v2 v2.0.4
 )
+//%: ` "" | trim }}

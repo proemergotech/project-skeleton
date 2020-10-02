@@ -5,7 +5,9 @@ mkdir -p /usr/local/.cache/go-build
 
 build_cmd=""
 run_cmd=""
+#%:{{ `
 output="/tmp/dliver-project-skeleton"
+#%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}
 
 if [ "$1" = 'run' ]; then
   build_cmd="./build.sh"

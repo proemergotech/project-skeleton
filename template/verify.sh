@@ -1,3 +1,4 @@
+#%: {{- if .Changelog -}}
 #!/bin/sh
 # Check for CHANGELOG updates and fails when not found
 changelog_filename="CHANGELOG.md"
@@ -11,3 +12,4 @@ then
         exit 1
     fi
 fi
+#%: {{- end }}

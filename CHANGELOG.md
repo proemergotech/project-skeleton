@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.45.0 / 2020-10-02
+- added templating
+
 ## v1.44.0 / 2020-09-25
 - add gentleman bind
 

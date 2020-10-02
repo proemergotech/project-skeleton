@@ -1,9 +1,12 @@
+//%: {{ if .Bootstrap }}
 package cmd
 
 import (
 	"github.com/spf13/cobra"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
 )
 
 // todo: remove OR update
@@ -21,3 +24,5 @@ var bootstrapCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(bootstrapCmd)
 }
+
+//%: {{ end }}

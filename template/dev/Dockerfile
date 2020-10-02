@@ -1,6 +1,8 @@
 FROM golang:1.15
 
+#%:{{ `
 ARG SERVICE_NAME=dliver-project-skeleton
+#%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}
 
 RUN go get github.com/githubnemo/CompileDaemon
 RUN go get github.com/go-delve/delve/cmd/dlv

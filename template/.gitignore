@@ -9,5 +9,7 @@ vendor/
 bin/
 .idea
 
+#%:{{ `
 .dliver-project-skeleton.*
 !.dliver-project-skeleton.example.*
+#%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}

@@ -17,6 +17,7 @@ func initConfig(cfg interface{}) {
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
+	//%: {{ if .ConfigFile }}
 	cfgFile := viper.GetString("config")
 	if cfgFile != "" {
 		if _, err := os.Stat(cfgFile); os.IsNotExist(err) {
@@ -28,6 +29,7 @@ func initConfig(cfg interface{}) {
 			log.Panic(context.Background(), "unable to read config", "err", err)
 		}
 	}
+	//%: {{ end }}
 
 	hasErrors := false
 	val := reflect.ValueOf(cfg).Elem()

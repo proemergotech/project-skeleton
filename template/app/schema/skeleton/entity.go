@@ -1,7 +1,9 @@
-package service
+//%: {{ `
+package skeleton //%: ` | replace "skeleton" .SchemaPackage }}
 
 import "gitlab.com/proemergotech/uuid-go"
 
+//%: {{ if .Examples }}
 // todo: remove
 //  Example struct with redis tag
 type DummyType struct {
@@ -13,3 +15,5 @@ type BaseEditable struct {
 	Group    string    `json:"group" redis:"group"`
 	UUID     uuid.UUID `json:"uuid" redis:"uuid"`
 }
+
+//%: {{ end }}

@@ -1,3 +1,4 @@
+//%: {{ if .Geb }}
 package event
 
 import (
@@ -28,3 +29,5 @@ func (s *Server) Start(errorCh chan<- error) {
 func (s *Server) Stop(_ time.Duration) error {
 	return nil
 }
+
+//%: {{ end }}

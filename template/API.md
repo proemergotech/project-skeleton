@@ -1,3 +1,4 @@
+{{ if .PublicRest -}}
 FORMAT: 1A
 
 # Dliver Project Skeleton
@@ -52,3 +53,4 @@ Dummy endpoint's description
     + Attributes
         + `error`
             + `code`: `ERR_INTERNAL` (string)
+{{ end -}}

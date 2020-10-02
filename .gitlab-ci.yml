@@ -4,22 +4,24 @@ services:
 
 stages:
 - build
-- release
-- deploy
 
 variables:
   IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH
   IMAGE_NAME_BUILD: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_SHA
 
 .common-scripts:
-- &gitlab-login
-    docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  - &install-goimports
+      go get golang.org/x/tools/cmd/goimports
+  - &generate
+      cd generate && cp meta.example.yml meta.yml && sed -i 's/false/true/g' meta.yml && go run generate.go && cd ..
 
 lint:
   stage: build
   image: registry.gitlab.com/gitlab-org/gitlab-build-images:golangci-lint-alpine
   script:
-    - cd template
+    - *install-goimports
+    - *generate
+    - cd output
     # Write the code coverage report to gl-code-quality-report.json
     # and print linting issues to stdout in the format: path/to/file:line description
     - golangci-lint run -v --timeout 2m --out-format code-climate -c .golangci.yml | tee gl-code-quality-report.json | jq -r '.[] | "\(.location.path):\(.location.lines.begin) \(.description)"'
@@ -30,18 +32,14 @@ lint:
       - gl-code-quality-report.json
 
 build:
+  image: golang:1.15
   stage: build
   script:
-  - *gitlab-login
-  - cd template
-  - >
-    docker build --pull -t $IMAGE_NAME_BUILD
-    --build-arg "APP_VERSION=${CI_COMMIT_SHA}"
-    --build-arg GOPROXY=${GOPROXY}
-    --build-arg GONOPROXY=${GONOPROXY}
-    --build-arg GOPRIVATE=${GOPRIVATE}
-    .
-  - docker push $IMAGE_NAME_BUILD
+    - *install-goimports
+    - *generate
+    - cd output
+    - go mod tidy
+    - go build -o /dev/null .
 
 verify:
   stage: build

@@ -1,3 +1,4 @@
+//%: {{ if .SiteConfig }}
 package siteconfig
 
 type SiteConfig struct {
@@ -24,3 +25,5 @@ type PaymentGroup struct {
 type Package struct {
 	ID string `json:"id"`
 }
+
+//%: {{ end }}

@@ -11,3 +11,7 @@ bin/
 
 .dliver-project-skeleton.*
 !.dliver-project-skeleton.example.*
+
+output/
+
+meta.yml

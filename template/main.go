@@ -12,8 +12,10 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
 	"gitlab.com/proemergotech/dliver-project-skeleton/cmd"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
 )
 
 func main() {

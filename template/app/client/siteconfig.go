@@ -1,3 +1,4 @@
+//%: {{ if .SiteConfig }}
 package client
 
 import (
@@ -11,7 +12,9 @@ import (
 	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
 	"gopkg.in/h2non/gentleman.v2"
 
+	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/siteconfig"
+	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
 )
 
 type SiteConfig struct {
@@ -75,3 +78,5 @@ func (s *SiteConfig) loadSiteConfig(ctx context.Context) (*siteconfig.SiteConfig
 func (s *SiteConfig) request(ctx context.Context) *gentleman.Request {
 	return gentlemantrace.WithContext(ctx, s.httpClient.Request())
 }
+
+//%: {{ end }}
