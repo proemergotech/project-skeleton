@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.46.0 / 2020-10-12
+- updated microtime lib version (2.0.1)
+
 ## v1.45.0 / 2020-10-02
 - added templating
 
