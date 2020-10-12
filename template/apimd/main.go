@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"gitlab.com/proemergotech/apimd-generator-go/generator"
-	"gitlab.com/proemergotech/microtime-go"
+	"gitlab.com/proemergotech/microtime-go/v2"
 
 	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"

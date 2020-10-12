@@ -25,7 +25,7 @@ require (
 	gitlab.com/proemergotech/errors v1.0.0
 	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
 	gitlab.com/proemergotech/log-go/v3 v3.0.3
-	gitlab.com/proemergotech/microtime-go v1.1.0
+	gitlab.com/proemergotech/microtime-go/v2 v2.0.1
 	gitlab.com/proemergotech/retry v1.0.1
 	gitlab.com/proemergotech/trace-go/v2 v2.1.0
 	gitlab.com/proemergotech/uuid-go v1.0.0
@@ -33,4 +33,5 @@ require (
 	go.uber.org/zap v1.10.0
 	gopkg.in/h2non/gentleman.v2 v2.0.4
 )
+
 //%: ` "" | trim }}
