@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.47.0 / 2020-10-15
+- updated third party libraries (see: [update notes](docs/3rd_party_lib_updates_for_v1.47.0.md))
+
 ## v1.46.0 / 2020-10-12
 - updated microtime lib version (2.0.1)
 
