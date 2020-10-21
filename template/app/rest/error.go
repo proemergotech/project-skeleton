@@ -29,7 +29,7 @@ func (e routeNotFoundError) E() error {
 		schema.ErrHTTPCode, 404,
 		//%:{{ `
 		schema.ErrCode, skeleton.ErrRouteNotFound,
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 	)
 }
 
@@ -51,6 +51,6 @@ func (e methodNotAllowedError) E() error {
 		schema.ErrHTTPCode, 405,
 		//%:{{ `
 		schema.ErrCode, skeleton.ErrMethodNotAllowed,
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 	)
 }

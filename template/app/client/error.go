@@ -38,7 +38,7 @@ func RestErrorMiddleware(serviceName string) plugin.Plugin {
 			if err := res.Body.Close(); err != nil {
 				//%:{{ `
 				err = skeleton.SemanticError{Err: err}.E()
-				//%: ` | replace "skeleton" .SchemaPackage }}
+				//%: ` | replace "skeleton" .SchemaPackage | trim }}
 				log.Error(gCtx.Request.Context(), err.Error(), "error", err)
 			}
 		}()
@@ -87,7 +87,7 @@ func (e clientHTTPError) E() error {
 			errService, e.ServiceName,
 			//%:{{ `
 			schema.ErrCode, skeleton.ErrClient,
-			//%: ` | replace "skeleton" .SchemaPackage }}
+			//%: ` | replace "skeleton" .SchemaPackage | trim }}
 			schema.ErrHTTPCode, 500,
 		)
 	} else if errResp.Error.Code == "" {
@@ -97,7 +97,7 @@ func (e clientHTTPError) E() error {
 			errService, e.ServiceName,
 			//%:{{ `
 			schema.ErrCode, skeleton.ErrClient,
-			//%: ` | replace "skeleton" .SchemaPackage }}
+			//%: ` | replace "skeleton" .SchemaPackage | trim }}
 			schema.ErrHTTPCode, 500,
 		)
 	}
@@ -115,7 +115,7 @@ func (e clientHTTPError) E() error {
 		errService, e.ServiceName,
 		//%:{{ `
 		schema.ErrCode, skeleton.ErrClient,
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 		schema.ErrHTTPCode, 500,
 	)
 }
@@ -136,7 +136,7 @@ func (e clientError) E() error {
 		errors.WrapOrNew(e.Err, msg),
 		//%:{{ `
 		schema.ErrCode, skeleton.ErrClient,
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 		schema.ErrHTTPCode, 500,
 	)
 }

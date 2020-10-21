@@ -338,6 +338,8 @@ gitlab.com/proemergotech/microtime-go/v2 v2.0.1 h1:yIJe+oCxptUKBtwfd2l+qtK9H4r9I
 gitlab.com/proemergotech/microtime-go/v2 v2.0.1/go.mod h1:enhPR9Pi6abWu6qj+aadGndzQpqt2A5j6ZSu/JJk9G4=
 gitlab.com/proemergotech/retry v1.0.1 h1:p8wLvgJ6niJ5ONU5qMI6fI435EfoLVn/OVawAZf+vqQ=
 gitlab.com/proemergotech/retry v1.0.1/go.mod h1:0PgDHTWBnjsROg+bck1qzgL43LUEQ5JZ71SonRI9hLU=
+gitlab.com/proemergotech/shallow-go v1.0.0 h1:XOGAB32P18afclN9wxxPObOKsfmy2/oORhO/BhedzHc=
+gitlab.com/proemergotech/shallow-go v1.0.0/go.mod h1:FTgrGBwHMYb1ZuYXcDZDct+iDWGtzKmMoohC/d2lqWA=
 gitlab.com/proemergotech/trace-go/v2 v2.0.1/go.mod h1:4gYOlVFqSVD1kTSso9XsVPplZodUOm2AjEBOp5koMVI=
 gitlab.com/proemergotech/trace-go/v2 v2.1.0 h1:pHTqRV7RqsJlxX6MJ3676l8dJ+44Zr6uiRAOxS1s+yY=
 gitlab.com/proemergotech/trace-go/v2 v2.1.0/go.mod h1:4gYOlVFqSVD1kTSso9XsVPplZodUOm2AjEBOp5koMVI=

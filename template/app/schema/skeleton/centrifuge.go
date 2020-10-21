@@ -8,7 +8,7 @@ import (
 
 //%: {{ if .Examples }}
 type CentrifugeData struct {
-	Group string    `centrifuge:"group"`
-	UUID  uuid.UUID `centrifuge:"uuid"`
+	DummyUUID uuid.UUID `centrifuge:"dummy_uuid"`
+	Group     string    `centrifuge:"group"`
 } //%: {{ end }}
 //%: {{ end }}

@@ -27,6 +27,7 @@ require (
 	gitlab.com/proemergotech/log-go/v3 v3.0.3
 	gitlab.com/proemergotech/microtime-go/v2 v2.0.1
 	gitlab.com/proemergotech/retry v1.0.1
+	gitlab.com/proemergotech/shallow-go v1.0.0
 	gitlab.com/proemergotech/trace-go/v2 v2.1.0
 	gitlab.com/proemergotech/uuid-go v1.0.0
 	gitlab.com/proemergotech/yafuds-client-go v1.2.1

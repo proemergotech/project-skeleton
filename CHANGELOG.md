@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.48.0 / 2020-10-16
+- improved yafuds examples
+- example refact
+
 ## v1.47.0 / 2020-10-15
 - updated third party libraries (see: [update notes](docs/3rd_party_lib_updates_for_v1.47.0.md))
 

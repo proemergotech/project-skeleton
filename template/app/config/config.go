@@ -14,48 +14,48 @@ type Config struct {
 	//%: {{- end }}
 	DebugPProf bool `mapstructure:"debug_pprof" default:"false"`
 
-	//%: {{- if .Centrifuge }}
+	//%: {{ if .Centrifuge }}
 	CentrifugeScheme string `mapstructure:"centrifuge_scheme" default:"http"`
 	CentrifugeHost   string `mapstructure:"centrifuge_host" validate:"required"`
 	CentrifugePort   string `mapstructure:"centrifuge_port" default:"80"`
-	//%: {{- end }}
+	//%: {{ end }}
 
-	//%: {{- if .Elastic }}
+	//%: {{ if .Elastic }}
 	ElasticSearchScheme string `mapstructure:"elastic_search_scheme" default:"http"`
 	ElasticSearchHost   string `mapstructure:"elastic_search_host" validate:"required"`
 	ElasticSearchPort   int    `mapstructure:"elastic_search_port" default:"9200"`
-	//%: {{- end }}
+	//%: {{ end }}
 
-	//%: {{- if .Geb }}
+	//%: {{ if .Geb }}
 	GebUsername string `mapstructure:"geb_username" validate:"required"`
 	GebPassword string `mapstructure:"geb_password" validate:"required"`
 	GebHost     string `mapstructure:"geb_host" validate:"required"`
 	GebPort     int    `mapstructure:"geb_port" default:"5672"`
-	//%: {{- end }}
+	//%: {{ end }}
 
-	//%: {{- if .RedisCache }}
+	//%: {{ if .RedisCache }}
 	RedisCacheHost            string `mapstructure:"redis_cache_host" validate:"required"`
 	RedisCachePort            int    `mapstructure:"redis_cache_port" default:"6379"`
 	RedisCacheDatabase        int    `mapstructure:"redis_cache_database" validate:"required"`
 	RedisCachePoolMaxIdle     int    `mapstructure:"redis_cache_pool_max_idle" default:"10"`
 	RedisCachePoolIdleTimeout string `mapstructure:"redis_cache_pool_idle_timeout" default:"240s"`
-	//%: {{- end }}
+	//%: {{ end }}
 
-	//%: {{- if .RedisStore }}
+	//%: {{ if .RedisStore }}
 	RedisStoreHost            string `mapstructure:"redis_store_host" validate:"required"`
 	RedisStorePort            int    `mapstructure:"redis_store_port" default:"6379"`
 	RedisStoreDatabase        int    `mapstructure:"redis_store_database" validate:"required"`
 	RedisStorePoolMaxIdle     int    `mapstructure:"redis_store_pool_max_idle" default:"10"`
 	RedisStorePoolIdleTimeout string `mapstructure:"redis_store_pool_idle_timeout" default:"240s"`
-	//%: {{- end }}
+	//%: {{ end }}
 
-	//%: {{- if .RedisNotice }}
+	//%: {{ if .RedisNotice }}
 	RedisNoticeHost            string `mapstructure:"redis_notice_host" validate:"required"`
 	RedisNoticePort            int    `mapstructure:"redis_notice_port" default:"6379"`
 	RedisNoticeDatabase        int    `mapstructure:"redis_notice_database" validate:"required"`
 	RedisNoticePoolMaxIdle     int    `mapstructure:"redis_notice_pool_max_idle" default:"10"`
 	RedisNoticePoolIdleTimeout string `mapstructure:"redis_notice_pool_idle_timeout" default:"240s"`
-	//%: {{- end }}
+	//%: {{ end }}
 
 	TracerSamplerType                 string `mapstructure:"tracer_sampler_type" default:"remote"`
 	TracerSamplerParam                string `mapstructure:"tracer_sampler_param" default:"1.0"`
@@ -65,29 +65,29 @@ type Config struct {
 	TracerReporterLocalAgentHost      string `mapstructure:"tracer_reporter_local_agent_host" validate:"required"`
 	TracerReporterLocalAgentPort      int    `mapstructure:"tracer_reporter_local_agent_port" default:"6831"`
 
-	//%: {{- if .Yafuds }}
+	//%: {{ if .Yafuds }}
 	YafudsHost string `mapstructure:"yafuds_host" validate:"required"`
 	YafudsPort string `mapstructure:"yafuds_port" default:"7890"`
-	//%: {{- end }}
+	//%: {{ end }}
 
-	//%: {{- if .SiteConfig }}
+	//%: {{ if .SiteConfig }}
 	SiteConfigServiceScheme string `mapstructure:"site_config_service_scheme" default:"http"`
 	SiteConfigServiceHost   string `mapstructure:"site_config_service_host" validate:"required"`
 	SiteConfigServicePort   int    `mapstructure:"site_config_service_port" default:"80"`
-	//%: {{- end }}
+	//%: {{ end }}
 
-	//%: {{- if .ConfigFile }}
+	//%: {{ if .ConfigFile }}
 	ConfigFileContent map[string]Content `mapstructure:"content" validate:"required"`
-	//%: {{- end }}
+	//%: {{ end }}
 }
 
-//%: {{- if .ConfigFile }}
+//%: {{ if .ConfigFile }}
 type Content struct {
 	Price float64 `mapstructure:"price"`
-} //%: {{- end }}
+} //%: {{ end }}
 
-//%: {{- if .Bootstrap }}
+//%: {{ if .Bootstrap }}
 type BootstrapConfig struct {
 	YafudsHost string `mapstructure:"yafuds_host" validate:"required"`
 	YafudsPort string `mapstructure:"yafuds_port" default:"7890"`
-} //%: {{- end }}
+} //%: {{ end }}

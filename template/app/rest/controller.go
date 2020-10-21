@@ -1,6 +1,9 @@
 package rest
 
 import (
+	"bytes"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/pprof"
 	"runtime"
@@ -65,7 +68,7 @@ func (c *controller) Start() {
 	apiRoutes.POST("/dummy/:dummy_param_1", func(eCtx echo.Context) error {
 		//%:{{ `
 		req := &skeleton.DummyRequest{}
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 
 		if err := eCtx.Bind(req); err != nil {
 			return validation.Error{Err: err, Msg: "cannot bind request"}.E()
@@ -81,6 +84,48 @@ func (c *controller) Start() {
 		}
 
 		return eCtx.NoContent(http.StatusOK)
+	})
+	//%: {{ end }}
+
+	//%: {{- if and .Yafuds .Examples }}
+	apiRoutes.PATCH("/dummy/:dummy_uuid", func(eCtx echo.Context) error {
+		//%:{{ `
+		req := &skeleton.UpdateDummyRequest{}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
+
+		body, err := ioutil.ReadAll(eCtx.Request().Body)
+		if err != nil {
+			return err
+		}
+
+		reader := bytes.NewReader(body)
+		eCtx.Request().Body = ioutil.NopCloser(reader)
+
+		if err := eCtx.Bind(req); err != nil {
+			return validation.Error{Err: err, Msg: "cannot bind request"}.E()
+		}
+
+		if err := eCtx.Validate(req); err != nil {
+			return err
+		}
+
+		if _, err := reader.Seek(0, io.SeekStart); err != nil {
+			//%:{{ `
+			return skeleton.SemanticError{Err: err}.E()
+			//%: ` | replace "skeleton" .SchemaPackage | trim }}
+		}
+
+		keys := make(map[string]interface{})
+		if err := eCtx.Bind(&keys); err != nil {
+			return validation.Error{Err: err, Msg: "cannot bind request"}.E()
+		}
+
+		resp, err := c.svc.Update(eCtx.Request().Context(), req, keys)
+		if err != nil {
+			return err
+		}
+
+		return eCtx.JSON(http.StatusOK, resp)
 	})
 	//%: {{ end }}
 }

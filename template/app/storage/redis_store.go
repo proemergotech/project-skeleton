@@ -57,16 +57,16 @@ func (r *RedisStore) closeConn(ctx context.Context, conn redis.Conn) {
 //%: {{ if .Examples }}
 // todo: remove
 //  Examples for key generation
-func (r *RedisStore) dummyID(group string, uuid uuid.UUID) string {
-	return fmt.Sprintf("group:%s:dummy:%s", group, uuid)
+func (r *RedisStore) dummyID(group string, dummyUUID uuid.UUID) string {
+	return fmt.Sprintf("group:%s:dummy:%s", group, dummyUUID)
 }
 
 func (r *RedisStore) dummyKey(dummyID string) string {
 	return fmt.Sprintf("%s:data", dummyID)
 }
 
-func (r *RedisStore) dummyTestKey(group string, test uuid.UUID) string {
-	return fmt.Sprintf("group:%s:test:%s:dummy", group, test)
+func (r *RedisStore) dummyTestKey(group string, testUUID uuid.UUID) string {
+	return fmt.Sprintf("group:%s:test:%s:dummy", group, testUUID)
 }
 
 // todo: remove
@@ -87,7 +87,7 @@ func (r *RedisStore) GetSimpleFunc(ctx context.Context, key string) (string, err
 //  Implementation example for save complex value
 //%:{{ `
 func (r *RedisStore) SaveDummy(ctx context.Context, dummy *skeleton.DummyType) error {
-	//%: ` | replace "skeleton" .SchemaPackage }}
+	//%: ` | replace "skeleton" .SchemaPackage | trim }}
 	conn := r.redisPool.Get()
 	defer r.closeConn(ctx, conn)
 
@@ -95,10 +95,10 @@ func (r *RedisStore) SaveDummy(ctx context.Context, dummy *skeleton.DummyType) e
 	if err != nil {
 		//%:{{ `
 		return skeleton.SemanticError{Err: err}.E()
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 	}
 
-	dummyID := r.dummyID(dummy.Group, dummy.UUID)
+	dummyID := r.dummyID(dummy.Group, dummy.DummyUUID)
 	_, err = saveStoreScript.Do(
 		conn,
 		r.dummyKey(dummyID),
