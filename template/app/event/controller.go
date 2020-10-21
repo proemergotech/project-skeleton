@@ -41,7 +41,7 @@ func (c *Controller) start() error {
 		Listen(func(e *geb.Event) error {
 			//%:{{ `
 			req := &skeleton.AddedEvent{}
-			//%: ` | replace "skeleton" .SchemaPackage }}
+			//%: ` | replace "skeleton" .SchemaPackage | trim }}
 
 			err := e.Unmarshal(req)
 			if err != nil {

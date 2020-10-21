@@ -19,7 +19,7 @@ func (e invalidDummyEventPayloadError) E() error {
 		errors.WrapOrNew(e.Err, "invalid dummy event body"),
 		//%:{{ `
 		schema.ErrCode, skeleton.ErrDummyInvalidEventPayload,
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 		schema.ErrHTTPCode, 400,
 	)
 }

@@ -33,6 +33,9 @@ const (
 	//%: {{- if .Yafuds }}
 	ErrYafuds = "ERR_YAFUDS"
 	//%: {{- end }}
+	//%: {{- if .Geb }}
+	ErrGeb = "ERR_GEB"
+	//%: {{- end }}
 	//%: {{- if or .Centrifuge .SiteConfig }}
 	ErrClient = "ERR_CLIENT"
 	//%: {{- end }}

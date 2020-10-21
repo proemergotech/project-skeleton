@@ -146,7 +146,6 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, err
 	}
 	c.yafudsCloser = yafudsClient
-	yafudsStorage := storage.NewYafuds(yafudsClient)
 	//%: {{ end }}
 
 	//%: {{ if .SiteConfig }}
@@ -181,16 +180,20 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	//%: {{ end }}
 
 	svc := service.NewService(
-		//%: {{ if .Centrifuge }}
+		//%: {{- if .Centrifuge }}
 		centrifugeClient,
 		centrifugeJSON,
-		//%: {{ end }}
-		//%: {{ if .Yafuds }}
-		yafudsStorage,
-		//%: {{ end }}
-		//%: {{ if .SiteConfig }}
+		//%: {{- end }}
+		//%: {{- if .Yafuds }}
+		yafudsClient,
+		v,
+		//%: {{- end }}
+		//%: {{- if and .Geb .Examples }}
+		gebQueue,
+		//%: {{- end }}
+		//%: {{- if .SiteConfig }}
 		siteConfigClient,
-		//%: {{ end }}
+		//%: {{- end }}
 	)
 
 	c.RestServer = rest.NewServer(
@@ -464,47 +467,47 @@ func newEcho(port int, validator *validation.Validator, httpErrorHandler echo.HT
 }
 
 func (c *Container) Close() {
-	//%: {{ if .Elastic }}
+	//%: {{- if .Elastic }}
 	c.elasticClient.Stop()
-	//%: {{ end }}
+	//%: {{- end }}
 
-	//%: {{ if .Geb }}
+	//%: {{- if .Geb }}
 	if err := c.gebCloser.Close(); err != nil {
 		err = errors.Wrap(err, "gebQueue graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
-	//%: {{ end }}
+	//%: {{- end }}
 
-	//%: {{ if .RedisCache }}
+	//%: {{- if .RedisCache }}
 	if err := c.redisCacheCloser.Close(); err != nil {
 		err = errors.Wrap(err, "redis graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
-	//%: {{ end }}
+	//%: {{- end }}
 
-	//%: {{ if .RedisStore }}
+	//%: {{- if .RedisStore }}
 	if err := c.redisStoreCloser.Close(); err != nil {
 		err = errors.Wrap(err, "redis graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
-	//%: {{ end }}
+	//%: {{- end }}
 
-	//%: {{ if .RedisNotice }}
+	//%: {{- if .RedisNotice }}
 	if err := c.redisNoticeCloser.Close(); err != nil {
 		err = errors.Wrap(err, "redis graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
-	//%: {{ end }}
+	//%: {{- end }}
 
 	if err := c.traceCloser.Close(); err != nil {
 		err = errors.Wrap(err, "tracer graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
 
-	//%: {{ if .Yafuds }}
+	//%: {{- if .Yafuds }}
 	if err := c.yafudsCloser.Close(); err != nil {
 		err = errors.Wrap(err, "yafuds graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
-	//%: {{ end }}
+	//%: {{- end }}
 }

@@ -26,7 +26,7 @@ func (e elasticError) E() error {
 		errors.WrapOrNew(e.Err, msg),
 		//%:{{ `
 		schema.ErrCode, skeleton.ErrElastic,
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 		schema.ErrHTTPCode, 500,
 	)
 } //%: {{- end }}
@@ -47,28 +47,7 @@ func (e redisError) E() error {
 		errors.WrapOrNew(e.Err, msg),
 		//%:{{ `
 		schema.ErrCode, skeleton.ErrRedis,
-		//%: ` | replace "skeleton" .SchemaPackage }}
-		schema.ErrHTTPCode, 500,
-	)
-} //%: {{- end }}
-
-//%: {{- if .Yafuds }}
-type yafudsError struct {
-	Err error
-	Msg string
-}
-
-func (e yafudsError) E() error {
-	msg := "yafuds error"
-	if e.Msg != "" {
-		msg += ": " + e.Msg
-	}
-
-	return errors.WithFields(
-		errors.WrapOrNew(e.Err, msg),
-		//%:{{ `
-		schema.ErrCode, skeleton.ErrYafuds,
-		//%: ` | replace "skeleton" .SchemaPackage }}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 		schema.ErrHTTPCode, 500,
 	)
 } //%: {{- end }}

@@ -34,7 +34,7 @@ func PublicDLiveRHTTPErrorHandler(err error, eCtx echo.Context) {
 		default:
 			//%:{{ `
 			err = skeleton.SemanticError{Err: eErr, Fields: []interface{}{"method", eCtx.Request().Method, "url", eCtx.Request().URL.String()}}.E()
-			//%: ` | replace "skeleton" .SchemaPackage }}
+			//%: ` | replace "skeleton" .SchemaPackage | trim }}
 		}
 	}
 

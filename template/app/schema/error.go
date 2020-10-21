@@ -7,9 +7,9 @@ import (
 const (
 	ErrCode    = "code"
 	ErrDetails = "details"
-	//%: {{ if .PublicRest }}
+	//%: {{- if .PublicRest }}
 	ErrPublicDetails = "public_details"
-	//%: {{ end }}
+	//%: {{- end }}
 	ErrHTTPCode = "http_code"
 )
 
