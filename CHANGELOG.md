@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.49.0 / 2020-10-29
+- update yafuds client
+
 ## v1.48.0 / 2020-10-16
 - improved yafuds examples
 - example refact

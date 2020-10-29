@@ -11,7 +11,7 @@ import (
 	"gitlab.com/proemergotech/log-go/v3"
 	"gitlab.com/proemergotech/shallow-go"
 	"gitlab.com/proemergotech/uuid-go"
-	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
+	yafuds "gitlab.com/proemergotech/yafuds-client-go/v2/client"
 
 	//%:{{ `
 	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"

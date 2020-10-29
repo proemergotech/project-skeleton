@@ -30,7 +30,7 @@ require (
 	gitlab.com/proemergotech/shallow-go v1.0.0
 	gitlab.com/proemergotech/trace-go/v2 v2.1.0
 	gitlab.com/proemergotech/uuid-go v1.0.0
-	gitlab.com/proemergotech/yafuds-client-go v1.2.1
+	gitlab.com/proemergotech/yafuds-client-go/v2 v2.0.0
 	go.uber.org/zap v1.16.0
 	gopkg.in/h2non/gentleman.v2 v2.0.4
 )
