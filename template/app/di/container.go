@@ -33,7 +33,7 @@ import (
 	"gitlab.com/proemergotech/trace-go/v2"
 	"gitlab.com/proemergotech/trace-go/v2/gebtrace"
 	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
-	yafuds "gitlab.com/proemergotech/yafuds-client-go/client"
+	yafuds "gitlab.com/proemergotech/yafuds-client-go/v2/client"
 	"gopkg.in/h2non/gentleman.v2"
 
 	//%:{{ `
@@ -67,9 +67,6 @@ type Container struct {
 	traceCloser io.Closer
 	//%: {{- if .Geb }}
 	gebCloser io.Closer
-	//%: {{- end }}
-	//%: {{- if .Yafuds }}
-	yafudsCloser io.Closer
 	//%: {{- end }}
 	//%: {{- if .Elastic }}
 	elasticClient *elastic.Client
@@ -145,7 +142,6 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	if err != nil {
 		return nil, err
 	}
-	c.yafudsCloser = yafudsClient
 	//%: {{ end }}
 
 	//%: {{ if .SiteConfig }}
@@ -406,7 +402,7 @@ func newRedisPool(poolIdleTimeout string, poolMaxIdle int, host string, port int
 //%: {{ if .Yafuds }}
 func newYafuds(cfg *config.Config) (yafuds.Client, error) {
 	yafuds.SetTracer(opentracing.GlobalTracer())
-	yafudsClient, err := yafuds.New(cfg.YafudsHost, cfg.YafudsPort, yafuds.Timeout(5*time.Second), yafuds.Retries(3))
+	yafudsClient, err := yafuds.New(cfg.YafudsScheme, cfg.YafudsHost, cfg.YafudsPort, yafuds.Timeout(5*time.Second), yafuds.Retries(3))
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to connect to Yafuds")
 	}
@@ -503,11 +499,4 @@ func (c *Container) Close() {
 		err = errors.Wrap(err, "tracer graceful close failed")
 		log.Warn(context.Background(), err.Error(), "error", err)
 	}
-
-	//%: {{- if .Yafuds }}
-	if err := c.yafudsCloser.Close(); err != nil {
-		err = errors.Wrap(err, "yafuds graceful close failed")
-		log.Warn(context.Background(), err.Error(), "error", err)
-	}
-	//%: {{- end }}
 }

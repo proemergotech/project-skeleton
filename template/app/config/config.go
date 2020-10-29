@@ -66,8 +66,9 @@ type Config struct {
 	TracerReporterLocalAgentPort      int    `mapstructure:"tracer_reporter_local_agent_port" default:"6831"`
 
 	//%: {{ if .Yafuds }}
-	YafudsHost string `mapstructure:"yafuds_host" validate:"required"`
-	YafudsPort string `mapstructure:"yafuds_port" default:"7890"`
+	YafudsScheme string `mapstructure:"yafuds_scheme" default:"http"`
+	YafudsHost   string `mapstructure:"yafuds_host" validate:"required"`
+	YafudsPort   int    `mapstructure:"yafuds_port" default:"80"`
 	//%: {{ end }}
 
 	//%: {{ if .SiteConfig }}
