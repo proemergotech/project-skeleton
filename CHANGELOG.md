@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.50.0 / 2020-11-06
+- add retry for centrifuge client
+
 ## v1.49.0 / 2020-10-29
 - update yafuds client
 

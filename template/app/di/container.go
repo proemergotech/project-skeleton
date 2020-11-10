@@ -87,7 +87,14 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.CentrifugeScheme, cfg.CentrifugeHost, cfg.CentrifugePort)).
 			Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
 			Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true)).
-			Use(client.RestErrorMiddleware("centrifuge")),
+			Use(client.RestErrorMiddleware("centrifuge")).
+			Use(
+				gentlemanretry.Middleware(
+					gentlemanretry.BackoffTimeout(10*time.Second),
+					gentlemanretry.Logger(log.GlobalLogger()),
+					gentlemanretry.RequestTimeout(2*time.Second),
+				),
+			),
 	)
 	//%: {{ end }}
 
