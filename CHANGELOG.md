@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.51.0 / 2020-11-11
+- add echo json content type middleware through bind library
+
 ## v1.50.0 / 2020-11-06
 - add retry for centrifuge client
 

@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/opentracing/opentracing-go"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"gitlab.com/proemergotech/bind/echobind"
 	"gitlab.com/proemergotech/log-go/v3"
 	"gitlab.com/proemergotech/log-go/v3/echolog"
 	"gitlab.com/proemergotech/trace-go/v2/echotrace"
@@ -61,6 +62,7 @@ func (c *controller) Start() {
 	apiRoutes := c.echoEngine.Group("/api/v1")
 	apiRoutes.Use(echolog.DebugMiddleware(log.GlobalLogger(), true, true))
 	apiRoutes.Use(echotrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger()))
+	apiRoutes.Use(echobind.JSONContentTypeMiddleware())
 
 	//%: {{ if .Examples }}
 	// todo: remove

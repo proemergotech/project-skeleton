@@ -21,7 +21,7 @@ require (
 	github.com/uber/jaeger-client-go v2.25.0+incompatible
 	github.com/uber/jaeger-lib v2.3.0+incompatible // indirect
 	gitlab.com/proemergotech/apimd-generator-go v1.0.0
-	gitlab.com/proemergotech/bind v1.0.0
+	gitlab.com/proemergotech/bind v1.1.0
 	gitlab.com/proemergotech/errors v1.0.0
 	gitlab.com/proemergotech/geb-client-go/v2 v2.0.0
 	gitlab.com/proemergotech/log-go/v3 v3.0.3
