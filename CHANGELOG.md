@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.52.0 / 2020-11-11
+- update golangci-linter runner image version
+
 ## v1.51.0 / 2020-11-11
 - add echo json content type middleware through bind library
 
