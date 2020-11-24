@@ -1,8 +1,8 @@
-DLiveR Project Skeleton
-==============================
+Project Skeleton
+================
 
-Project skeleton based on the latest standards.
-Provides a basic golang based rest service with redis, centrifugo, geb, etc.
+Project skeleton based on our latest standards.
+Provides a basic golang based rest service with redis, elastic, etc.
 
 ## Usage
 ### Creating a new project

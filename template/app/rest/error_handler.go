@@ -4,15 +4,15 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"gitlab.com/proemergotech/log-go/v3"
+	"github.com/proemergotech/log/v3"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
+	"github.com/proemergotech/project-skeleton/app/schema"
+	"github.com/proemergotech/project-skeleton/app/schema/skeleton"
+	//%: ` | replace "project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
-func DLiveRHTTPErrorHandler(err error, eCtx echo.Context) {
+func HTTPErrorHandler(err error, eCtx echo.Context) {
 	defer func() {
 		sc := eCtx.Response().Status
 		if sc >= 400 && sc < 500 {

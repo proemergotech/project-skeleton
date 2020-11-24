@@ -1,6 +1,6 @@
 #%:{{ `
-ARG EXECUTABLE_NAME=dliver-project-skeleton
-#%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}
+ARG EXECUTABLE_NAME=project-skeleton
+#%: ` | replace "project-skeleton" .ProjectName | trim }}
 
 FROM golang:1.15-alpine AS builder
 
@@ -10,7 +10,7 @@ ARG GOPROXY
 ARG GONOPROXY
 ARG GOPRIVATE
 
-ENV ROOT_PACKAGE=gitlab.com/proemergotech/$EXECUTABLE_NAME
+ENV ROOT_PACKAGE=github.com/proemergotech/$EXECUTABLE_NAME
 
 ADD . $GOPATH/src/$ROOT_PACKAGE
 WORKDIR $GOPATH/src/$ROOT_PACKAGE
@@ -36,5 +36,5 @@ EXPOSE 80
 
 # can't use variables here, there is no shell to interpret them
 #%:{{ `
-CMD ["dliver-project-skeleton"]
-#%: ` | replace "dliver-project-skeleton" .ProjectName | trim }}
+CMD ["project-skeleton"]
+#%: ` | replace "project-skeleton" .ProjectName | trim }}

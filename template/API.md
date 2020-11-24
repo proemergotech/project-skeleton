@@ -1,7 +1,7 @@
 {{ if .PublicRest -}}
 FORMAT: 1A
 
-# Dliver Project Skeleton
+# Project Skeleton
 
 GENERATED, DO NOT EDIT, to regenerate:
 - modify [definitions file](apimd/main.go)

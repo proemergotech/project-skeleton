@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"gitlab.com/proemergotech/errors"
+	"github.com/proemergotech/errors"
 )
 
 const (

@@ -6,15 +6,15 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/proemergotech/apimd-generator-go/generator"
-	"gitlab.com/proemergotech/microtime-go/v2"
+	"github.com/proemergotech/apimd-generator/generator"
+	"github.com/proemergotech/microtime/v2"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/di"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
+	"github.com/proemergotech/project-skeleton/app/config"
+	"github.com/proemergotech/project-skeleton/app/di"
+	"github.com/proemergotech/project-skeleton/app/schema"
+	"github.com/proemergotech/project-skeleton/app/schema/skeleton"
+	//%: ` | replace "project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 func main() {

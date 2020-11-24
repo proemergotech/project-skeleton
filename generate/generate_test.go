@@ -6,13 +6,13 @@ import (
 )
 
 var testText = `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client" DELETE
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/event" DELETE
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage" DELETE
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
+	"github.com/proemergotech/project-skeleton/app/client" DELETE
+	"github.com/proemergotech/project-skeleton/app/config"
+	"github.com/proemergotech/project-skeleton/app/event" DELETE
+	"github.com/proemergotech/project-skeleton/app/rest"
+	"github.com/proemergotech/project-skeleton/app/service"
+	"github.com/proemergotech/project-skeleton/app/storage" DELETE
+	"github.com/proemergotech/project-skeleton/app/validation"
 `
 
 func TestRegex(t *testing.T) {
@@ -23,7 +23,7 @@ func TestRegex(t *testing.T) {
 func TestGoimports(t *testing.T) {
 	f, err := ioutil.ReadFile("../output/app/di/container.go")
 	checkErr(t, err)
-	f2, err := goimport(f, "dliver-project-skeleton")
+	f2, err := goimport(f, "project-skeleton")
 	checkErr(t, err)
 	t.Log(string(f2))
 }

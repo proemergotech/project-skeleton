@@ -2,7 +2,7 @@
 package skeleton //%: ` | replace "skeleton" .SchemaPackage }}
 
 import (
-	"gitlab.com/proemergotech/uuid-go"
+	"github.com/proemergotech/uuid"
 )
 
 //%: {{ if .Examples }}
@@ -12,9 +12,4 @@ type DummyRequest struct {
 	DummyUUID  uuid.UUID `json:"dummy_uuid"`
 }
 
-//%: {{ if and .Yafuds .Examples }}
-type UpdateDummyRequest struct {
-	DummyUUID uuid.UUID `param:"dummy_uuid" validate:"required,uuid"`
-	BaseEditable
-} //%: {{ end }}
 //%: {{ end }}

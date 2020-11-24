@@ -1,4 +1,3 @@
-//%: {{ if or .Centrifuge .SiteConfig }}
 package client
 
 import (
@@ -7,15 +6,15 @@ import (
 	"io"
 	"net/http"
 
-	"gitlab.com/proemergotech/errors"
-	"gitlab.com/proemergotech/log-go/v3"
+	"github.com/proemergotech/errors"
+	"github.com/proemergotech/log/v3"
 	gcontext "gopkg.in/h2non/gentleman.v2/context"
 	"gopkg.in/h2non/gentleman.v2/plugin"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
+	"github.com/proemergotech/project-skeleton/app/schema"
+	"github.com/proemergotech/project-skeleton/app/schema/skeleton"
+	//%: ` | replace "project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 const (
@@ -167,5 +166,3 @@ func ErrorDetails(err error) []map[string]interface{} {
 
 	return field.([]map[string]interface{})
 }
-
-//%: {{ end }}

@@ -7,12 +7,12 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	jsoniter "github.com/json-iterator/go"
-	"gitlab.com/proemergotech/log-go/v3"
-	"gitlab.com/proemergotech/uuid-go"
+	"github.com/proemergotech/log/v3"
+	"github.com/proemergotech/uuid"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
+	"github.com/proemergotech/project-skeleton/app/schema/skeleton"
+	//%: ` | replace "project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 //%: {{ if .Examples }}
@@ -31,7 +31,7 @@ redis.call("SET", KEYS[2], ARGV[2])
 
 type RedisCache struct {
 	redisPool *redis.Pool
-	json      jsoniter.API //Use this to be able to save objects as value and use redis tags instead of json ones
+	json      jsoniter.API // use this to be able to save objects as value and use redis tags instead of json ones
 }
 
 func NewRedisCache(redisPool *redis.Pool, json jsoniter.API) *RedisCache {

@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"gitlab.com/proemergotech/errors"
-	"gitlab.com/proemergotech/log-go/v3"
+	"github.com/proemergotech/errors"
+	"github.com/proemergotech/log/v3"
 )
 
 type startFn func(chan<- error)

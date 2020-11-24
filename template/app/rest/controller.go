@@ -1,26 +1,23 @@
 package rest
 
 import (
-	"bytes"
-	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/pprof"
 	"runtime"
 
 	"github.com/labstack/echo/v4"
 	"github.com/opentracing/opentracing-go"
+	"github.com/proemergotech/bind/echobind"
+	"github.com/proemergotech/log/v3"
+	"github.com/proemergotech/log/v3/echolog"
+	"github.com/proemergotech/trace/v2/echotrace"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"gitlab.com/proemergotech/bind/echobind"
-	"gitlab.com/proemergotech/log-go/v3"
-	"gitlab.com/proemergotech/log-go/v3/echolog"
-	"gitlab.com/proemergotech/trace-go/v2/echotrace"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
+	"github.com/proemergotech/project-skeleton/app/schema/skeleton"
+	"github.com/proemergotech/project-skeleton/app/service"
+	"github.com/proemergotech/project-skeleton/app/validation"
+	//%: ` | replace "project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 type controller struct {
@@ -86,48 +83,6 @@ func (c *controller) Start() {
 		}
 
 		return eCtx.NoContent(http.StatusOK)
-	})
-	//%: {{ end }}
-
-	//%: {{- if and .Yafuds .Examples }}
-	apiRoutes.PATCH("/dummy/:dummy_uuid", func(eCtx echo.Context) error {
-		//%:{{ `
-		req := &skeleton.UpdateDummyRequest{}
-		//%: ` | replace "skeleton" .SchemaPackage | trim }}
-
-		body, err := ioutil.ReadAll(eCtx.Request().Body)
-		if err != nil {
-			return err
-		}
-
-		reader := bytes.NewReader(body)
-		eCtx.Request().Body = ioutil.NopCloser(reader)
-
-		if err := eCtx.Bind(req); err != nil {
-			return validation.Error{Err: err, Msg: "cannot bind request"}.E()
-		}
-
-		if err := eCtx.Validate(req); err != nil {
-			return err
-		}
-
-		if _, err := reader.Seek(0, io.SeekStart); err != nil {
-			//%:{{ `
-			return skeleton.SemanticError{Err: err}.E()
-			//%: ` | replace "skeleton" .SchemaPackage | trim }}
-		}
-
-		keys := make(map[string]interface{})
-		if err := eCtx.Bind(&keys); err != nil {
-			return validation.Error{Err: err, Msg: "cannot bind request"}.E()
-		}
-
-		resp, err := c.svc.Update(eCtx.Request().Context(), req, keys)
-		if err != nil {
-			return err
-		}
-
-		return eCtx.JSON(http.StatusOK, resp)
 	})
 	//%: {{ end }}
 }

@@ -2,19 +2,16 @@
 package skeleton //%: ` | replace "skeleton" .SchemaPackage }}
 
 import (
-	"gitlab.com/proemergotech/errors"
+	"github.com/proemergotech/errors"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
+	"github.com/proemergotech/project-skeleton/app/schema"
+	//%: ` | replace "project-skeleton" .ProjectName }}
 )
 
 const (
 	// 400
 	ErrValidation = "ERR_VALIDATION"
-	//%: {{- if .Geb }}
-	ErrDummyInvalidEventPayload = "ERR_DUMMY_INVALID_EVENT_PAYLOAD"
-	//%: {{- end }}
 
 	// 404
 	ErrRouteNotFound = "ERR_ROUTE_NOT_FOUND"
@@ -23,6 +20,7 @@ const (
 	ErrMethodNotAllowed = "ERR_METHOD_NOT_ALLOWED"
 
 	// 500
+	ErrClient = "ERR_CLIENT"
 	//%: {{- if .Elastic }}
 	ErrElastic = "ERR_ELASTIC"
 	//%: {{- end }}
@@ -30,15 +28,6 @@ const (
 	ErrRedis = "ERR_REDIS"
 	//%: {{- end }}
 	ErrSemanticError = "ERR_SEMANTIC"
-	//%: {{- if .Yafuds }}
-	ErrYafuds = "ERR_YAFUDS"
-	//%: {{- end }}
-	//%: {{- if .Geb }}
-	ErrGeb = "ERR_GEB"
-	//%: {{- end }}
-	//%: {{- if or .Centrifuge .SiteConfig }}
-	ErrClient = "ERR_CLIENT"
-	//%: {{- end }}
 )
 
 type SemanticError struct {

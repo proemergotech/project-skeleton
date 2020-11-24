@@ -9,8 +9,8 @@ vendor/
 bin/
 .idea
 
-.dliver-project-skeleton.*
-!.dliver-project-skeleton.example.*
+.project-skeleton.*
+!.project-skeleton.example.*
 
 output/
 

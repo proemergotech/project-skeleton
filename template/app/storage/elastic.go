@@ -5,7 +5,7 @@ import (
 	"context"
 
 	"github.com/olivere/elastic"
-	"gitlab.com/proemergotech/uuid-go"
+	"github.com/proemergotech/uuid"
 )
 
 //%: {{- if .Examples }}

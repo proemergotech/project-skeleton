@@ -12,7 +12,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	"gitlab.com/proemergotech/errors"
+	"github.com/proemergotech/errors"
 	"gopkg.in/yaml.v2"
 )
 
@@ -27,11 +27,7 @@ type Config struct {
 	RedisCache    bool   `yaml:"redis_cache"`
 	RedisStore    bool   `yaml:"redis_store"`
 	RedisNotice   bool   `yaml:"redis_notice"`
-	Centrifuge    bool   `yaml:"centrifuge"`
 	Elastic       bool   `yaml:"elastic"`
-	Geb           bool   `yaml:"geb"`
-	Yafuds        bool   `yaml:"yafuds"`
-	SiteConfig    bool   `yaml:"site_config"`
 	PublicRest    bool   `yaml:"public_rest"`
 	Examples      bool   `yaml:"examples"`
 	ConfigFile    bool   `yaml:"config_file"`

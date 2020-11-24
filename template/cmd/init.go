@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/proemergotech/log/v3"
 	"github.com/spf13/viper"
-	"gitlab.com/proemergotech/log-go/v3"
 )
 
 // initConfig reads in config file and ENV variables if set.

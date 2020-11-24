@@ -6,14 +6,9 @@ skeleton:
     redis_cache: false
     redis_store: false
     redis_notice: false
-    centrifuge: false
     elastic: false
-    geb: false
-    yafuds: false
-    site_config: false
     public_rest: false
     examples: false
     config_file: false
     bootstrap: false
     changelog: false
-    test: false

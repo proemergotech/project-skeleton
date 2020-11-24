@@ -5,8 +5,8 @@ import (
 	"github.com/spf13/cobra"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
+	"github.com/proemergotech/project-skeleton/app/config"
+	//%: ` | replace "project-skeleton" .ProjectName }}
 )
 
 // todo: remove OR update

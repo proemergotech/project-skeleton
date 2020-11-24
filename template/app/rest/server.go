@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"gitlab.com/proemergotech/errors"
+	"github.com/proemergotech/errors"
 )
 
 type Controller interface {

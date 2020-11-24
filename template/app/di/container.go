@@ -17,43 +17,28 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/olivere/elastic"
 	"github.com/opentracing/opentracing-go"
+	"github.com/proemergotech/errors"
+	"github.com/proemergotech/log/v3"
+	"github.com/proemergotech/log/v3/echolog"
+	"github.com/proemergotech/log/v3/elasticlog"
+	"github.com/proemergotech/log/v3/httplog"
+	"github.com/proemergotech/log/v3/jaegerlog"
 	"github.com/uber/jaeger-client-go"
 	jconfig "github.com/uber/jaeger-client-go/config"
-	"gitlab.com/proemergotech/errors"
-	"gitlab.com/proemergotech/geb-client-go/v2/geb"
-	"gitlab.com/proemergotech/geb-client-go/v2/geb/rabbitmq"
-	"gitlab.com/proemergotech/log-go/v3"
-	"gitlab.com/proemergotech/log-go/v3/echolog"
-	"gitlab.com/proemergotech/log-go/v3/elasticlog"
-	"gitlab.com/proemergotech/log-go/v3/geblog"
-	"gitlab.com/proemergotech/log-go/v3/gentlemanlog"
-	"gitlab.com/proemergotech/log-go/v3/httplog"
-	"gitlab.com/proemergotech/log-go/v3/jaegerlog"
-	"gitlab.com/proemergotech/retry/gentlemanretry"
-	"gitlab.com/proemergotech/trace-go/v2"
-	"gitlab.com/proemergotech/trace-go/v2/gebtrace"
-	"gitlab.com/proemergotech/trace-go/v2/gentlemantrace"
-	yafuds "gitlab.com/proemergotech/yafuds-client-go/v2/client"
-	"gopkg.in/h2non/gentleman.v2"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/client"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/event"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/rest"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/storage"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
+	"github.com/proemergotech/project-skeleton/app/config"
+	"github.com/proemergotech/project-skeleton/app/rest"
+	"github.com/proemergotech/project-skeleton/app/service"
+	"github.com/proemergotech/project-skeleton/app/storage"
+	"github.com/proemergotech/project-skeleton/app/validation"
+	//%: ` | replace "project-skeleton" .ProjectName }}
 )
 
 type Container struct {
 	RestServer *rest.Server
 	//%: {{- if .PublicRest }}
 	PublicRestServer *rest.Server
-	//%: {{- end }}
-	//%: {{- if .Geb }}
-	EventServer *event.Server
 	//%: {{- end }}
 	//%: {{- if .RedisCache }}
 	redisCacheCloser io.Closer
@@ -65,9 +50,6 @@ type Container struct {
 	redisNoticeCloser io.Closer
 	//%: {{- end }}
 	traceCloser io.Closer
-	//%: {{- if .Geb }}
-	gebCloser io.Closer
-	//%: {{- end }}
 	//%: {{- if .Elastic }}
 	elasticClient *elastic.Client
 	//%: {{- end }}
@@ -75,28 +57,6 @@ type Container struct {
 
 func NewContainer(cfg *config.Config) (*Container, error) {
 	c := &Container{}
-
-	//%: {{ if .Centrifuge }}
-	centrifugeJSON := jsoniter.Config{
-		SortMapKeys:            true,
-		ValidateJsonRawMessage: true,
-		OnlyTaggedField:        true,
-		TagKey:                 "centrifuge",
-	}.Froze()
-	centrifugeClient := client.NewCentrifuge(
-		gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.CentrifugeScheme, cfg.CentrifugeHost, cfg.CentrifugePort)).
-			Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger())).
-			Use(gentlemanlog.Middleware(log.GlobalLogger(), true, true)).
-			Use(client.RestErrorMiddleware("centrifuge")).
-			Use(
-				gentlemanretry.Middleware(
-					gentlemanretry.BackoffTimeout(10*time.Second),
-					gentlemanretry.Logger(log.GlobalLogger()),
-					gentlemanretry.RequestTimeout(2*time.Second),
-				),
-			),
-	)
-	//%: {{ end }}
 
 	//%: {{ if .Elastic }}
 	e, err := newElastic(cfg)
@@ -111,14 +71,6 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, errors.Wrap(err, "cannot initialize Jaeger Tracer")
 	}
 	c.traceCloser = closer
-
-	//%: {{ if .Geb }}
-	gebQueue, err := newGebQueue(cfg)
-	if err != nil {
-		return nil, errors.Wrap(err, "cannot initialize geb queue")
-	}
-	c.gebCloser = gebQueue
-	//%: {{ end }}
 
 	//%: {{ if .RedisCache }}
 	redisCache, err := newRedisCache(cfg)
@@ -144,60 +96,17 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	c.redisNoticeCloser = redisNotice
 	//%: {{ end }}
 
-	//%: {{ if .Yafuds }}
-	yafudsClient, err := newYafuds(cfg)
-	if err != nil {
-		return nil, err
-	}
-	//%: {{ end }}
-
-	//%: {{ if .SiteConfig }}
-	opt, _ := gentlemantrace.Trace(trace.Ignore)
-	siteConfigClient, err := client.NewSiteConfig(
-		context.Background(),
-		gentleman.New().BaseURL(fmt.Sprintf("%v://%v:%v", cfg.SiteConfigServiceScheme, cfg.SiteConfigServiceHost, cfg.SiteConfigServicePort)).
-			Use(gentlemantrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger(), opt)).
-			Use(gentlemanlog.Middleware(log.GlobalLogger(), true, false)).
-			Use(client.RestErrorMiddleware("site_config")).
-			Use(
-				gentlemanretry.Middleware(
-					gentlemanretry.BackoffTimeout(10*time.Second),
-					gentlemanretry.Logger(log.GlobalLogger()),
-					gentlemanretry.RequestTimeout(2*time.Second),
-				),
-			),
-	)
-	if err != nil {
-		return nil, errors.Wrap(err, "cannot initialize site config")
-	}
-	//%: {{ end }}
-
 	v, err := NewValidator()
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot initialize validator")
 	}
 
-	echoEngine := newEcho(cfg.Port, v, rest.DLiveRHTTPErrorHandler)
+	echoEngine := newEcho(cfg.Port, v, rest.HTTPErrorHandler)
 	//%: {{ if .PublicRest }}
-	publicEchoEngine := newEcho(cfg.PublicPort, v, rest.PublicDLiveRHTTPErrorHandler)
+	publicEchoEngine := newEcho(cfg.PublicPort, v, rest.PublicHTTPErrorHandler)
 	//%: {{ end }}
 
-	svc := service.NewService(
-		//%: {{- if .Centrifuge }}
-		centrifugeClient,
-		centrifugeJSON,
-		//%: {{- end }}
-		//%: {{- if .Yafuds }}
-		yafudsClient,
-		v,
-		//%: {{- end }}
-		//%: {{- if and .Geb .Examples }}
-		gebQueue,
-		//%: {{- end }}
-		//%: {{- if .SiteConfig }}
-		siteConfigClient,
-		//%: {{- end }}
-	)
+	svc := service.NewService()
 
 	c.RestServer = rest.NewServer(
 		echoEngine,
@@ -213,16 +122,6 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		publicEchoEngine,
 		rest.NewPublicController(
 			publicEchoEngine,
-			svc,
-		),
-	)
-	//%: {{ end }}
-
-	//%: {{ if .Geb }}
-	c.EventServer = event.NewServer(
-		event.NewController(
-			gebQueue,
-			v,
 			svc,
 		),
 	)
@@ -287,38 +186,6 @@ func newElastic(cfg *config.Config) (*storage.Elastic, error) {
 	}
 
 	return storage.NewElastic(elasticClient), nil
-} //%: {{ end }}
-
-//%: {{ if .Geb }}
-func newGebQueue(cfg *config.Config) (*geb.Queue, error) {
-	q := geb.NewQueue(
-		rabbitmq.NewHandler(
-			config.AppName,
-			cfg.GebUsername,
-			cfg.GebPassword,
-			cfg.GebHost,
-			cfg.GebPort,
-			rabbitmq.Timeout(2*time.Second),
-		),
-		geb.JSONCodec(geb.UseTag("geb")),
-	)
-
-	q.UsePublish(geb.RetryMiddleware())
-	q.UsePublish(geblog.PublishMiddleware(log.GlobalLogger(), true))
-	q.UsePublish(gebtrace.PublishMiddleware(opentracing.GlobalTracer(), log.GlobalLogger()))
-	q.UseOnEvent(geb.RecoveryMiddleware())
-	q.UseOnEvent(geblog.OnEventDebugMiddleware(log.GlobalLogger(), true))
-	q.UseOnEvent(gebtrace.OnEventMiddleware(opentracing.GlobalTracer(), log.GlobalLogger()))
-	q.UseOnEvent(geblog.OnEventErrorMiddleware(log.GlobalLogger()))
-
-	if err := q.OnError(func(err error) {
-		err = errors.Wrap(err, "Geb connection error")
-		log.Error(context.Background(), err.Error(), "error", err)
-	}); err != nil {
-		return nil, err
-	}
-
-	return q, nil
 } //%: {{ end }}
 
 //%: {{ if .RedisCache }}
@@ -406,18 +273,6 @@ func newRedisPool(poolIdleTimeout string, poolMaxIdle int, host string, port int
 	}, nil
 } //%: {{ end }}
 
-//%: {{ if .Yafuds }}
-func newYafuds(cfg *config.Config) (yafuds.Client, error) {
-	yafuds.SetTracer(opentracing.GlobalTracer())
-	yafudsClient, err := yafuds.New(cfg.YafudsScheme, cfg.YafudsHost, cfg.YafudsPort, yafuds.Timeout(5*time.Second), yafuds.Retries(3))
-	if err != nil {
-		return nil, errors.Wrap(err, "unable to connect to Yafuds")
-	}
-	yafuds.SetLogger(log.GlobalLogger())
-
-	return yafudsClient, nil
-} //%: {{ end }}
-
 func NewValidator() (*validation.Validator, error) {
 	v := validator.New()
 
@@ -472,13 +327,6 @@ func newEcho(port int, validator *validation.Validator, httpErrorHandler echo.HT
 func (c *Container) Close() {
 	//%: {{- if .Elastic }}
 	c.elasticClient.Stop()
-	//%: {{- end }}
-
-	//%: {{- if .Geb }}
-	if err := c.gebCloser.Close(); err != nil {
-		err = errors.Wrap(err, "gebQueue graceful close failed")
-		log.Warn(context.Background(), err.Error(), "error", err)
-	}
 	//%: {{- end }}
 
 	//%: {{- if .RedisCache }}

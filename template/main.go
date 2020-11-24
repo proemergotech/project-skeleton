@@ -5,17 +5,17 @@ import (
 	"fmt"
 	"os"
 
-	"gitlab.com/proemergotech/errors"
-	"gitlab.com/proemergotech/log-go/v3"
-	"gitlab.com/proemergotech/log-go/v3/zaplog"
-	"gitlab.com/proemergotech/trace-go/v2"
+	"github.com/proemergotech/errors"
+	"github.com/proemergotech/log/v3"
+	"github.com/proemergotech/log/v3/zaplog"
+	"github.com/proemergotech/trace/v2"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/config"
-	"gitlab.com/proemergotech/dliver-project-skeleton/cmd"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
+	"github.com/proemergotech/project-skeleton/app/config"
+	"github.com/proemergotech/project-skeleton/cmd"
+	//%: ` | replace "project-skeleton" .ProjectName }}
 )
 
 func main() {

@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.52.1 / 2020-11-24
+- migrated to GitHub
+
 ## v1.52.0 / 2020-11-11
 - update golangci-linter runner image version
 

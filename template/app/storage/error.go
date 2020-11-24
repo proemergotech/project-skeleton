@@ -1,13 +1,13 @@
-//%: {{- if or .Elastic .RedisCache .RedisStore .RedisNotice .Yafuds }}
+//%: {{- if or .Elastic .RedisCache .RedisStore .RedisNotice }}
 package storage
 
 import (
-	"gitlab.com/proemergotech/errors"
+	"github.com/proemergotech/errors"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/schema/skeleton"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
+	"github.com/proemergotech/project-skeleton/app/schema"
+	"github.com/proemergotech/project-skeleton/app/schema/skeleton"
+	//%: ` | replace "project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 //%: {{- if .Elastic }}

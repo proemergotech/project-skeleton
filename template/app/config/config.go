@@ -2,7 +2,7 @@ package config
 
 // AppName of the application
 //%: {{ `
-const AppName = "dliver-project-skeleton" //%: ` | replace "dliver-project-skeleton" .ProjectName | trim}}
+const AppName = "project-skeleton" //%: ` | replace "project-skeleton" .ProjectName | trim}}
 
 // AppVersion Version of the application
 var AppVersion string
@@ -14,23 +14,10 @@ type Config struct {
 	//%: {{- end }}
 	DebugPProf bool `mapstructure:"debug_pprof" default:"false"`
 
-	//%: {{ if .Centrifuge }}
-	CentrifugeScheme string `mapstructure:"centrifuge_scheme" default:"http"`
-	CentrifugeHost   string `mapstructure:"centrifuge_host" validate:"required"`
-	CentrifugePort   string `mapstructure:"centrifuge_port" default:"80"`
-	//%: {{ end }}
-
 	//%: {{ if .Elastic }}
 	ElasticSearchScheme string `mapstructure:"elastic_search_scheme" default:"http"`
 	ElasticSearchHost   string `mapstructure:"elastic_search_host" validate:"required"`
 	ElasticSearchPort   int    `mapstructure:"elastic_search_port" default:"9200"`
-	//%: {{ end }}
-
-	//%: {{ if .Geb }}
-	GebUsername string `mapstructure:"geb_username" validate:"required"`
-	GebPassword string `mapstructure:"geb_password" validate:"required"`
-	GebHost     string `mapstructure:"geb_host" validate:"required"`
-	GebPort     int    `mapstructure:"geb_port" default:"5672"`
 	//%: {{ end }}
 
 	//%: {{ if .RedisCache }}
@@ -65,18 +52,6 @@ type Config struct {
 	TracerReporterLocalAgentHost      string `mapstructure:"tracer_reporter_local_agent_host" validate:"required"`
 	TracerReporterLocalAgentPort      int    `mapstructure:"tracer_reporter_local_agent_port" default:"6831"`
 
-	//%: {{ if .Yafuds }}
-	YafudsScheme string `mapstructure:"yafuds_scheme" default:"http"`
-	YafudsHost   string `mapstructure:"yafuds_host" validate:"required"`
-	YafudsPort   int    `mapstructure:"yafuds_port" default:"80"`
-	//%: {{ end }}
-
-	//%: {{ if .SiteConfig }}
-	SiteConfigServiceScheme string `mapstructure:"site_config_service_scheme" default:"http"`
-	SiteConfigServiceHost   string `mapstructure:"site_config_service_host" validate:"required"`
-	SiteConfigServicePort   int    `mapstructure:"site_config_service_port" default:"80"`
-	//%: {{ end }}
-
 	//%: {{ if .ConfigFile }}
 	ConfigFileContent map[string]Content `mapstructure:"content" validate:"required"`
 	//%: {{ end }}
@@ -89,6 +64,4 @@ type Content struct {
 
 //%: {{ if .Bootstrap }}
 type BootstrapConfig struct {
-	YafudsHost string `mapstructure:"yafuds_host" validate:"required"`
-	YafudsPort string `mapstructure:"yafuds_port" default:"7890"`
 } //%: {{ end }}

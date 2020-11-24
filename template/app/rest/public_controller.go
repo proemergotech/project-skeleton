@@ -7,15 +7,16 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/opentracing/opentracing-go"
-	"gitlab.com/proemergotech/log-go/v3"
-	"gitlab.com/proemergotech/log-go/v3/echolog"
-	"gitlab.com/proemergotech/trace-go/v2"
-	"gitlab.com/proemergotech/trace-go/v2/echotrace"
+	"github.com/proemergotech/log/v3"
+	"github.com/proemergotech/log/v3/echolog"
+	"github.com/proemergotech/trace/v2"
+	"github.com/proemergotech/trace/v2/echotrace"
 
 	//%:{{ `
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/service"
-	"gitlab.com/proemergotech/dliver-project-skeleton/app/validation"
-	//%: ` | replace "dliver-project-skeleton" .ProjectName }}
+	"github.com/proemergotech/project-skeleton/app/schema/skeleton"
+	"github.com/proemergotech/project-skeleton/app/service"
+	"github.com/proemergotech/project-skeleton/app/validation"
+	//%: ` | replace "project-skeleton" .ProjectName | replace "skeleton" .SchemaPackage }}
 )
 
 type publicController struct {
@@ -39,14 +40,13 @@ func (pc *publicController) Start() {
 	apiRoutes.Use(echolog.DebugMiddleware(log.GlobalLogger(), false, false))
 	apiRoutes.Use(echotrace.Middleware(opentracing.GlobalTracer(), log.GlobalLogger(), startTrace, echotrace.GenerateCorrelation(trace.NewCorrelation)))
 
+	//%: {{ if .Examples }}
 	// todo: remove
 	//  Example root
 	apiRoutes.POST("/dummy/:dummy_param_1", func(eCtx echo.Context) error {
-		req := &struct {
-			DummyParam1 string `param:"dummy_param_1"`
-			DummyData1  string `json:"dummy_data_1" validate:"required"`
-			DummyData2  string `json:"dummy_data_2"`
-		}{}
+		//%:{{ `
+		req := &skeleton.DummyRequest{}
+		//%: ` | replace "skeleton" .SchemaPackage | trim }}
 
 		if err := eCtx.Bind(req); err != nil {
 			return validation.Error{Err: err, Msg: "cannot bind request"}.E()
@@ -56,10 +56,14 @@ func (pc *publicController) Start() {
 			return err
 		}
 
-		pc.svc.SendCentrifuge(eCtx.Request().Context(), "", req)
+		err := pc.svc.Dummy(eCtx.Request().Context(), req)
+		if err != nil {
+			return err
+		}
 
 		return eCtx.NoContent(http.StatusOK)
 	})
+	//%: {{ end }}
 }
 
 //%: {{ end }}
